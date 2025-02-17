@@ -1,0 +1,10 @@
+<<<<<<< HEAD
+@HEALTH_SUPPORT.API_HostAddress = http://localhost:5228
+=======
+@HEALTH_SUPPORT.API_HostAddress = http://localhost:5035
+>>>>>>> 9bf8b07 (update entity)
+
+GET {{HEALTH_SUPPORT.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
