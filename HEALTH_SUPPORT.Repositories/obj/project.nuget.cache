@@ -1,14 +1,8 @@
 {
   "version": 2,
-<<<<<<< HEAD
-  "dgSpecHash": "Y0OWCqehDzc=",
-  "success": true,
-  "projectFilePath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj",
-=======
   "dgSpecHash": "yqB0usFKeQU=",
   "success": true,
   "projectFilePath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj",
->>>>>>> 9bf8b07 (update entity)
   "expectedPackageFiles": [
     "C:\\Users\\trant\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\trant\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

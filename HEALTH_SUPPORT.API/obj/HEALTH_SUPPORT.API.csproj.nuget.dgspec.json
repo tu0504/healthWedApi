@@ -1,19 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
-    "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj": {}
-  },
-  "projects": {
-    "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj",
-        "projectName": "HEALTH_SUPPORT.API",
-        "projectPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj",
-        "packagesPath": "C:\\Users\\trant\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.API\\obj\\",
-=======
     "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj": {}
   },
   "projects": {
@@ -25,7 +12,6 @@
         "projectPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj",
         "packagesPath": "C:\\Users\\trant\\.nuget\\packages\\",
         "outputPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.API\\obj\\",
->>>>>>> 9bf8b07 (update entity)
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\trant\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,13 +29,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-<<<<<<< HEAD
-              "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Server\\HEALTH_SUPPORT.Servers.csproj": {
-                "projectPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Server\\HEALTH_SUPPORT.Servers.csproj"
-=======
               "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Servers\\HEALTH_SUPPORT.Servers.csproj": {
                 "projectPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Servers\\HEALTH_SUPPORT.Servers.csproj"
->>>>>>> 9bf8b07 (update entity)
               }
             }
           }
@@ -69,15 +50,12 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-<<<<<<< HEAD
-=======
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.13, )"
             },
->>>>>>> 9bf8b07 (update entity)
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
@@ -106,16 +84,6 @@
         }
       }
     },
-<<<<<<< HEAD
-    "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj",
-        "projectName": "HEALTH_SUPPORT.Repositories",
-        "projectPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj",
-        "packagesPath": "C:\\Users\\trant\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\obj\\",
-=======
     "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -124,7 +92,6 @@
         "projectPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj",
         "packagesPath": "C:\\Users\\trant\\.nuget\\packages\\",
         "outputPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\obj\\",
->>>>>>> 9bf8b07 (update entity)
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\trant\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -159,13 +126,7 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-<<<<<<< HEAD
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-=======
             "Microsoft.EntityFrameworkCore": {
->>>>>>> 9bf8b07 (update entity)
               "target": "Package",
               "version": "[8.0.13, )"
             },
@@ -208,16 +169,6 @@
         }
       }
     },
-<<<<<<< HEAD
-    "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Server\\HEALTH_SUPPORT.Servers.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Server\\HEALTH_SUPPORT.Servers.csproj",
-        "projectName": "HEALTH_SUPPORT.Servers",
-        "projectPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Server\\HEALTH_SUPPORT.Servers.csproj",
-        "packagesPath": "C:\\Users\\trant\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Server\\obj\\",
-=======
     "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Servers\\HEALTH_SUPPORT.Servers.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -226,7 +177,6 @@
         "projectPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Servers\\HEALTH_SUPPORT.Servers.csproj",
         "packagesPath": "C:\\Users\\trant\\.nuget\\packages\\",
         "outputPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Servers\\obj\\",
->>>>>>> 9bf8b07 (update entity)
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\trant\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -244,13 +194,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-<<<<<<< HEAD
-              "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj": {
-                "projectPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj"
-=======
               "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj": {
                 "projectPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj"
->>>>>>> 9bf8b07 (update entity)
               }
             }
           }

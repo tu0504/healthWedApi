@@ -1,15 +1,13 @@
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\bin\Debug\net8.0\HEALTH_SUPPORT.Servers.deps.json
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\bin\Debug\net8.0\HEALTH_SUPPORT.Servers.dll
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\bin\Debug\net8.0\HEALTH_SUPPORT.Servers.pdb
-D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\bin\Debug\net8.0\HEALTH_SUPPORT.Repositories.dll
-D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\bin\Debug\net8.0\HEALTH_SUPPORT.Repositories.pdb
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\HEALTH_SUPPORT.Servers.csproj.AssemblyReference.cache
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\HEALTH_SUPPORT.Servers.GeneratedMSBuildEditorConfig.editorconfig
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\HEALTH_SUPPORT.Servers.AssemblyInfoInputs.cache
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\HEALTH_SUPPORT.Servers.AssemblyInfo.cs
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\HEALTH_SUPPORT.Servers.csproj.CoreCompileInputs.cache
-D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\HEALTH_S.15FBAF5A.Up2Date
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\HEALTH_SUPPORT.Servers.dll
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\refint\HEALTH_SUPPORT.Servers.dll
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\HEALTH_SUPPORT.Servers.pdb
 D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\ref\HEALTH_SUPPORT.Servers.dll
+D:\FPT\HEALTH_SUPPORT\HEALTH_SUPPORT.Servers\obj\Debug\net8.0\HEALTH_SUPPORT.Servers.sourcelink.json
