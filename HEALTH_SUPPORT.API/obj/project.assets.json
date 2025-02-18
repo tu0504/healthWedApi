@@ -1711,17 +1711,17 @@
           "bin/placeholder/HEALTH_SUPPORT.Repositories.dll": {}
         }
       },
-      "HEALTH_SUPPORT.Servers/1.0.0": {
+      "HEALTH_SUPPORT.Services/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "HEALTH_SUPPORT.Repositories": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/HEALTH_SUPPORT.Servers.dll": {}
+          "bin/placeholder/HEALTH_SUPPORT.Services.dll": {}
         },
         "runtime": {
-          "bin/placeholder/HEALTH_SUPPORT.Servers.dll": {}
+          "bin/placeholder/HEALTH_SUPPORT.Services.dll": {}
         }
       }
     }
@@ -4773,15 +4773,15 @@
       "path": "../HEALTH_SUPPORT.Repositories/HEALTH_SUPPORT.Repositories.csproj",
       "msbuildProject": "../HEALTH_SUPPORT.Repositories/HEALTH_SUPPORT.Repositories.csproj"
     },
-    "HEALTH_SUPPORT.Servers/1.0.0": {
+    "HEALTH_SUPPORT.Services/1.0.0": {
       "type": "project",
-      "path": "../HEALTH_SUPPORT.Servers/HEALTH_SUPPORT.Servers.csproj",
-      "msbuildProject": "../HEALTH_SUPPORT.Servers/HEALTH_SUPPORT.Servers.csproj"
+      "path": "../HEALTH_SUPPORT.Services/HEALTH_SUPPORT.Services.csproj",
+      "msbuildProject": "../HEALTH_SUPPORT.Services/HEALTH_SUPPORT.Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "HEALTH_SUPPORT.Servers >= 1.0.0",
+      "HEALTH_SUPPORT.Services >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.13",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
@@ -4792,11 +4792,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj",
+      "projectUniqueName": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj",
       "projectName": "HEALTH_SUPPORT.API",
-      "projectPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj",
+      "projectPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj",
       "packagesPath": "C:\\Users\\trant\\.nuget\\packages\\",
-      "outputPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.API\\obj\\",
+      "outputPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\trant\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4814,8 +4814,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Servers\\HEALTH_SUPPORT.Servers.csproj": {
-              "projectPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Servers\\HEALTH_SUPPORT.Servers.csproj"
+            "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Services\\HEALTH_SUPPORT.Services.csproj": {
+              "projectPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Services\\HEALTH_SUPPORT.Services.csproj"
             }
           }
         }

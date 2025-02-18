@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZOneWidRrfs=",
+  "dgSpecHash": "VF/PIBUYG6Y=",
   "success": true,
-  "projectFilePath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj",
+  "projectFilePath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.API\\HEALTH_SUPPORT.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\trant\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\trant\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

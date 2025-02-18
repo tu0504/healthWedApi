@@ -1,4 +1,4 @@
-﻿using HEALTH_SUPPORT.Repositories.Abstractions;
+﻿using HEALTH_SUPPORT.Repositories.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

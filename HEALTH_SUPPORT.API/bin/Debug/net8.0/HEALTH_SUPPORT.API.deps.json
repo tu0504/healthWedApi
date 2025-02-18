@@ -8,11 +8,8 @@
     ".NETCoreApp,Version=v8.0": {
       "HEALTH_SUPPORT.API/1.0.0": {
         "dependencies": {
-          "HEALTH_SUPPORT.Servers": "1.0.0",
-<<<<<<< HEAD
-=======
+          "HEALTH_SUPPORT.Services": "1.0.0",
           "Microsoft.EntityFrameworkCore.Design": "8.0.13",
->>>>>>> 9bf8b07 (update entity)
           "Swashbuckle.AspNetCore": "6.4.0"
         },
         "runtime": {
@@ -21,11 +18,7 @@
       },
       "Azure.Core/1.38.0": {
         "dependencies": {
-<<<<<<< HEAD
-          "Microsoft.Bcl.AsyncInterfaces": "1.1.1",
-=======
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
->>>>>>> 9bf8b07 (update entity)
           "System.ClientModel": "1.0.0",
           "System.Diagnostics.DiagnosticSource": "6.0.1",
           "System.Memory.Data": "1.0.2",
@@ -58,13 +51,6 @@
           }
         }
       },
-<<<<<<< HEAD
-      "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
-        "runtime": {
-          "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "4.700.20.21406"
-=======
       "Humanizer.Core/2.14.1": {
         "runtime": {
           "lib/net6.0/Humanizer.dll": {
@@ -299,7 +285,6 @@
           },
           "lib/netcoreapp3.1/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll": {
             "locale": "zh-Hant"
->>>>>>> 9bf8b07 (update entity)
           }
         }
       },
@@ -388,8 +373,6 @@
         }
       },
       "Microsoft.EntityFrameworkCore.Analyzers/8.0.13": {},
-<<<<<<< HEAD
-=======
       "Microsoft.EntityFrameworkCore.Design/8.0.13": {
         "dependencies": {
           "Humanizer.Core": "2.14.1",
@@ -405,7 +388,6 @@
           }
         }
       },
->>>>>>> 9bf8b07 (update entity)
       "Microsoft.EntityFrameworkCore.Relational/8.0.13": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.13",
@@ -500,8 +482,6 @@
           }
         }
       },
-<<<<<<< HEAD
-=======
       "Microsoft.Extensions.DependencyModel/8.0.2": {
         "runtime": {
           "lib/net8.0/Microsoft.Extensions.DependencyModel.dll": {
@@ -510,7 +490,6 @@
           }
         }
       },
->>>>>>> 9bf8b07 (update entity)
       "Microsoft.Extensions.FileProviders.Abstractions/8.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "8.0.0"
@@ -689,8 +668,6 @@
           }
         }
       },
-<<<<<<< HEAD
-=======
       "Mono.TextTemplating/2.2.1": {
         "dependencies": {
           "System.CodeDom": "4.4.0"
@@ -702,7 +679,6 @@
           }
         }
       },
->>>>>>> 9bf8b07 (update entity)
       "Swashbuckle.AspNetCore/6.4.0": {
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "6.0.5",
@@ -753,8 +729,6 @@
           }
         }
       },
-<<<<<<< HEAD
-=======
       "System.CodeDom/4.4.0": {
         "runtime": {
           "lib/netstandard2.0/System.CodeDom.dll": {
@@ -828,7 +802,6 @@
           }
         }
       },
->>>>>>> 9bf8b07 (update entity)
       "System.Configuration.ConfigurationManager/6.0.1": {
         "dependencies": {
           "System.Security.Cryptography.ProtectedData": "6.0.0",
@@ -891,10 +864,7 @@
           }
         }
       },
-<<<<<<< HEAD
-=======
       "System.IO.Pipelines/6.0.3": {},
->>>>>>> 9bf8b07 (update entity)
       "System.Memory/4.5.4": {},
       "System.Memory.Data/1.0.2": {
         "dependencies": {
@@ -909,14 +879,11 @@
         }
       },
       "System.Numerics.Vectors/4.5.0": {},
-<<<<<<< HEAD
-=======
       "System.Reflection.Metadata/6.0.1": {
         "dependencies": {
           "System.Collections.Immutable": "6.0.0"
         }
       },
->>>>>>> 9bf8b07 (update entity)
       "System.Runtime/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
@@ -996,10 +963,7 @@
           "System.Text.Encodings.Web": "8.0.0"
         }
       },
-<<<<<<< HEAD
-=======
       "System.Threading.Channels/6.0.0": {},
->>>>>>> 9bf8b07 (update entity)
       "System.Threading.Tasks.Extensions/4.5.4": {},
       "System.Windows.Extensions/6.0.0": {
         "dependencies": {
@@ -1022,10 +986,7 @@
       },
       "HEALTH_SUPPORT.Repositories/1.0.0": {
         "dependencies": {
-<<<<<<< HEAD
-=======
           "Microsoft.EntityFrameworkCore": "8.0.13",
->>>>>>> 9bf8b07 (update entity)
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.13",
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Configuration.Json": "8.0.0"
@@ -1037,12 +998,12 @@
           }
         }
       },
-      "HEALTH_SUPPORT.Servers/1.0.0": {
+      "HEALTH_SUPPORT.Services/1.0.0": {
         "dependencies": {
           "HEALTH_SUPPORT.Repositories": "1.0.0"
         },
         "runtime": {
-          "HEALTH_SUPPORT.Servers.dll": {
+          "HEALTH_SUPPORT.Services.dll": {
             "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -1070,14 +1031,6 @@
       "path": "azure.identity/1.11.4",
       "hashPath": "azure.identity.1.11.4.nupkg.sha512"
     },
-<<<<<<< HEAD
-    "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-yuvf07qFWFqtK3P/MRkEKLhn5r2UbSpVueRziSqj0yJQIKFwG1pq9mOayK3zE5qZCTs0CbrwL9M6R8VwqyGy2w==",
-      "path": "microsoft.bcl.asyncinterfaces/1.1.1",
-      "hashPath": "microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512"
-=======
     "Humanizer.Core/2.14.1": {
       "type": "package",
       "serviceable": true,
@@ -1126,7 +1079,6 @@
       "sha512": "sha512-l4dDRmGELXG72XZaonnOeORyD/T5RpEu5LGHOUIhnv+MmUWDY/m1kWXGwtcgQ5CJ5ynkFiRnIYzTKXYjUs7rbw==",
       "path": "microsoft.codeanalysis.workspaces.common/4.5.0",
       "hashPath": "microsoft.codeanalysis.workspaces.common.4.5.0.nupkg.sha512"
->>>>>>> 9bf8b07 (update entity)
     },
     "Microsoft.CSharp/4.5.0": {
       "type": "package",
@@ -1170,8 +1122,6 @@
       "path": "microsoft.entityframeworkcore.analyzers/8.0.13",
       "hashPath": "microsoft.entityframeworkcore.analyzers.8.0.13.nupkg.sha512"
     },
-<<<<<<< HEAD
-=======
     "Microsoft.EntityFrameworkCore.Design/8.0.13": {
       "type": "package",
       "serviceable": true,
@@ -1179,7 +1129,6 @@
       "path": "microsoft.entityframeworkcore.design/8.0.13",
       "hashPath": "microsoft.entityframeworkcore.design.8.0.13.nupkg.sha512"
     },
->>>>>>> 9bf8b07 (update entity)
     "Microsoft.EntityFrameworkCore.Relational/8.0.13": {
       "type": "package",
       "serviceable": true,
@@ -1257,8 +1206,6 @@
       "path": "microsoft.extensions.dependencyinjection.abstractions/8.0.2",
       "hashPath": "microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512"
     },
-<<<<<<< HEAD
-=======
     "Microsoft.Extensions.DependencyModel/8.0.2": {
       "type": "package",
       "serviceable": true,
@@ -1266,7 +1213,6 @@
       "path": "microsoft.extensions.dependencymodel/8.0.2",
       "hashPath": "microsoft.extensions.dependencymodel.8.0.2.nupkg.sha512"
     },
->>>>>>> 9bf8b07 (update entity)
     "Microsoft.Extensions.FileProviders.Abstractions/8.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1407,8 +1353,6 @@
       "path": "microsoft.win32.systemevents/6.0.0",
       "hashPath": "microsoft.win32.systemevents.6.0.0.nupkg.sha512"
     },
-<<<<<<< HEAD
-=======
     "Mono.TextTemplating/2.2.1": {
       "type": "package",
       "serviceable": true,
@@ -1416,7 +1360,6 @@
       "path": "mono.texttemplating/2.2.1",
       "hashPath": "mono.texttemplating.2.2.1.nupkg.sha512"
     },
->>>>>>> 9bf8b07 (update entity)
     "Swashbuckle.AspNetCore/6.4.0": {
       "type": "package",
       "serviceable": true,
@@ -1452,8 +1395,6 @@
       "path": "system.clientmodel/1.0.0",
       "hashPath": "system.clientmodel.1.0.0.nupkg.sha512"
     },
-<<<<<<< HEAD
-=======
     "System.CodeDom/4.4.0": {
       "type": "package",
       "serviceable": true,
@@ -1510,7 +1451,6 @@
       "path": "system.composition.typedparts/6.0.0",
       "hashPath": "system.composition.typedparts.6.0.0.nupkg.sha512"
     },
->>>>>>> 9bf8b07 (update entity)
     "System.Configuration.ConfigurationManager/6.0.1": {
       "type": "package",
       "serviceable": true,
@@ -1546,8 +1486,6 @@
       "path": "system.identitymodel.tokens.jwt/6.35.0",
       "hashPath": "system.identitymodel.tokens.jwt.6.35.0.nupkg.sha512"
     },
-<<<<<<< HEAD
-=======
     "System.IO.Pipelines/6.0.3": {
       "type": "package",
       "serviceable": true,
@@ -1555,7 +1493,6 @@
       "path": "system.io.pipelines/6.0.3",
       "hashPath": "system.io.pipelines.6.0.3.nupkg.sha512"
     },
->>>>>>> 9bf8b07 (update entity)
     "System.Memory/4.5.4": {
       "type": "package",
       "serviceable": true,
@@ -1577,8 +1514,6 @@
       "path": "system.numerics.vectors/4.5.0",
       "hashPath": "system.numerics.vectors.4.5.0.nupkg.sha512"
     },
-<<<<<<< HEAD
-=======
     "System.Reflection.Metadata/6.0.1": {
       "type": "package",
       "serviceable": true,
@@ -1586,7 +1521,6 @@
       "path": "system.reflection.metadata/6.0.1",
       "hashPath": "system.reflection.metadata.6.0.1.nupkg.sha512"
     },
->>>>>>> 9bf8b07 (update entity)
     "System.Runtime/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -1671,8 +1605,6 @@
       "path": "system.text.json/8.0.0",
       "hashPath": "system.text.json.8.0.0.nupkg.sha512"
     },
-<<<<<<< HEAD
-=======
     "System.Threading.Channels/6.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1680,7 +1612,6 @@
       "path": "system.threading.channels/6.0.0",
       "hashPath": "system.threading.channels.6.0.0.nupkg.sha512"
     },
->>>>>>> 9bf8b07 (update entity)
     "System.Threading.Tasks.Extensions/4.5.4": {
       "type": "package",
       "serviceable": true,
@@ -1700,7 +1631,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "HEALTH_SUPPORT.Servers/1.0.0": {
+    "HEALTH_SUPPORT.Services/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -7,31 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
-=======
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.13">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
->>>>>>> 9bf8b07 (update entity)
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
-    <ProjectReference Include="..\HEALTH_SUPPORT.Server\HEALTH_SUPPORT.Servers.csproj">
-=======
-    <ProjectReference Include="..\HEALTH_SUPPORT.Servers\HEALTH_SUPPORT.Servers.csproj">
->>>>>>> 9bf8b07 (update entity)
+    <ProjectReference Include="..\HEALTH_SUPPORT.Services\HEALTH_SUPPORT.Services.csproj">
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
 
-<<<<<<< HEAD
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-=======
->>>>>>> 9bf8b07 (update entity)
 </Project>

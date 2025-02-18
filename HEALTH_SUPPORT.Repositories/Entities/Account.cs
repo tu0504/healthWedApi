@@ -1,8 +1,4 @@
-﻿using HEALTH_SUPPORT.Repositories.Abstractions;
-<<<<<<< HEAD
-using Microsoft.EntityFrameworkCore;
-=======
->>>>>>> 9bf8b07 (update entity)
+﻿using HEALTH_SUPPORT.Repositories.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,10 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9bf8b07 (update entity)
 namespace HEALTH_SUPPORT.Repositories.Entities
 {
     public class Account : Entity<Guid>, IAuditable
@@ -30,21 +22,12 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public string Password { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
         public DateTimeOffset CreateAt { get; set; }
-<<<<<<< HEAD
-        public Guid RoleId { get; set; }
-        [ForeignKey("RoleId")]
-        public Role Role { get; set; }
-    }
-    
-
-  }
-
-=======
         public ICollection<ProgramProgress> ProgramProgresses { get; set; }
+        public ICollection<ProgramRegistration> ProgramRegistrations { get; set; }
+        public ICollection<AccountSurvey> AccountSurveys { get; set; }
         public Guid RoleId { get; set; }
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
 
     }
 }
->>>>>>> 9bf8b07 (update entity)

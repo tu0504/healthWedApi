@@ -8,11 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "HEALTH_SUPPORT.Repositories/1.0.0": {
         "dependencies": {
-<<<<<<< HEAD
-          "Microsoft.EntityFrameworkCore.Design": "8.0.13",
-=======
           "Microsoft.EntityFrameworkCore": "8.0.13",
->>>>>>> 9bf8b07 (update entity)
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.13",
           "Microsoft.EntityFrameworkCore.Tools": "8.0.13",
           "Microsoft.Extensions.Configuration": "8.0.0",

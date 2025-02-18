@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj": {}
+    "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj": {}
   },
   "projects": {
-    "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj": {
+    "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj",
+        "projectUniqueName": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj",
         "projectName": "HEALTH_SUPPORT.Repositories",
-        "projectPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj",
+        "projectPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\HEALTH_SUPPORT.Repositories.csproj",
         "packagesPath": "C:\\Users\\trant\\.nuget\\packages\\",
-        "outputPath": "D:\\FPT\\HEALTH_SUPPORT\\HEALTH_SUPPORT.Repositories\\obj\\",
+        "outputPath": "D:\\SWP\\healthWedApi\\HEALTH_SUPPORT.Repositories\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\trant\\AppData\\Roaming\\NuGet\\NuGet.Config",

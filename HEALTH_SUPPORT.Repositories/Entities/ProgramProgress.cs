@@ -1,4 +1,4 @@
-﻿using HEALTH_SUPPORT.Repositories.Abstractions;
+﻿using HEALTH_SUPPORT.Repositories.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,8 +23,13 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         [Required]
         public Guid AccountId { get; set; }
 
+        [Required]
+        public Guid ProgramDataId { get; set; }
+
         [ForeignKey("AccountId")]
         public Account Account { get; set; }
 
+        [ForeignKey("ProgramId")]
+        public ProgramData ProgramData { get; set; }
     }
 }

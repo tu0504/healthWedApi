@@ -1,10 +1,7 @@
 
-<<<<<<< HEAD
-=======
 using HEALTH_SUPPORT.Repositories;
 using Microsoft.EntityFrameworkCore;
 
->>>>>>> 9bf8b07 (update entity)
 namespace HEALTH_SUPPORT.API
 {
     public class Program
@@ -20,13 +17,9 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-<<<<<<< HEAD
-=======
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
->>>>>>> 9bf8b07 (update entity)
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
