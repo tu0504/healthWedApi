@@ -13,9 +13,11 @@ namespace HEALTH_SUPPORT.Repositories
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<ProgramData> ProgramDatas { get; set; }
-        public DbSet<ProgramProgress> ProgramProgresses { get; set; }
-        public DbSet<ProgramRegistration> ProgramRegistrations { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<SubscriptionData> SubscriptionDatas { get; set; }
+        public DbSet<SubscriptionProgress> SubscriptionProgresses { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<SurveyType> SurveyTypes { get; set; }
         public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
         public DbSet<SurveyAnswer> SurveyAnswers { get; set; }
@@ -43,12 +45,11 @@ namespace HEALTH_SUPPORT.Repositories
         {
             modelBuilder.Entity<Account>().HasIndex(a => a.Email).IsUnique();
             modelBuilder.Entity<Role>().HasIndex(a => a.Name).IsUnique();
-            modelBuilder.Entity<Account>().HasMany(p => p.ProgramProgresses).WithOne(a => a.Account).HasForeignKey(p => p.AccountId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ProgramData>().HasMany(p => p.ProgramProgresses).WithOne(a => a.ProgramData).HasForeignKey(p => p.ProgramDataId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Account>().HasMany(p => p.ProgramRegistrations).WithOne(a => a.Account).HasForeignKey(p => p.AccountId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ProgramData>().HasMany(p => p.ProgramRegistrations).WithOne(a => a.ProgramData).HasForeignKey(p => p.ProgramDataId).OnDelete(DeleteBehavior.Restrict);
-
-
+            modelBuilder.Entity<Account>().HasMany(t => t.Transactions).WithOne(a => a.Account).HasForeignKey(t => t.AccountId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Transaction>().HasMany(o => o.Orders).WithOne(t => t.Transaction).HasForeignKey(o => o.TransactionId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Category>().HasMany(d => d.SubscriptionDatas).WithOne(c => c.Category).HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SubscriptionData>().HasMany(o => o.Orders).WithOne(d => d.Subscription).HasForeignKey(o => o.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SubscriptionData>().HasMany(p => p.SubscriptionProgresses).WithOne(d => d.Subscription).HasForeignKey(p => p.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
         }
 
     }

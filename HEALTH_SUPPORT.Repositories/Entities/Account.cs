@@ -22,9 +22,9 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public string Password { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
         public DateTimeOffset CreateAt { get; set; }
-        public ICollection<ProgramProgress> ProgramProgresses { get; set; }
-        public ICollection<ProgramRegistration> ProgramRegistrations { get; set; }
         public ICollection<AccountSurvey> AccountSurveys { get; set; }
+        public ICollection<Psychologist> Psychologists { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
         public Guid RoleId { get; set; }
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
