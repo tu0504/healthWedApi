@@ -1,11 +1,7 @@
 .vs/
 appsettings.json
 appsettings.*.json
-
-bin/
-obj/
 bin/
 obj/
 **/bin/
 **/obj/
-
