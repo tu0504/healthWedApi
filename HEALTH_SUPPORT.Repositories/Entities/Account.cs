@@ -25,6 +25,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public ICollection<ProgramProgress> ProgramProgresses { get; set; }
         public ICollection<ProgramRegistration> ProgramRegistrations { get; set; }
         public ICollection<AccountSurvey> AccountSurveys { get; set; }
+        public ICollection<Appointment> Appointments { get; set; }
         public Guid RoleId { get; set; }
         [ForeignKey("RoleId")]
         public Role Role { get; set; }

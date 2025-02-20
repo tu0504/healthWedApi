@@ -15,12 +15,15 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public int Score { get; set; }
         [Required]
         public string ResultDescription { get; set; }
-        public Guid AccountId { get; set; }
-        [ForeignKey("AccountId")]
-        public Account Account { get; set; }
+        public DateTimeOffset CreateAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
+        public Guid AccountSurveyId { get; set; }
+        [ForeignKey("AccountSurveyId")]
+        public AccountSurvey AccountSurvey { get; set; }
 
-        public Guid SurveyTypeId { get; set; }
-        [ForeignKey("SurveyTypeId")]
-        public SurveyType SurveyType { get; set; }
+        public Guid SurveyId { get; set; }
+        [ForeignKey("SurveyId")]
+        public Survey Survey { get; set; }
+        
     }
 }
