@@ -21,6 +21,11 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         [ForeignKey("SurveyTypeId")]
         public SurveyType SurveyType { get; set; }
 
+        public Guid SurveyId { get; set; }
+        [ForeignKey("SurveyId")]
+        public Survey Survey{ get; set; }
+
         public ICollection<SurveyAnswer> SurveyAnswers { get; set; } = new List<SurveyAnswer>();
+
     }
 }
