@@ -23,7 +23,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public DateTimeOffset? ModifiedAt { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public ICollection<AccountSurvey> AccountSurveys { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Order> Orders { get; set; }
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<HealthData> HealthDatas { get; set; }
         public Guid RoleId { get; set; }

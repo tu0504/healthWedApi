@@ -31,9 +31,13 @@ namespace HEALTH_SUPPORT.Repositories.Entities
 
         [Required]
         public Guid AccountId { get; set; }
-
         [ForeignKey("AccountId")]
         public Account Account { get; set; }
-        public ICollection<Order> Orders { get; set; } = new HashSet<Order>();
+
+        [Required]
+        public Guid OrderId { get; set; }
+        [ForeignKey("OrderId")]
+        public Order Order { get; set; }
+
     }
 }

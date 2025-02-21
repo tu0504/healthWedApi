@@ -30,6 +30,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public DateTimeOffset CreateAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset? ModifiedAt { get; set; }
         public ICollection<HealthData> HealthDatas { get; set; }
+        public ICollection<SubscriptionData> SubscriptionDatas { get; set; }
 
     }
 }
