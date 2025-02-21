@@ -1,6 +1,8 @@
 .vs/
 appsettings.json
-appsettings.*.jsonb i n /  
- obj/
-bin/  
- 
+appsettings.*.json
+bin/
+obj/
+**/bin/
+**/obj/
+**/Migrations/*Snapshot.cs
