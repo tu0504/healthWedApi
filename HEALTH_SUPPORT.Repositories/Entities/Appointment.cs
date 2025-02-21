@@ -2,25 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Repositories.Entities
 {
-    public class Transaction : Entity<Guid>, IAuditable
+    public class Appointment : Entity<Guid>, IAuditable
     {
-        [Required]
-        [MaxLength(100)]
-        public string TransactionMethod { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
-
-        [Required]
-        public Guid OrderId { get; set; }
-        [ForeignKey("OrderId")]
-        public Order Order { get; set; }
-        
+        public Guid AccountId { get; set; }
+        [ForeignKey("AccountId")]
+        public Account Account { get; set; }
+        public Guid PsychologistId { get; set; }
+        [ForeignKey("PsychologistId")]
+        public Psychologist Psychologist { get; set; }
     }
 }

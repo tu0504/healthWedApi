@@ -28,7 +28,12 @@ namespace HEALTH_SUPPORT.Repositories.Entities
 
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
-        public ICollection<Order> Orders { get; set; } = new HashSet<Order>();
-        public ICollection<SubscriptionProgress> SubscriptionProgresses { get; set; } = new HashSet<SubscriptionProgress>();
+
+        public Guid PsychologistId { get; set; }
+        [ForeignKey("PsychologistId")]
+        public Psychologist Psychologists { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<SubscriptionProgress> SubscriptionProgresses { get; set; } 
     }
 }

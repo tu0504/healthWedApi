@@ -12,9 +12,8 @@ namespace HEALTH_SUPPORT.Repositories.Entities
     {
         [Required]
         public string SurveyName { get; set; }
-        public int MaxScore { get; set; }
-        public ICollection<SurveyResults> SurveyResults { get; set; }
+
         public ICollection<SurveyQuestion> SurveyQuestions { get; set; }
-        public ICollection<AccountSurvey> AccountSurveys { get; set; }
+        public ICollection<Survey> Surveys { get; set; }
     }
 }

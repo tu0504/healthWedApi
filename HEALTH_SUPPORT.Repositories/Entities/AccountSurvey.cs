@@ -13,13 +13,16 @@ namespace HEALTH_SUPPORT.Repositories.Entities
     {
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
-        public Guid SurveyTypeId { get; set; }
+        [Required]
+        public Guid SurveyId { get; set; }
         [ForeignKey("SurveyId")]
-        public SurveyType SurveyType { get; set; }
-
+        public Survey Survey { get; set; }
+        [Required]
         public Guid AccountId { get; set; }
         [ForeignKey("AccountId")]
         public Account Account { get; set; }
-        
+        [Required]
+        public ICollection<SurveyResults> SurveyResults { get; set; }         
+
     }
 }

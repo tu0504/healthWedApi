@@ -9,31 +9,23 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Repositories.Entities
 {
-    public class Order : Entity<Guid>
+    public class Order : Entity<Guid>, IAuditable
     {
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1.")]
         public int Quantity { get; set; }
 
-        [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal UnitPrice { get; set; }
-        public decimal TotalPrice => UnitPrice * Quantity;
+        public ICollection<Transaction> Transaction { get; set; }
 
         [Required]
-        [MaxLength(50)]
-        public string OrderStatus { get; set; }
+        public Guid SubscriptionDataId { get; set; }
+        [ForeignKey("SubscriptionDataId")]
+        public SubscriptionData SubscriptionData { get; set; }
 
         [Required]
-        public Guid SubscriptionId { get; set; }
-
-        [Required]
-        public Guid TransactionId { get; set; }
-
-        [ForeignKey("SubscriptionId")]
-        public SubscriptionData Subscription { get; set; } = new SubscriptionData();
-
-        [ForeignKey("TransactionId")]
-        public Transaction Transaction { get; set; } = new Transaction();
+        public Guid AccountId { get; set; }
+        [ForeignKey("AccountId")]
+        public Account Accounts { get; set; }
+        public DateTimeOffset CreateAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
     }
 }

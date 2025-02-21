@@ -9,13 +9,14 @@ using HEALTH_SUPPORT.Repositories.Abstraction;
 
 namespace HEALTH_SUPPORT.Repositories.Entities
 {
-    public class SurveyAnswer : Entity<Guid>
+    public class SurveyAnswer : Entity<Guid>, IAuditable
     {
         [Required]
         public string Content { get; set; }
         [Required]
         public int Point { get; set; }
-
+        public DateTimeOffset CreateAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
         public Guid QuestionId { get; set; }
         [ForeignKey("QuestionId")]
         public SurveyQuestion SurveyQuestion { get; set; }
