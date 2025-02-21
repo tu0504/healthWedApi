@@ -12,9 +12,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
     public class Order : Entity<Guid>, IAuditable
     {
         [Required]
-        public decimal Quantity { get; set; }
-        [Required]
-        public decimal Price;
+        public int Quantity { get; set; }
 
         public ICollection<Transaction> Transaction { get; set; }
 

@@ -9,35 +9,18 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Repositories.Entities
 {
-    public class Transaction : Entity<Guid>
+    public class Transaction : Entity<Guid>, IAuditable
     {
-        
-        [Required]
-        public string FullName { get; set; }
-
-        [Required, EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        public DateTimeOffset TransactionDate { get; set; }
-
         [Required]
         [MaxLength(100)]
         public string TransactionMethod { get; set; }
-
-        [Required]
-        [MaxLength(50)]
-        public string TransactionStatus { get; set; }
-
-        [Required]
-        public Guid AccountId { get; set; }
-        [ForeignKey("AccountId")]
-        public Account Account { get; set; }
+        public DateTimeOffset CreateAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
 
         [Required]
         public Guid OrderId { get; set; }
         [ForeignKey("OrderId")]
         public Order Order { get; set; }
-
+        
     }
 }
