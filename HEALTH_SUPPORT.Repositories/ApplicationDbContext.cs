@@ -76,6 +76,9 @@ namespace HEALTH_SUPPORT.Repositories
             //account - appointment
             modelBuilder.Entity<Account>().HasMany(t => t.Appointments).WithOne(a => a.Account).HasForeignKey(t => t.AccountId).OnDelete(DeleteBehavior.Restrict);
 
+            //Psychologist - appointment
+            modelBuilder.Entity<Psychologist>().HasMany(t => t.Appointments).WithOne(a => a.Psychologist).HasForeignKey(t => t.PsychologistId).OnDelete(DeleteBehavior.Restrict);
+
             //account - Psychologist(m-m)
             modelBuilder.Entity<Account>().HasMany(s => s.HealthDatas).WithOne(a => a.Account).HasForeignKey(s => s.AccountId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Psychologist>().HasMany(s => s.HealthDatas).WithOne(a => a.Psychologist).HasForeignKey(s => s.PsychologistId).OnDelete(DeleteBehavior.Restrict);
