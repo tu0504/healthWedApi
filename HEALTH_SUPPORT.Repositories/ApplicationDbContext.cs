@@ -47,9 +47,41 @@ namespace HEALTH_SUPPORT.Repositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>().HasIndex(a => a.Email).IsUnique();
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = Guid.Parse("2a5f5c96-cb79-40d4-a604-d484b7041e7f"), Name = "Manager"},
+                new Role { Id = Guid.Parse("7d9d691a-58dc-48fd-9204-ffe02c4fd0fd"), Name = "Student" },
+                new Role { Id = Guid.Parse("b6286c3e-1e4b-41ce-81e5-cc9a27ffe2e7"), Name = "Parent" },
+                new Role { Id = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3"), Name = "Psychologist" }
+            );
 
-            modelBuilder.Entity<Role>().HasIndex(a => a.Name).IsUnique();
+            modelBuilder.Entity<Account>().HasData(
+                new Account
+                {
+                    Id = Guid.Parse("5b0884a0-0067-49f5-b3be-a29ef58aa70c"),
+                    UseName = "Manager1",
+                    Fullname = "Manager1 nè",
+                    Email = "admin@example.com",
+                    Phone = "0123456789",
+                    Address = "123 Admin Street",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("2a5f5c96-cb79-40d4-a604-d484b7041e7f")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("dad2a80f-70e4-49f6-b3c5-3c1eedf525e4"),
+                    UseName = "Manager2",
+                    Fullname = "Manager2 nè",
+                    Email = "admin2@example.com",
+                    Phone = "0123456789",
+                    Address = "123 Admin Street",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@456"),
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("2a5f5c96-cb79-40d4-a604-d484b7041e7f")
+                }
+            );
 
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Account>().HasMany(s => s.AccountSurveys).WithOne(a => a.Account).HasForeignKey(s => s.AccountId).OnDelete(DeleteBehavior.Restrict);

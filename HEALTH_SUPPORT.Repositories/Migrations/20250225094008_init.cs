@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace HEALTH_SUPPORT.Repositories.Migrations
 {
     /// <inheritdoc />
@@ -48,7 +50,7 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -106,7 +108,7 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UseName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Fullname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -392,11 +394,25 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Accounts_Email",
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "IsDeleted", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("2a5f5c96-cb79-40d4-a604-d484b7041e7f"), false, "Manager" },
+                    { new Guid("5fff93bf-2324-425b-8f04-6a80af3bb0d3"), false, "Psychologist" },
+                    { new Guid("7d9d691a-58dc-48fd-9204-ffe02c4fd0fd"), false, "Student" },
+                    { new Guid("b6286c3e-1e4b-41ce-81e5-cc9a27ffe2e7"), false, "Parent" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Accounts",
-                column: "Email",
-                unique: true);
+                columns: new[] { "Id", "Address", "CreateAt", "Email", "Fullname", "IsDeleted", "LoginDate", "ModifiedAt", "PasswordHash", "Phone", "RoleId", "UseName" },
+                values: new object[,]
+                {
+                    { new Guid("5b0884a0-0067-49f5-b3be-a29ef58aa70c"), "123 Admin Street", new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 122, DateTimeKind.Unspecified).AddTicks(9515), new TimeSpan(0, 0, 0, 0, 0)), "admin@example.com", "Manager1 nè", false, new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 122, DateTimeKind.Unspecified).AddTicks(9521), new TimeSpan(0, 0, 0, 0, 0)), null, "$2a$11$5U3XmwWa5ql/0EolyHZ51OVK5MgF2rjaQ2CRlJQafKPUj5v8wTrC2", "0123456789", new Guid("2a5f5c96-cb79-40d4-a604-d484b7041e7f"), "Manager1" },
+                    { new Guid("dad2a80f-70e4-49f6-b3c5-3c1eedf525e4"), "123 Admin Street", new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 263, DateTimeKind.Unspecified).AddTicks(2682), new TimeSpan(0, 0, 0, 0, 0)), "admin2@example.com", "Manager2 nè", false, new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 263, DateTimeKind.Unspecified).AddTicks(2688), new TimeSpan(0, 0, 0, 0, 0)), null, "$2a$11$pJp/VvY3uDngNheevsQ2i.t2nKqkSLABS4deVqejYAC7oZd2z8MVW", "0123456789", new Guid("2a5f5c96-cb79-40d4-a604-d484b7041e7f"), "Manager2" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_RoleId",
@@ -442,12 +458,6 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
                 name: "IX_Orders_SubscriptionDataId",
                 table: "Orders",
                 column: "SubscriptionDataId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Roles_Name",
-                table: "Roles",
-                column: "Name",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubscriptionDatas_CategoryId",
