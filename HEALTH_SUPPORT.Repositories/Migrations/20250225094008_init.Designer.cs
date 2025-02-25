@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HEALTH_SUPPORT.Repositories.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250223174740_init")]
+    [Migration("20250225094008_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -40,7 +40,7 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Fullname")
                         .IsRequired()
@@ -72,12 +72,39 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
                     b.HasIndex("RoleId");
 
                     b.ToTable("Accounts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("5b0884a0-0067-49f5-b3be-a29ef58aa70c"),
+                            Address = "123 Admin Street",
+                            CreateAt = new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 122, DateTimeKind.Unspecified).AddTicks(9515), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "admin@example.com",
+                            Fullname = "Manager1 nè",
+                            IsDeleted = false,
+                            LoginDate = new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 122, DateTimeKind.Unspecified).AddTicks(9521), new TimeSpan(0, 0, 0, 0, 0)),
+                            PasswordHash = "$2a$11$5U3XmwWa5ql/0EolyHZ51OVK5MgF2rjaQ2CRlJQafKPUj5v8wTrC2",
+                            Phone = "0123456789",
+                            RoleId = new Guid("2a5f5c96-cb79-40d4-a604-d484b7041e7f"),
+                            UseName = "Manager1"
+                        },
+                        new
+                        {
+                            Id = new Guid("dad2a80f-70e4-49f6-b3c5-3c1eedf525e4"),
+                            Address = "123 Admin Street",
+                            CreateAt = new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 263, DateTimeKind.Unspecified).AddTicks(2682), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "admin2@example.com",
+                            Fullname = "Manager2 nè",
+                            IsDeleted = false,
+                            LoginDate = new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 263, DateTimeKind.Unspecified).AddTicks(2688), new TimeSpan(0, 0, 0, 0, 0)),
+                            PasswordHash = "$2a$11$pJp/VvY3uDngNheevsQ2i.t2nKqkSLABS4deVqejYAC7oZd2z8MVW",
+                            Phone = "0123456789",
+                            RoleId = new Guid("2a5f5c96-cb79-40d4-a604-d484b7041e7f"),
+                            UseName = "Manager2"
+                        });
                 });
 
             modelBuilder.Entity("HEALTH_SUPPORT.Repositories.Entities.AccountSurvey", b =>
@@ -279,14 +306,37 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2a5f5c96-cb79-40d4-a604-d484b7041e7f"),
+                            IsDeleted = false,
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d9d691a-58dc-48fd-9204-ffe02c4fd0fd"),
+                            IsDeleted = false,
+                            Name = "Student"
+                        },
+                        new
+                        {
+                            Id = new Guid("b6286c3e-1e4b-41ce-81e5-cc9a27ffe2e7"),
+                            IsDeleted = false,
+                            Name = "Parent"
+                        },
+                        new
+                        {
+                            Id = new Guid("5fff93bf-2324-425b-8f04-6a80af3bb0d3"),
+                            IsDeleted = false,
+                            Name = "Psychologist"
+                        });
                 });
 
             modelBuilder.Entity("HEALTH_SUPPORT.Repositories.Entities.SubscriptionData", b =>
