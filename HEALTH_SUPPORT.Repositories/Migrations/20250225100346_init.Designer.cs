@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HEALTH_SUPPORT.Repositories.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250225094008_init")]
+    [Migration("20250225100346_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -81,12 +81,12 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
                         {
                             Id = new Guid("5b0884a0-0067-49f5-b3be-a29ef58aa70c"),
                             Address = "123 Admin Street",
-                            CreateAt = new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 122, DateTimeKind.Unspecified).AddTicks(9515), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreateAt = new DateTimeOffset(new DateTime(2025, 2, 25, 10, 3, 46, 310, DateTimeKind.Unspecified).AddTicks(856), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "admin@example.com",
                             Fullname = "Manager1 nè",
                             IsDeleted = false,
-                            LoginDate = new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 122, DateTimeKind.Unspecified).AddTicks(9521), new TimeSpan(0, 0, 0, 0, 0)),
-                            PasswordHash = "$2a$11$5U3XmwWa5ql/0EolyHZ51OVK5MgF2rjaQ2CRlJQafKPUj5v8wTrC2",
+                            LoginDate = new DateTimeOffset(new DateTime(2025, 2, 25, 10, 3, 46, 310, DateTimeKind.Unspecified).AddTicks(861), new TimeSpan(0, 0, 0, 0, 0)),
+                            PasswordHash = "$2a$11$dLwVOAicRSv1oW86FTp4re7iwnerRRYuxUjABkKgFK2dGSwDQRVVm",
                             Phone = "0123456789",
                             RoleId = new Guid("2a5f5c96-cb79-40d4-a604-d484b7041e7f"),
                             UseName = "Manager1"
@@ -95,12 +95,12 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
                         {
                             Id = new Guid("dad2a80f-70e4-49f6-b3c5-3c1eedf525e4"),
                             Address = "123 Admin Street",
-                            CreateAt = new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 263, DateTimeKind.Unspecified).AddTicks(2682), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreateAt = new DateTimeOffset(new DateTime(2025, 2, 25, 10, 3, 46, 453, DateTimeKind.Unspecified).AddTicks(4081), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "admin2@example.com",
                             Fullname = "Manager2 nè",
                             IsDeleted = false,
-                            LoginDate = new DateTimeOffset(new DateTime(2025, 2, 25, 9, 40, 8, 263, DateTimeKind.Unspecified).AddTicks(2688), new TimeSpan(0, 0, 0, 0, 0)),
-                            PasswordHash = "$2a$11$pJp/VvY3uDngNheevsQ2i.t2nKqkSLABS4deVqejYAC7oZd2z8MVW",
+                            LoginDate = new DateTimeOffset(new DateTime(2025, 2, 25, 10, 3, 46, 453, DateTimeKind.Unspecified).AddTicks(4087), new TimeSpan(0, 0, 0, 0, 0)),
+                            PasswordHash = "$2a$11$SnLd4xdo9Rj2w86iPPToiuoM89r12sTcirPk7R2UW9juR.REg5alu",
                             Phone = "0123456789",
                             RoleId = new Guid("2a5f5c96-cb79-40d4-a604-d484b7041e7f"),
                             UseName = "Manager2"
@@ -635,9 +635,9 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
                         .IsRequired();
 
                     b.HasOne("HEALTH_SUPPORT.Repositories.Entities.Psychologist", "Psychologist")
-                        .WithMany()
+                        .WithMany("Appointments")
                         .HasForeignKey("PsychologistId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -812,6 +812,8 @@ namespace HEALTH_SUPPORT.Repositories.Migrations
 
             modelBuilder.Entity("HEALTH_SUPPORT.Repositories.Entities.Psychologist", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("HealthDatas");
 
                     b.Navigation("SubscriptionDatas");
