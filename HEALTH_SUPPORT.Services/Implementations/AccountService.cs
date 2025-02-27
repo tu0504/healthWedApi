@@ -5,10 +5,14 @@ using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using HEALTH_SUPPORT.Services.ResponseModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,11 +22,13 @@ namespace HEALTH_SUPPORT.Services.Implementations
     {
         private readonly IBaseRepository<Account, Guid> _accountRepository;
         private readonly IBaseRepository<Role, Guid> _roleRepository;
+        private readonly IConfiguration _configuration;
 
-        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository)
+        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration)
         {
             _accountRepository = accountRepository;
             _roleRepository = roleRepository;
+            _configuration = configuration;
         }
 
         public async Task AddAccount(AccountRequest.CreateAccountModel model)
@@ -71,6 +77,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 account.Email,
                 account.Phone,
                 account.Address,
+                account.PasswordHash,
                 account.Role?.Name ?? "Unknown"
             );
         }
@@ -87,6 +94,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     a.Email,
                     a.Phone,
                     a.Address,
+                    a.PasswordHash,
                     a.Role.Name
                 ))
                 .ToListAsync();
@@ -132,6 +140,58 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public async Task<AccountResponse.LoginResponseModel> ValidateLoginAsync(AccountRequest.LoginRequestModel model)
+        {
+            // Tìm account theo UserName và đảm bảo không bị xóa
+            var account = await _accountRepository.GetAll()
+                .Include(a => a.Role)
+                .FirstOrDefaultAsync(a => a.Email == model.Email && !a.IsDeleted);
+
+            if (account == null)
+                return null;
+
+            // So sánh mật khẩu (trong thực tế nên sử dụng phương pháp băm mật khẩu)
+            if (account.PasswordHash != model.Password)
+                return null;
+
+            // Trả về thông tin cần thiết qua DTO LoginResponseModel
+            return new AccountResponse.LoginResponseModel
+            {
+                Id = account.Id,
+                UserName = account.UseName,
+                RoleName = account.Role?.Name ?? "Unknown"
+            };
+        }
+
+        public string GenerateJwtToken(AccountResponse.LoginResponseModel account)
+        {
+            var jwtSettings = _configuration.GetSection("JwtSettings");
+            string secretKey = jwtSettings["SecretKey"];
+            string issuer = jwtSettings["Issuer"];
+            string audience = jwtSettings["Audience"];
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            // Thêm claim RoleName vào token
+            var claims = new List<Claim>
+    {
+        new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.UniqueName, account.UserName),
+        new Claim(ClaimTypes.Role, account.RoleName) // Claim chứa thông tin Role
+    };
+
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(2),
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

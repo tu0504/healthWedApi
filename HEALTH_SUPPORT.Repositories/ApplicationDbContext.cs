@@ -82,6 +82,7 @@ namespace HEALTH_SUPPORT.Repositories
                     RoleId = Guid.Parse("2a5f5c96-cb79-40d4-a604-d484b7041e7f")
                 }
             );
+            modelBuilder.Entity<Account>().HasIndex(a => a.UseName).IsUnique();
 
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Account>().HasMany(s => s.AccountSurveys).WithOne(a => a.Account).HasForeignKey(s => s.AccountId).OnDelete(DeleteBehavior.Restrict);
