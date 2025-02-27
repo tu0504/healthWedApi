@@ -13,15 +13,15 @@ namespace HEALTH_SUPPORT.Repositories.Entities
     public class Account : Entity<Guid>, IAuditable
     {
         [Required]
-        public string Name { get; set; }
+        public string UseName { get; set; }
         [Required]
-        public string FullName { get; set; }
+        public string Fullname { get; set; }
         [Required, EmailAddress]
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
         [Required]
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset LoginDate { get; set; }

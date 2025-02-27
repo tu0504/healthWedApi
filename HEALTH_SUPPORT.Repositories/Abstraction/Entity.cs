@@ -9,6 +9,6 @@ namespace HEALTH_SUPPORT.Repositories.Abstraction
     public abstract class Entity<T>
     {
         public T Id { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }  = false;
     }
 }
