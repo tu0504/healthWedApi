@@ -15,8 +15,15 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             string Email, 
             string Phone, 
             string Address,
-            //string PasswordHash,
+            string PasswordHash,
             string RoleName
         );
+
+        public class LoginResponseModel
+        {
+            public Guid Id { get; set; }
+            public string UserName { get; set; }
+            public string RoleName { get; set; }
+        }
     }
 }
