@@ -59,7 +59,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task<AccountResponse.GetAccountsModel?> GetAccountById(Guid id)
         {
-            var account = await _accountRepository.GetById(id);
+            var account = await _accountRepository.GetAll().Include(a => a.Role).FirstOrDefaultAsync(a => a.Id == id);
             if (account == null || account.IsDeleted)
             {
                 return null;
@@ -107,11 +107,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
             await _accountRepository.SaveChangesAsync();
         }
 
-        public async Task UpdateAccount(AccountRequest.UpdateAccountModel model)
+        public async Task UpdateAccount(Guid id, AccountRequest.UpdateAccountModel model)
         {
             try
             {
-                var existedAcc = await _accountRepository.GetById(model.AccountId);
+                var existedAcc = await _accountRepository.GetById(id);
                 if (existedAcc is null)
                 {
                     throw new Exception("Not exist account!");

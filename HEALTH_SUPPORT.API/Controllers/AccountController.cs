@@ -45,12 +45,21 @@ namespace HEALTH_SUPPORT.API.Controllers
             return Ok(new { message = "Account created successfully" });
         }
 
-        [HttpPut(Name = "UpdateAccount")]
+        [HttpPut("{accountId}", Name = "UpdateAccount")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> UpdateAccount([FromBody] AccountRequest.UpdateAccountModel model)
+        public async Task<ActionResult> UpdateAccount(Guid accountId, [FromBody] AccountRequest.UpdateAccountModel model)
         {
-            await _accountService.UpdateAccount(model);
+            if (model == null)
+            {
+                var account = await _accountService.GetAccountById(accountId);
+                if (account == null)
+                {
+                    return NotFound(new { message = "Account not found" });
+                }
+                return Ok(account);
+            }
+            await _accountService.UpdateAccount(accountId, model);
             return Ok(new { message = "Account updated successfully" });
         }
 
