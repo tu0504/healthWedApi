@@ -46,5 +46,11 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string? Address { get; set; }
             public string? PasswordHash { get; set; }
         }
+
+        public class LoginRequestModel
+        {
+            public string Email { get; set; }
+            public string Password { get; set; }
+        }
     }
 }
