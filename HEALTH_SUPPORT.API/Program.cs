@@ -67,7 +67,9 @@ namespace HEALTH_SUPPORT.API
             // Register IBaseRepository and BaseRepository
             builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
             // Register IAccountService and AccountService
-            builder.Services.AddScoped<IAccountService, AccountService>();   
+            builder.Services.AddScoped<IAccountService, AccountService>();
+            // Register ISubscriptionService and SubscriptionService
+            builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 
             var app = builder.Build();
 

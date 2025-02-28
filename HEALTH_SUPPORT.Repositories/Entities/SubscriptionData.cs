@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Repositories.Entities
 {
-    public class SubscriptionData : Entity<Guid>
+    public class SubscriptionData : Entity<Guid>, IAuditable
     {
         [Required]
         [MaxLength(255)]
@@ -22,6 +22,8 @@ namespace HEALTH_SUPPORT.Repositories.Entities
 
         [Required]
         public int Duration { get; set; }
+        public DateTimeOffset CreateAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
 
         [Required]
         public Guid CategoryId { get; set; }
@@ -34,6 +36,6 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Psychologist Psychologists { get; set; }
 
         public ICollection<Order> Orders { get; set; }
-        public ICollection<SubscriptionProgress> SubscriptionProgresses { get; set; } 
+        public ICollection<SubscriptionProgress> SubscriptionProgresses { get; set; }
     }
 }
