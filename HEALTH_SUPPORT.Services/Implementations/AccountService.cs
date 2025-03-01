@@ -71,6 +71,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 account.Email,
                 account.Phone,
                 account.Address,
+                account.PasswordHash,
                 account.Role?.Name ?? "Unknown"
             );
         }
@@ -87,6 +88,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     a.Email,
                     a.Phone,
                     a.Address,
+                    a.PasswordHash,
                     a.Role.Name
                 ))
                 .ToListAsync();

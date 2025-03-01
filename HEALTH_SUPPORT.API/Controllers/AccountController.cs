@@ -16,8 +16,12 @@ namespace HEALTH_SUPPORT.API.Controllers
             _accountService = accountService;
         }
 
+<<<<<<< Updated upstream
         [HttpGet(Name = "GetAccounnt")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+=======
+        [HttpGet(Name = "GetAccounts")]
+>>>>>>> Stashed changes
         public async Task<ActionResult> GetAccounts()
         {
             var result = await _accountService.GetAccounts();

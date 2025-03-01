@@ -15,7 +15,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             string Email, 
             string Phone, 
             string Address,
-            //string PasswordHash,
+            string PasswordHash,
             string RoleName
         );
     }
