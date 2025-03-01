@@ -6,8 +6,10 @@ using HEALTH_SUPPORT.Services.RequestModel;
 using HEALTH_SUPPORT.Services.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
+
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,24 +25,59 @@ namespace HEALTH_SUPPORT.Services.Implementations
         private readonly IBaseRepository<Account, Guid> _accountRepository;
         private readonly IBaseRepository<Role, Guid> _roleRepository;
         private readonly IConfiguration _configuration;
+        private readonly IHostEnvironment _environment;
 
-        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration)
+        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration, IHostEnvironment environment)
         {
             _accountRepository = accountRepository;
             _roleRepository = roleRepository;
             _configuration = configuration;
+            _environment = environment;
         }
 
-        public async Task AddAccount(AccountRequest.CreateAccountModel model)
+        public async Task<string> AddAccount(AccountRequest.CreateAccountModel model)
         {
+            // Kiểm tra email đã tồn tại chưa
+            var existingUser = await _accountRepository.GetAll().AnyAsync(r => r.Email == model.Email);
+            if (existingUser)
+            {
+                return "Email đã được sử dụng";
+            }
+            // Kiểm tra role có tồn tại không
             var role = await _roleRepository.GetAll().FirstOrDefaultAsync(r => r.Name == model.RoleName);
             if (role == null)
             {
-                throw new Exception("Invalid Role Name");
+                throw new Exception("Vui lòng chọn vai trò.");
+            }
+            // Kiểm tra mật khẩu nhập lại
+            if (model.PasswordHash != model.ConfirmPassword)
+            {
+                return "Mật khẩu nhập lại không khớp!";
+            }
+            // Mã hóa mật khẩu
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash);
+            // Xử lý upload ảnh đại diện
+            string? imgUrl = null;
+            if (model.ImgUrl != null)
+            {
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImgUrl.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ImgUrl.CopyToAsync(fileStream);
+                }
+
+                imgUrl = "/uploads/" + uniqueFileName; // Đường dẫn ảnh để lưu vào DB
             }
             try
             {
-
                 var acc = new Account()
                 {
                     Id = Guid.NewGuid(),
@@ -50,16 +87,19 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Phone = model.Phone,
                     Address = model.Address,
                     PasswordHash = model.PasswordHash,
+                    ImgUrl = imgUrl,
                     RoleId = role.Id,
                     CreateAt = DateTimeOffset.UtcNow,
                     LoginDate = DateTimeOffset.UtcNow
                 };
-
                 await _accountRepository.Add(acc);
+                await _accountRepository.SaveChangesAsync();
+                return "Tạo tài khoản thành công!";
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return "Lỗi khi tạo tài khoản!";
             }
         }
 

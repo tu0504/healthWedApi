@@ -67,9 +67,20 @@ namespace HEALTH_SUPPORT.API
             // Register IBaseRepository and BaseRepository
             builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
             // Register IAccountService and AccountService
-            builder.Services.AddScoped<IAccountService, AccountService>();   
+            builder.Services.AddScoped<IAccountService, AccountService>();
+
+            // Inject IWebHostEnvironment: giúp acc update ảnh đại diện
+            builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
+
 
             var app = builder.Build();
+
+            // Lấy IWebHostEnvironment từ app.Services
+            var env = app.Services.GetRequiredService<IWebHostEnvironment>();
+
+            // Debug thông tin môi trường
+            Console.WriteLine($"Environment: {env.EnvironmentName}");
+            Console.WriteLine($"WebRootPath: {env.WebRootPath}");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -84,6 +95,7 @@ namespace HEALTH_SUPPORT.API
 
             app.UseAuthorization();
 
+            app.UseStaticFiles(); // Cho phép truy cập ảnh đã upload
 
             app.MapControllers();
 
