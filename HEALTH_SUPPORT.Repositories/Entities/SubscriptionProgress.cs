@@ -19,9 +19,9 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public DateTimeOffset? EndDate { get; set; }
 
         [Required]
-        public Guid SubscriptionId { get; set; }
+        public Guid OrderId { get; set; }
 
-        [ForeignKey("SubscriptionId")]
-        public SubscriptionData Subscription { get; set; }
+        [ForeignKey("OrderId")]
+        public Order Order { get; set; }
     }
 }

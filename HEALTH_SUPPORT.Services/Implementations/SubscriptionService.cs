@@ -23,6 +23,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             IBaseRepository<SubscriptionData, Guid> subscriptionRepository,
             IBaseRepository<Category, Guid> categoryRepository,
             IBaseRepository<Order, Guid> orderRepository)
+
         {
             _subscriptionRepository = subscriptionRepository;
             _categoryRepository = categoryRepository;
