@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,30 +11,31 @@ namespace HEALTH_SUPPORT.Services.RequestModel
     {
         public class CreateAccountModel
         {
-            [Required(ErrorMessage = "Missing Username")]
+            [Required(ErrorMessage = "Thiếu tên tài khoản!")]
             public string UserName { get; set; }
 
+            [Required(ErrorMessage = "Thiếu họ và tên!")]
             public string Fullname { get; set; }
 
-            [Required(ErrorMessage = "Missing Email")]
-            [EmailAddress(ErrorMessage = "Invalid Email Format")]
+            [Required(ErrorMessage = "Thiếu Email!")]
+            [EmailAddress(ErrorMessage = "Định dạng Email không hợp lệ!")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "Missing Phone")]
-            [Phone(ErrorMessage = "Invalid Phone Number")]
+            [Required(ErrorMessage = "Thiếu số điện thoại!")]
+            [Phone(ErrorMessage = "Định dạng số điện thoại không hợp lệ!")]
             public string Phone { get; set; }
 
+            [Required(ErrorMessage = "Thiếu địa chỉ!")]
             public string Address { get; set; }
 
             [Required]
-            [MinLength(6, ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự")]
+            [MinLength(6, ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự!")]
             public string PasswordHash { get; set; }
             [Required]
-            [Compare("Password", ErrorMessage = "Mật khẩu nhập lại không khớp")]
+            [Compare("PasswordHash", ErrorMessage = "Mật khẩu nhập lại không khớp!")]
             public string ConfirmPassword { get; set; }
-            public IFormFile? ImgUrl { get; set; }
 
-            [Required(ErrorMessage = "Missing Role Name")]
+            [Required(ErrorMessage = "Thiếu vai trò!")]
             public string RoleName { get; set; }
 
         }
@@ -64,6 +64,12 @@ namespace HEALTH_SUPPORT.Services.RequestModel
         {
             public Guid AccountId { get; set; }
             public string VerificationCode { get; set; }
+        }
+
+        public class OtpRequest
+        {
+            public string Email { get; set; }
+            public string Otp { get; set; }
         }
     }
 }

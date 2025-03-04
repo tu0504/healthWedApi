@@ -13,12 +13,12 @@ namespace HEALTH_SUPPORT.Services.IServices
     {
         Task<List<AccountResponse.GetAccountsModel>> GetAccounts();
         Task<AccountResponse.GetAccountsModel?> GetAccountById(Guid id);
-        Task<string> AddAccount(AccountRequest.CreateAccountModel model);
+        Task AddAccount(AccountRequest.CreateAccountModel model);
         Task UpdateAccount(Guid id, AccountRequest.UpdateAccountModel model);
         Task RemoveAccount(Guid id);
 
         Task<AccountResponse.LoginResponseModel> ValidateLoginAsync(AccountRequest.LoginRequestModel model);
-
         string GenerateJwtToken(AccountResponse.LoginResponseModel account);
+
     }
 }

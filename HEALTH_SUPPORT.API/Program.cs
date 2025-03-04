@@ -46,10 +46,10 @@ namespace HEALTH_SUPPORT.API
                 };
             });
 
-            // 3. Thêm Authorization
+            // Thêm Authorization
             builder.Services.AddAuthorization();
 
-            // 4. Thêm các service khác (Repositories, Services, v.v.)
+            // Thêm các service khác (Repositories, Services, v.v.)
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -64,10 +64,15 @@ namespace HEALTH_SUPPORT.API
             // Register ApplicationDbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Register IBaseRepository and BaseRepository
+
+       
             builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
-            // Register IAccountService and AccountService
             builder.Services.AddScoped<IAccountService, AccountService>();
+
+            // Thêm MemoryCache
+            builder.Services.AddMemoryCache();
+            builder.Services.AddScoped<IEmailService, EmailService>();
+
 
             // Inject IWebHostEnvironment: giúp acc update ảnh đại diện
             builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);

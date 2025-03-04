@@ -1,4 +1,5 @@
-﻿using HEALTH_SUPPORT.Services.IServices;
+﻿using Azure.Core;
+using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -11,26 +12,32 @@ namespace HEALTH_SUPPORT.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly IEmailService _emailService;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IEmailService emailService)
         {
             _accountService = accountService;
+            _emailService = emailService;
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult> CreateAccount([FromBody] AccountRequest.CreateAccountModel model)
+        public async Task<IActionResult> CreateAccount([FromBody] AccountRequest.CreateAccountModel model)
         {
-            if (!ModelState.IsValid)
+            await _accountService.AddAccount(model);
+            _emailService.GenerateOtp(model.Email);
+            return Ok(new { message = "Tạo tài khoản thành công, vui lòng xác thực email bằng OTP!" });
+        }
+
+        [HttpPost("otp")]
+        public IActionResult VerifyOtp([FromBody] AccountRequest.OtpRequest request)
+        {
+            var isValid = _emailService.VerifyOtp(request.Email, request.Otp);
+            if (!isValid)
             {
-                return BadRequest(ModelState);
-            }
-            var result = await _accountService.AddAccount(model);
-            if (result.StartsWith("Email"))
-            {
-                return BadRequest(new { message = result });
+                return BadRequest(new { message = "OTP không hợp lệ hoặc đã hết hạn!" });
             }
 
-            return Ok(new { message = result });
+            return Ok(new { message = "Xác thực OTP thành công!" });
         }
 
         [HttpPost("Login")]

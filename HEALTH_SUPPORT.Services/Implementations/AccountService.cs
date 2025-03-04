@@ -35,13 +35,13 @@ namespace HEALTH_SUPPORT.Services.Implementations
             _environment = environment;
         }
 
-        public async Task<string> AddAccount(AccountRequest.CreateAccountModel model)
+        public async Task AddAccount(AccountRequest.CreateAccountModel model)
         {
             // Kiểm tra email đã tồn tại chưa
             var existingUser = await _accountRepository.GetAll().AnyAsync(r => r.Email == model.Email);
             if (existingUser)
             {
-                return "Email đã được sử dụng";
+                throw new Exception("Email đã được sử dụng.");
             }
             // Kiểm tra role có tồn tại không
             var role = await _roleRepository.GetAll().FirstOrDefaultAsync(r => r.Name == model.RoleName);
@@ -52,30 +52,10 @@ namespace HEALTH_SUPPORT.Services.Implementations
             // Kiểm tra mật khẩu nhập lại
             if (model.PasswordHash != model.ConfirmPassword)
             {
-                return "Mật khẩu nhập lại không khớp!";
+                throw new Exception("Mật khẩu nhập lại không khớp!");
             }
             // Mã hóa mật khẩu
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash);
-            // Xử lý upload ảnh đại diện
-            string? imgUrl = null;
-            if (model.ImgUrl != null)
-            {
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImgUrl.FileName);
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await model.ImgUrl.CopyToAsync(fileStream);
-                }
-
-                imgUrl = "/uploads/" + uniqueFileName; // Đường dẫn ảnh để lưu vào DB
-            }
             try
             {
                 var acc = new Account()
@@ -86,20 +66,16 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Email = model.Email,
                     Phone = model.Phone,
                     Address = model.Address,
-                    PasswordHash = model.PasswordHash,
-                    ImgUrl = imgUrl,
+                    PasswordHash = passwordHash,
                     RoleId = role.Id,
                     CreateAt = DateTimeOffset.UtcNow,
-                    LoginDate = DateTimeOffset.UtcNow
                 };
                 await _accountRepository.Add(acc);
                 await _accountRepository.SaveChangesAsync();
-                return "Tạo tài khoản thành công!";
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return "Lỗi khi tạo tài khoản!";
             }
         }
 
@@ -217,11 +193,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
             // Thêm claim RoleName vào token
             var claims = new List<Claim>
-    {
-        new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
-        new Claim(JwtRegisteredClaimNames.UniqueName, account.UserName),
-        new Claim(ClaimTypes.Role, account.RoleName) // Claim chứa thông tin Role
-    };
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, account.UserName),
+                new Claim(ClaimTypes.Role, account.RoleName) // Claim chứa thông tin Role
+            };
 
             var token = new JwtSecurityToken(
                 issuer: issuer,
