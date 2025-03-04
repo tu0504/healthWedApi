@@ -40,5 +40,11 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public int? Duration { get; set; }
             public Guid? CategoryId { get; set; }
         }
+        public class RegisterSubscriptionModel
+        {
+            public Guid AccountId { get; set; }
+            public Guid SubscriptionId { get; set; }
+            public int Quantity { get; set; }
+        }
     }
 }
