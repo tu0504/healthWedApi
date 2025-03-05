@@ -172,6 +172,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
             if (!BCrypt.Net.BCrypt.Verify(model.Password, account.PasswordHash))
                 return null;
 
+            account.LoginDate = DateTimeOffset.UtcNow;
+            await _accountRepository.Update(account);
+
             // Trả về thông tin cần thiết qua DTO LoginResponseModel
             return new AccountResponse.LoginResponseModel
             {
