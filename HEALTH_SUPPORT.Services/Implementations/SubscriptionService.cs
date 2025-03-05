@@ -17,13 +17,17 @@ namespace HEALTH_SUPPORT.Services.Implementations
     {
         private readonly IBaseRepository<SubscriptionData, Guid> _subscriptionRepository;
         private readonly IBaseRepository<Category, Guid> _categoryRepository;
+        private readonly IBaseRepository<Order, Guid> _orderRepository;
 
         public SubscriptionService(
             IBaseRepository<SubscriptionData, Guid> subscriptionRepository,
-            IBaseRepository<Category, Guid> categoryRepository)
+            IBaseRepository<Category, Guid> categoryRepository,
+            IBaseRepository<Order, Guid> orderRepository)
+
         {
             _subscriptionRepository = subscriptionRepository;
             _categoryRepository = categoryRepository;
+            _orderRepository = orderRepository;
         }
 
         public async Task AddSubscription(SubscriptionRequest.CreateSubscriptionModel model)
@@ -120,6 +124,54 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
             await _subscriptionRepository.Update(existingSubscription);
             await _subscriptionRepository.SaveChangesAsync();
+        }
+        public async Task RegisterSubscription(Guid accountId, SubscriptionRequest.RegisterSubscriptionModel model)
+        {
+            var subscription = await _subscriptionRepository.GetById(model.SubscriptionId);
+            if (subscription == null || subscription.IsDeleted)
+            {
+                throw new Exception("Invalid Subscription ID");
+            }
+
+            var order = new Order()
+            {
+                Id = Guid.NewGuid(),
+                SubscriptionDataId = model.SubscriptionId,
+                AccountId = accountId,
+                Quantity = model.Quantity,
+                CreateAt = DateTimeOffset.UtcNow,
+                IsActive = true
+            };
+
+            await _orderRepository.Add(order);
+        }
+        public async Task<List<SubscriptionResponse.GetSubscriptionsModel>> GetUserSubscriptions(Guid accountId)
+        {
+            return await _orderRepository.GetAll()
+                .Where(o => o.AccountId == accountId && o.IsActive)
+                .Include(o => o.SubscriptionData)
+                .Select(o => new SubscriptionResponse.GetSubscriptionsModel(
+                    o.SubscriptionData.Id,
+                    o.SubscriptionData.SubscriptionName,
+                    o.SubscriptionData.Description,
+                    o.SubscriptionData.Price,
+                    o.SubscriptionData.Duration,
+                    o.SubscriptionData.CategoryId,
+                    o.SubscriptionData.Category.CategoryName
+                ))
+                .ToListAsync();
+        }
+        public async Task CancelSubscription(Guid orderId)
+        {
+            var order = await _orderRepository.GetById(orderId);
+            if (order == null || !order.IsActive)
+            {
+                throw new Exception("Subscription not found or already canceled");
+            }
+
+            order.IsActive = false;
+            await _orderRepository.Update(order);
+            await _orderRepository.SaveChangesAsync();
         }
     }
 }

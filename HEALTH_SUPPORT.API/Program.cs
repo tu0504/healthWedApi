@@ -46,10 +46,10 @@ namespace HEALTH_SUPPORT.API
                 };
             });
 
-            // 3. Thêm Authorization
+            // Thêm Authorization
             builder.Services.AddAuthorization();
 
-            // 4. Thêm các service khác (Repositories, Services, v.v.)
+            // Thêm các service khác (Repositories, Services, v.v.)
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -64,14 +64,33 @@ namespace HEALTH_SUPPORT.API
             // Register ApplicationDbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Register IBaseRepository and BaseRepository
+
+       
             builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
+
+            // Thêm MemoryCache
+            builder.Services.AddMemoryCache();
+            builder.Services.AddScoped<IEmailService, EmailService>();
+
+
+            // Inject IWebHostEnvironment: giúp acc update ảnh đại diện
+            builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
+
+
             // Register IAccountService and AccountService
             builder.Services.AddScoped<IAccountService, AccountService>();
             // Register ISubscriptionService and SubscriptionService
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 
+
             var app = builder.Build();
+
+            // Lấy IWebHostEnvironment từ app.Services
+            var env = app.Services.GetRequiredService<IWebHostEnvironment>();
+
+            // Debug thông tin môi trường
+            Console.WriteLine($"Environment: {env.EnvironmentName}");
+            Console.WriteLine($"WebRootPath: {env.WebRootPath}");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -86,6 +105,7 @@ namespace HEALTH_SUPPORT.API
 
             app.UseAuthorization();
 
+            app.UseStaticFiles(); // Cho phép truy cập ảnh đã upload
 
             app.MapControllers();
 
