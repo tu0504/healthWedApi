@@ -22,6 +22,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public string Address { get; set; }
         [Required]
         public string PasswordHash { get; set; }
+        public string? ImgUrl { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset LoginDate { get; set; }

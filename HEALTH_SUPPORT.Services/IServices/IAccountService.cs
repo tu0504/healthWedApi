@@ -18,7 +18,7 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task RemoveAccount(Guid id);
 
         Task<AccountResponse.LoginResponseModel> ValidateLoginAsync(AccountRequest.LoginRequestModel model);
-
         string GenerateJwtToken(AccountResponse.LoginResponseModel account);
+
     }
 }
