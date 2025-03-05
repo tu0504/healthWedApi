@@ -67,7 +67,6 @@ namespace HEALTH_SUPPORT.API
 
        
             builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
-            builder.Services.AddScoped<IAccountService, AccountService>();
 
             // Thêm MemoryCache
             builder.Services.AddMemoryCache();
@@ -76,6 +75,12 @@ namespace HEALTH_SUPPORT.API
 
             // Inject IWebHostEnvironment: giúp acc update ảnh đại diện
             builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
+
+
+            // Register IAccountService and AccountService
+            builder.Services.AddScoped<IAccountService, AccountService>();
+            // Register ISubscriptionService and SubscriptionService
+            builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 
 
             var app = builder.Build();
