@@ -15,7 +15,8 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             double Price,
             int Duration,
             Guid CategoryId,
-            string CategoryName
+            string CategoryName,
+            string ProgressDescription
         );
     }
 }
