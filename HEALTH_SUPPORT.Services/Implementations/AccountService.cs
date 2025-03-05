@@ -259,27 +259,27 @@ namespace HEALTH_SUPPORT.Services.Implementations
             var account = await _accountRepository.GetById(accountId);
             if (account == null) throw new Exception("Account not found");
 
-            if (!string.IsNullOrEmpty(account.ImgUrl))
-            {
-                string oldFilePath = Path.Combine(_environment.ContentRootPath, "wwwroot", account.ImgUrl.TrimStart('/'));
-                if (File.Exists(oldFilePath)) File.Delete(oldFilePath);
-            }
+            //if (!string.IsNullOrEmpty(account.ImgUrl))
+            //{
+            //    string oldFilePath = Path.Combine(_environment.ContentRootPath, "wwwroot", account.ImgUrl.TrimStart('/'));
+            //    if (File.Exists(oldFilePath)) File.Delete(oldFilePath);
+            //}
 
             return await UploadAvatarAsync(accountId, model);
         }
 
         public async Task RemoveAvatarAsync(Guid accountId)
         {
-            var account = await _accountRepository.GetById(accountId);
-            if (account == null) throw new Exception("Account not found");
+            //var account = await _accountRepository.GetById(accountId);
+            //if (account == null) throw new Exception("Account not found");
 
-            if (!string.IsNullOrEmpty(account.ImgUrl))
-            {
-                string filePath = Path.Combine(_environment.ContentRootPath, "wwwroot", account.ImgUrl.TrimStart('/'));
-                if (File.Exists(filePath)) File.Delete(filePath);
+            //if (!string.IsNullOrEmpty(account.ImgUrl))
+            //{
+            //    string filePath = Path.Combine(_environment.ContentRootPath, "wwwroot", account.ImgUrl.TrimStart('/'));
+            //    if (File.Exists(filePath)) File.Delete(filePath);
 
-                await _avatarRepository.UpdateAvatarAsync(accountId, null);
-            }
+            //    await _avatarRepository.UpdateAvatarAsync(accountId, null);
+            //}
         }
     }
 }

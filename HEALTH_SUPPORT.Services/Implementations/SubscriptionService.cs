@@ -79,26 +79,22 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task<SubscriptionResponse.GetSubscriptionsModel?> GetSubscriptionById(Guid id)
         {
-            //var subscription = await _subscriptionRepository.GetAll()
-            //    .Include(s => s.Category)
-            //    .FirstOrDefaultAsync(s => s.Id == id);
+            var subscription = await _subscriptionRepository.GetAll().Include(s => s.Category).Include(s => s.Psychologists).FirstOrDefaultAsync(s => s.Id == id);
 
-            //if (subscription == null || subscription.IsDeleted)
-            //{
-            //    return null;
-            //}
+            if (subscription == null || subscription.IsDeleted)
+            {
+                return null;
+            }
 
-            //return new SubscriptionResponse.GetSubscriptionsModel(
-            //    subscription.Id,
-            //    subscription.SubscriptionName,
-            //    subscription.Description,
-            //    subscription.Price,
-            //    subscription.Duration,
-            //    subscription.CategoryId,
-            //    subscription.Category?.CategoryName ?? "Unknown",
-            //    null // Progress is not needed here
-            //);
-            return await Task.FromResult<SubscriptionResponse.GetSubscriptionsModel?>(null);
+            return new SubscriptionResponse.GetSubscriptionsModel(
+                subscription.Id,
+                subscription.SubscriptionName,
+                subscription.Description,
+                (float)subscription.Price,
+                subscription.Duration,
+                subscription.Category?.CategoryName ?? "Unknown",
+                subscription.Psychologists?.Name ?? "Unknown"
+            );
         }
 
         public async Task<List<SubscriptionResponse.GetSubscriptionsModel>> GetSubscriptions()

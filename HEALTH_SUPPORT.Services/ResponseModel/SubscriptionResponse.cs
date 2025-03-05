@@ -12,11 +12,10 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             Guid Id,
             string SubscriptionName,
             string Description,
-            double Price,
+            float Price,
             int Duration,
-            Guid CategoryId,
             string CategoryName,
-            string ProgressDescription
+            string PsychologistName
         );
     }
 }
