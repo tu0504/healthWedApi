@@ -169,7 +169,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 return null;
 
             // So sánh mật khẩu (trong thực tế nên sử dụng phương pháp băm mật khẩu)
-            if (account.PasswordHash != model.Password)
+            if (!BCrypt.Net.BCrypt.Verify(model.Password, account.PasswordHash))
                 return null;
 
             // Trả về thông tin cần thiết qua DTO LoginResponseModel

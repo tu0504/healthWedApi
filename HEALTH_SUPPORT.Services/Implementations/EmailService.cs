@@ -1,35 +1,35 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
+﻿using System;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
+using System.Net.Mail;
 using HEALTH_SUPPORT.Services.IServices;
-using HEALTH_SUPPORT.Repositories.Repository;
-using HEALTH_SUPPORT.Repositories.Entities;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 
 namespace HEALTH_SUPPORT.Services.Implementations
 {
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _configuration;
-        private readonly ConcurrentDictionary<string, (string Otp, DateTime ExpiresAt)> _otpCache = new();
+        private readonly IMemoryCache _cache;
 
-        public EmailService(IConfiguration configuration)
+        public EmailService(IConfiguration configuration, IMemoryCache cache)
         {
             _configuration = configuration;
+            _cache = cache;
         }
 
         public void GenerateOtp(string email)
         {
             var otp = new Random().Next(100000, 999999).ToString();
-            var expiresAt = DateTime.UtcNow.AddMinutes(5);
-            _otpCache[email] = (otp, expiresAt);
+            var expiresAt = TimeSpan.FromMinutes(5); // OTP có hiệu lực trong 5 phút
 
+            // Lưu vào MemoryCache với thời gian hết hạn tự động
+            _cache.Set(email, otp, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = expiresAt
+            });
+
+            // Gửi email OTP
             SendEmail(email, "Mã OTP của bạn", $"Mã OTP của bạn là: {otp}");
         }
 
@@ -56,28 +56,16 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public bool VerifyOtp(string email, string otp)
         {
-            if (!_otpCache.TryGetValue(email, out var otpData))
+            if (!_cache.TryGetValue(email, out string storedOtp) || !storedOtp.Equals(otp.Trim()))
             {
-                Console.WriteLine($"[DEBUG] OTP không tồn tại cho email: {email}");
                 return false;
             }
 
-            var (storedOtp, expiresAt) = otpData;
+            // Xác thực thành công, lưu trạng thái đã xác thực OTP
+            _cache.Set($"OTP_Verified_{email}", true, TimeSpan.FromHours(1));
 
-            if (DateTime.UtcNow > expiresAt)
-            {
-                Console.WriteLine($"[DEBUG] OTP đã hết hạn cho email: {email}");
-                _otpCache.TryRemove(email, out _); // Xóa OTP hết hạn
-                return false;
-            }
-
-            if (!storedOtp.Equals(otp.Trim()))
-            {
-                Console.WriteLine($"[DEBUG] OTP không đúng: Nhập '{otp.Trim()}', Lưu '{storedOtp}'");
-                return false;
-            }
-
-            _otpCache.TryRemove(email, out _); // Xác thực xong thì xóa OTP để tránh sử dụng lại
+            // Xóa OTP sau khi xác thực thành công để tránh sử dụng lại
+            _cache.Remove(email);
 
             return true;
         }
