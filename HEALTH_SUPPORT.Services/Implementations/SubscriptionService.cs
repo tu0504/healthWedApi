@@ -116,17 +116,17 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task RemoveSubscription(Guid id)
         {
-            //var subscription = await _subscriptionRepository.GetById(id);
-            //if (subscription == null)
-            //{
-            //    throw new InvalidOperationException("Subscription not found");
-            //}
+            var subscription = await _subscriptionRepository.GetById(id);
+            if (subscription == null)
+            {
+                throw new InvalidOperationException("Subscription not found.");
+            }
 
-            //subscription.IsDeleted = true;
-            //subscription.ModifiedAt = DateTimeOffset.UtcNow;
+            subscription.IsDeleted = true;
+            subscription.ModifiedAt = DateTimeOffset.UtcNow; // Track modification
 
-            //await _subscriptionRepository.Update(subscription);
-            //await _subscriptionRepository.SaveChangesAsync();
+            await _subscriptionRepository.Update(subscription);
+            await _subscriptionRepository.SaveChangesAsync();
         }
 
         public async Task UpdateSubscription(Guid id, SubscriptionRequest.UpdateSubscriptionModel model)
