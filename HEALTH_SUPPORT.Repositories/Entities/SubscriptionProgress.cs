@@ -22,7 +22,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Guid OrderId { get; set; }
 
         [ForeignKey("OrderId")]
-        public Order Orders { get; set; }
+        public Order Order { get; set; }
 
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
