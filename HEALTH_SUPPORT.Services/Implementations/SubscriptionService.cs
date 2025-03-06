@@ -99,21 +99,19 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task<List<SubscriptionResponse.GetSubscriptionsModel>> GetSubscriptions()
         {
-            //return await _subscriptionRepository.GetAll()
-            //    .Where(s => !s.IsDeleted)
-            //    .AsNoTracking()
-            //    .Select(s => new SubscriptionResponse.GetSubscriptionsModel(
-            //        s.Id,
-            //        s.SubscriptionName,
-            //        s.Description,
-            //        s.Price,
-            //        s.Duration,
-            //        s.CategoryId,
-            //        s.Category.CategoryName,
-            //        "No progress" // Default value since GetSubscriptions() does not track progress
-            //    ))
-            //    .ToListAsync();
-            return await Task.FromResult(new List<SubscriptionResponse.GetSubscriptionsModel>());
+            return await _subscriptionRepository.GetAll()
+            .Where(s => !s.IsDeleted) // Exclude deleted subscriptions
+            .AsNoTracking()
+            .Select(s => new SubscriptionResponse.GetSubscriptionsModel(
+                s.Id,
+                s.SubscriptionName,
+                s.Description,
+                (float)s.Price,
+                s.Duration,
+                s.Category != null ? s.Category.CategoryName : "Unknown",
+                s.Psychologists != null ? s.Psychologists.Name : "Unknown"
+            ))
+            .ToListAsync();
         }
 
         public async Task RemoveSubscription(Guid id)
