@@ -228,7 +228,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
+        
         public async Task<bool> VerifyEmailAsync(string email)
         {
             var account = await _accountRepository.GetAll()
@@ -242,7 +242,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             await _accountRepository.Update(account);
             return true;
         }
-
+        
         public async Task<AccountResponse.AvatarResponseModel> UploadAvatarAsync(Guid accountId, AccountRequest.UploadAvatarModel model)
         {
             var account = await _accountRepository.GetById(accountId);
@@ -276,7 +276,6 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 string oldFilePath = Path.Combine(_environment.ContentRootPath, "wwwroot", account.ImgUrl.TrimStart('/'));
                 if (File.Exists(oldFilePath)) File.Delete(oldFilePath);
             }
-
             return await UploadAvatarAsync(accountId, model);
         }
 
@@ -293,7 +292,5 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 await _avatarRepository.UpdateAvatarAsync(accountId, null);
             }
         }
-
-        
     }
 }

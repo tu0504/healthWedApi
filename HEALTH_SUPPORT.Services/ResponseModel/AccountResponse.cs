@@ -31,5 +31,10 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
         {
             public string AvatarUrl { get; set; }
         }
+
+        public class AvatarResponseModel
+        {
+            public string AvatarUrl { get; set; }
+        }
     }
 }
