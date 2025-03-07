@@ -51,9 +51,9 @@ namespace HEALTH_SUPPORT.API.Controllers
             {
                 return Unauthorized(new { message = "Email hoặc mật khẩu không đúng" });
             }
-            if (!_cache.TryGetValue($"OTP_Verified_{model.Email}", out bool isVerified) || !isVerified)
+            if (!loginResult.IsEmailVerified)
             {
-                return BadRequest(new { message = "Bạn cần xác thực OTP trước khi đăng nhập." });
+                return BadRequest(new { message = "Bạn cần xác thực email bằng OTP trước khi đăng nhập." });
             }
             var token = _accountService.GenerateJwtToken(loginResult);
 

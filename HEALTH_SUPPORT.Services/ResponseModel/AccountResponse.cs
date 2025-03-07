@@ -24,6 +24,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public Guid Id { get; set; }
             public string UserName { get; set; }
             public string RoleName { get; set; }
+            public bool IsEmailVerified { get; set; }
         }
     }
 }
