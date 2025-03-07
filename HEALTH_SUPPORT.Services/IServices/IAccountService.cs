@@ -18,7 +18,7 @@ namespace HEALTH_SUPPORT.Services.IServices
 
         Task<bool> UpdatePassword(AccountRequest.UpdatePasswordModel model);
         Task RemoveAccount(Guid id);
-
+        Task<bool> VerifyEmailAsync(string email);
         Task<AccountResponse.LoginResponseModel> ValidateLoginAsync(AccountRequest.LoginRequestModel model);
         string GenerateJwtToken(AccountResponse.LoginResponseModel account);
 
