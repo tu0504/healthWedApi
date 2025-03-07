@@ -4,6 +4,7 @@ using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace HEALTH_SUPPORT.API.Controllers
 {
@@ -13,11 +14,13 @@ namespace HEALTH_SUPPORT.API.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IEmailService _emailService;
+        private readonly IMemoryCache _cache;
 
-        public AccountController(IAccountService accountService, IEmailService emailService)
+        public AccountController(IAccountService accountService, IEmailService emailService, IMemoryCache cache)
         {
             _accountService = accountService;
             _emailService = emailService;
+            _cache = cache;
         }
 
         [HttpPost("Register")]
@@ -46,16 +49,15 @@ namespace HEALTH_SUPPORT.API.Controllers
             var loginResult = await _accountService.ValidateLoginAsync(model);
             if (loginResult == null)
             {
-                return Unauthorized(new { message = "Tài khoản hoặc mật khẩu không đúng" });
+                return Unauthorized(new { message = "Email hoặc mật khẩu không đúng" });
             }
-
+            if (!loginResult.IsEmailVerified)
+            {
+                return BadRequest(new { message = "Bạn cần xác thực email bằng OTP trước khi đăng nhập." });
+            }
             var token = _accountService.GenerateJwtToken(loginResult);
 
-            return Ok(new
-            {
-                accessToken = token,
-                user = loginResult
-            });
+            return Ok(new { accessToken = token });
         }
 
         [HttpGet(Name = "GetAccounts")]

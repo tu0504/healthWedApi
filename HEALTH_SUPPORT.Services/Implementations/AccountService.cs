@@ -183,19 +183,20 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 .Include(a => a.Role)
                 .FirstOrDefaultAsync(a => a.Email == model.Email && !a.IsDeleted);
 
-            if (account == null)
+            if (account == null || !BCrypt.Net.BCrypt.Verify(model.Password, account.PasswordHash))
                 return null;
 
-            // So sánh mật khẩu (trong thực tế nên sử dụng phương pháp băm mật khẩu)
-            if (account.PasswordHash != model.Password)
-                return null;
+
+            account.LoginDate = DateTimeOffset.UtcNow;
+            await _accountRepository.Update(account);
 
             // Trả về thông tin cần thiết qua DTO LoginResponseModel
             return new AccountResponse.LoginResponseModel
             {
                 Id = account.Id,
                 UserName = account.UseName,
-                RoleName = account.Role?.Name ?? "Unknown"
+                RoleName = account.Role?.Name ?? "Unknown",
+                IsEmailVerified = account.IsEmailVerified
             };
         }
 
@@ -226,6 +227,20 @@ namespace HEALTH_SUPPORT.Services.Implementations
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<bool> VerifyEmailAsync(string email)
+        {
+            var account = await _accountRepository.GetAll()
+                .Include(a => a.Role)
+                .FirstOrDefaultAsync(a => a.Email == email);
+            if (account == null) return false;
+
+            if (account.IsEmailVerified) return true;
+
+            account.IsEmailVerified = true;
+            await _accountRepository.Update(account);
+            return true;
         }
 
         public async Task<AccountResponse.AvatarResponseModel> UploadAvatarAsync(Guid accountId, AccountRequest.UploadAvatarModel model)
@@ -278,5 +293,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 await _avatarRepository.UpdateAvatarAsync(accountId, null);
             }
         }
+
+        
     }
 }
