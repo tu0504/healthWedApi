@@ -20,19 +20,22 @@ namespace HEALTH_SUPPORT.Services.Implementations
         private readonly IBaseRepository<Order, Guid> _orderRepository;
         private readonly IBaseRepository<SubscriptionProgress, Guid> _subscriptionProgressRepository;
         private readonly IBaseRepository<Psychologist, Guid> _psychologistRepository;
+        private readonly IBaseRepository<Account, Guid> _accountRepository;
 
         public SubscriptionService(
             IBaseRepository<SubscriptionData, Guid> subscriptionRepository,
             IBaseRepository<Category, Guid> categoryRepository,
             IBaseRepository<Order, Guid> orderRepository,
             IBaseRepository<SubscriptionProgress, Guid> subscriptionProgressRepository,
-            IBaseRepository<Psychologist, Guid> psychologistRepository)
+            IBaseRepository<Psychologist, Guid> psychologistRepository,
+            IBaseRepository<Account, Guid> accountRepository)
         {
             _subscriptionRepository = subscriptionRepository;
             _categoryRepository = categoryRepository;
             _orderRepository = orderRepository;
             _subscriptionProgressRepository = subscriptionProgressRepository;
             _psychologistRepository = psychologistRepository;
+            _accountRepository = accountRepository;
         }
 
         public async Task AddSubscription(SubscriptionRequest.CreateSubscriptionModel model)
@@ -157,96 +160,112 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
         }
 
-        public async Task RegisterSubscription(Guid accountId, SubscriptionRequest.RegisterSubscriptionModel model)
+        //Dùng để tạo order khi user đăng ký subscription
+        public async Task<OrderResponse.GetOrderDetailsModel?> CreateOrder(SubscriptionRequest.RegisterSubscriptionModel model)
         {
-            //var subscription = await _subscriptionRepository.GetById(model.SubscriptionId);
-            //if (subscription == null || subscription.IsDeleted)
-            //{
-            //    throw new Exception("Invalid Subscription ID");
-            //}
+            // Check if the subscription exists
+            var subscription = await _subscriptionRepository.GetById(model.SubscriptionId);
+            if (subscription == null || subscription.IsDeleted)
+            {
+                return null; // Subscription does not exist or is deleted
+            }
 
-            //var order = new Order()
-            //{
-            //    Id = Guid.NewGuid(),
-            //    SubscriptionDataId = model.SubscriptionId,
-            //    AccountId = accountId,
-            //    Quantity = model.Quantity,
-            //    CreateAt = DateTimeOffset.UtcNow,
-            //    IsActive = true
-            //};
+            // Check if the account exists
+            var account = await _accountRepository.GetById(model.AccountId);
+            if (account == null || account.IsDeleted)
+            {
+                return null; // Account does not exist or is deleted
+            }
 
-            //await _orderRepository.Add(order);
-            //await _orderRepository.SaveChangesAsync(); // Save order first to get the ID
+            // Create a new order
+            var newOrder = new Order
+            {
+                Id = Guid.NewGuid(),
+                SubscriptionDataId = model.SubscriptionId,
+                AccountId = model.AccountId,
+                Quantity = model.Quantity,
+                CreateAt = DateTimeOffset.UtcNow,
+                IsActive = true
+            };
 
-            //// Add Subscription Progress linked to Order
-            //var progress = new SubscriptionProgress()
-            //{
-            //    Id = Guid.NewGuid(),
-            //    OrderId = order.Id, // Now linked to Order instead of SubscriptionData
-            //    Description = "Subscription started",
-            //    StartDate = DateTimeOffset.UtcNow,
-            //    EndDate = null
-            //};
+            await _orderRepository.Add(newOrder);
+            await _orderRepository.SaveChangesAsync();
 
-            //await _subscriptionProgressRepository.Add(progress);
-            //await _subscriptionProgressRepository.SaveChangesAsync();
+            // Return order details
+            return await GetOrderDetails(newOrder.Id);
         }
-        public async Task<List<SubscriptionResponse.GetSubscriptionsModel>> GetUserSubscriptions(Guid accountId)
+
+        public async Task<Guid> CreateOrder(Guid subscriptionDataId, Guid accountId, int quantity)
         {
-            //return await _orderRepository.GetAll()
-            //    .Where(o => o.AccountId == accountId && o.IsActive)
-            //    .Include(o => o.SubscriptionData)
-            //    .Select(o => new SubscriptionResponse.GetSubscriptionsModel(
-            //        o.SubscriptionData.Id,
-            //        o.SubscriptionData.SubscriptionName,
-            //        o.SubscriptionData.Description,
-            //        o.SubscriptionData.Price,
-            //        o.SubscriptionData.Duration,
-            //        o.SubscriptionData.CategoryId,
-            //        o.SubscriptionData.Category.CategoryName,
-            //        null // Progress is not needed here
-            //    ))
-            //    .ToListAsync();
-            return await Task.FromResult(new List<SubscriptionResponse.GetSubscriptionsModel>());
+            var subscription = await _subscriptionRepository.GetById(subscriptionDataId);
+            var account = await _accountRepository.GetById(accountId);
+
+            if (subscription == null || account == null)
+            {
+                return Guid.Empty; // Subscription or Account does not exist
+            }
+
+            var newOrder = new Order
+            {
+                Id = Guid.NewGuid(),
+                SubscriptionDataId = subscriptionDataId,
+                AccountId = accountId,
+                Quantity = quantity,
+                CreateAt = DateTimeOffset.UtcNow,
+                IsActive = true
+            };
+
+            await _orderRepository.Add(newOrder);
+            await _orderRepository.SaveChangesAsync();
+
+            return newOrder.Id;
         }
-        //public async Task<List<SubscriptionProgress>> GetSubscriptionProgressByOrderId(Guid orderId)
-        //{
-        //    var order = await _orderRepository.GetById(orderId);
-        //    if (order == null)
-        //    {
-        //        throw new Exception("Order not found.");
-        //    }
 
-        //    return await _subscriptionProgressRepository.GetAll()
-        //        .Where(sp => sp.OrderId == orderId)
-        //        .OrderBy(sp => sp.StartDate)
-        //        .ToListAsync();
 
-        //}
-        public async Task CancelSubscription(Guid orderId)
+        //Để lấy thông tin chi tiết của order
+        public async Task<OrderResponse.GetOrderDetailsModel?> GetOrderDetails(Guid orderId)
         {
-            //var order = await _orderRepository.GetById(orderId);
-            //if (order == null || !order.IsActive)
-            //{
-            //    throw new Exception("Subscription not found or already canceled");
-            //}
+            var order = await _orderRepository.GetAll()
+                .Include(o => o.SubscriptionData)
+                .Include(o => o.Accounts)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
 
-            //order.IsActive = false;
-            //await _orderRepository.Update(order);
-            //await _orderRepository.SaveChangesAsync();
+            if (order == null || order.IsDeleted)
+            {
+                return null;
+            }
 
-            //// Add a final SubscriptionProgress entry indicating cancellation
-            //var progress = new SubscriptionProgress()
-            //{
-            //    Id = Guid.NewGuid(),
-            //    OrderId = orderId,
-            //    Description = "Subscription canceled",
-            //    StartDate = DateTimeOffset.UtcNow,
-            //    EndDate = DateTimeOffset.UtcNow
-            //};
-
-            //await _subscriptionProgressRepository.Add(progress);
-            //await _subscriptionProgressRepository.SaveChangesAsync();
+            return new OrderResponse.GetOrderDetailsModel(
+                order.Id,
+                order.SubscriptionData.SubscriptionName,
+                order.SubscriptionData.Description,
+                (float)order.SubscriptionData.Price,
+                order.Quantity,
+                order.Accounts.Fullname,
+                order.Accounts.Email,
+                order.CreateAt
+            );
         }
+        public async Task<OrderResponse.GetOrderDetailsModel?> ConfirmOrder(Guid orderId)
+        {
+            // Retrieve order
+            var order = await _orderRepository.GetById(orderId);
+            if (order == null || order.IsDeleted)
+            {
+                return null; // Order does not exist or was deleted
+            }
+
+            // Confirm the order
+            order.IsActive = true;
+            order.ModifiedAt = DateTimeOffset.UtcNow;
+
+            await _orderRepository.Update(order);
+            await _orderRepository.SaveChangesAsync();
+
+            // Return order details after confirmation
+            return await GetOrderDetails(orderId);
+        }
+
+
     }
 }
