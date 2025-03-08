@@ -79,48 +79,5 @@ namespace HEALTH_SUPPORT.API.Controllers
             return Ok(new { message = "Subscription deleted successfully" });
         }
 
-        [HttpPost(Name = "CreateOrder")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> CreateOrder(Guid subscriptionDataId, Guid accountId, int quantity)
-        {
-            if (subscriptionDataId == Guid.Empty || accountId == Guid.Empty || quantity <= 0)
-            {
-                return BadRequest(new { message = "Invalid order data. Please provide valid SubscriptionDataId, AccountId, and Quantity." });
-            }
-
-            var orderId = await _subscriptionService.CreateOrder(subscriptionDataId, accountId, quantity);
-
-            if (orderId == Guid.Empty)
-            {
-                return BadRequest(new { message = "Failed to create order. Please check the provided data." });
-            }
-
-            var orderDetails = await _subscriptionService.GetOrderDetails(orderId);
-
-            if (orderDetails == null)
-            {
-                return BadRequest(new { message = "Order created but details could not be retrieved." });
-            }
-
-            return CreatedAtRoute("GetOrderDetails", new { orderId = orderId }, new { message = "Order created successfully" });
-        }
-
-        [HttpGet("{orderId}", Name = "GetOrderDetails")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> GetOrderDetails(Guid orderId)
-        {
-            var result = await _subscriptionService.GetOrderDetails(orderId);
-
-            if (result == null)
-            {
-                return NotFound(new { message = "Order not found" });
-            }
-
-            return Ok(result);
-        }
-
-
     }
 }
