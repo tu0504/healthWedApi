@@ -195,31 +195,31 @@ namespace HEALTH_SUPPORT.Services.Implementations
             return await GetOrderDetails(newOrder.Id);
         }
 
-        public async Task<Guid> CreateOrder(Guid subscriptionDataId, Guid accountId, int quantity)
-        {
-            var subscription = await _subscriptionRepository.GetById(subscriptionDataId);
-            var account = await _accountRepository.GetById(accountId);
+        //public async Task<Guid> CreateOrder(Guid subscriptionDataId, Guid accountId, int quantity)
+        //{
+        //    var subscription = await _subscriptionRepository.GetById(subscriptionDataId);
+        //    var account = await _accountRepository.GetById(accountId);
 
-            if (subscription == null || account == null)
-            {
-                return Guid.Empty; // Subscription or Account does not exist
-            }
+        //    if (subscription == null || account == null)
+        //    {
+        //        return Guid.Empty; // Subscription or Account does not exist
+        //    }
 
-            var newOrder = new Order
-            {
-                Id = Guid.NewGuid(),
-                SubscriptionDataId = subscriptionDataId,
-                AccountId = accountId,
-                Quantity = quantity,
-                CreateAt = DateTimeOffset.UtcNow,
-                IsActive = true
-            };
+        //    var newOrder = new Order
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        SubscriptionDataId = subscriptionDataId,
+        //        AccountId = accountId,
+        //        Quantity = quantity,
+        //        CreateAt = DateTimeOffset.UtcNow,
+        //        IsActive = true
+        //    };
 
-            await _orderRepository.Add(newOrder);
-            await _orderRepository.SaveChangesAsync();
+        //    await _orderRepository.Add(newOrder);
+        //    await _orderRepository.SaveChangesAsync();
 
-            return newOrder.Id;
-        }
+        //    return newOrder.Id;
+        //}
 
 
         //Để lấy thông tin chi tiết của order
@@ -246,25 +246,25 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 order.CreateAt
             );
         }
-        public async Task<OrderResponse.GetOrderDetailsModel?> ConfirmOrder(Guid orderId)
-        {
-            // Retrieve order
-            var order = await _orderRepository.GetById(orderId);
-            if (order == null || order.IsDeleted)
-            {
-                return null; // Order does not exist or was deleted
-            }
+        //public async Task<OrderResponse.GetOrderDetailsModel?> ConfirmOrder(Guid orderId)
+        //{
+        //    // Retrieve order
+        //    var order = await _orderRepository.GetById(orderId);
+        //    if (order == null || order.IsDeleted)
+        //    {
+        //        return null; // Order does not exist or was deleted
+        //    }
 
-            // Confirm the order
-            order.IsActive = true;
-            order.ModifiedAt = DateTimeOffset.UtcNow;
+        //    // Confirm the order
+        //    order.IsActive = true;
+        //    order.ModifiedAt = DateTimeOffset.UtcNow;
 
-            await _orderRepository.Update(order);
-            await _orderRepository.SaveChangesAsync();
+        //    await _orderRepository.Update(order);
+        //    await _orderRepository.SaveChangesAsync();
 
-            // Return order details after confirmation
-            return await GetOrderDetails(orderId);
-        }
+        //    // Return order details after confirmation
+        //    return await GetOrderDetails(orderId);
+        //}
 
 
     }
