@@ -101,7 +101,7 @@ namespace HEALTH_SUPPORT.Repositories
             modelBuilder.Entity<SurveyQuestion>().HasMany(s => s.SurveyAnswers).WithOne(a => a.SurveyQuestion).HasForeignKey(s => s.QuestionId).OnDelete(DeleteBehavior.Restrict);
 
             //SurveyType-Survey(1-m)
-            modelBuilder.Entity<SurveyType>().HasMany(s => s.Surveys).WithOne(a => a.SurveyType).HasForeignKey(s => s.SurveyTpyeId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SurveyType>().HasMany(s => s.Surveys).WithOne(a => a.SurveyType).HasForeignKey(s => s.SurveyTypeId).OnDelete(DeleteBehavior.Restrict);
 
             //SurveyType-SurveyQuestion(1-m)
             modelBuilder.Entity<SurveyType>().HasMany(s => s.SurveyQuestions).WithOne(a => a.SurveyType).HasForeignKey(s => s.SurveyTypeId).OnDelete(DeleteBehavior.Restrict);
