@@ -29,12 +29,13 @@ namespace HEALTH_SUPPORT.Services.Implementations
         private readonly IHostEnvironment _environment;
         private readonly IAvatarRepository _avatarRepository;
 
-        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration, IHostEnvironment environment)
+        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration, IHostEnvironment environment, IAvatarRepository avatarRepository)
         {
             _accountRepository = accountRepository;
             _roleRepository = roleRepository;
             _configuration = configuration;
             _environment = environment;
+            _avatarRepository = avatarRepository;
         }
 
         public async Task AddAccount(AccountRequest.CreateAccountModel model)
@@ -96,7 +97,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 account.Phone,
                 account.Address,
                 account.PasswordHash,
-                account.Role?.Name ?? "Unknown"
+                account.Role?.Name ?? "Unknown",
+                account.ImgUrl
             );
         }
 
@@ -113,7 +115,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     a.Phone,
                     a.Address,
                     a.PasswordHash,
-                    a.Role.Name
+                    a.Role.Name,
+                    a.ImgUrl
                 ))
                 .ToListAsync();
         }
