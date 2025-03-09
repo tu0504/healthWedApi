@@ -11,7 +11,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
 {
     public class AccountSurveyRequest
     {
-        public class CreateAccountSurveyModel
+        public class CreateAccountSurvey
         {
             public Guid SurveyId { get; set; }
             public Guid AccountId { get; set; }
