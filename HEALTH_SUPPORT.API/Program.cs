@@ -77,12 +77,14 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
 
 
-            // Register IAccountService and AccountService
+            // Register IService and Service
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IAvatarRepository, AvatarRepository>();
-            // Register ISubscriptionService and SubscriptionService
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
-
+            builder.Services.AddScoped<ISurveyService, SurveyService>();
+            builder.Services.AddScoped<ISurveyTypeService, SurveyTypeService>();
+            builder.Services.AddScoped<ISurveyQuestionService, SurveyQuestionService>();
+            builder.Services.AddScoped<ISurveyAnswerService, SurveyAnswerService>();
 
             var app = builder.Build();
 

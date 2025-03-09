@@ -15,7 +15,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
         [Required]
-        public Guid SurveyTpyeId { get; set; }
+        public Guid SurveyTypeId { get; set; }
         [ForeignKey("SurveyTypeId")]
         public SurveyType SurveyType { get; set; }
         public ICollection<SurveyQuestion> SurveyQuestions { get; set; }
