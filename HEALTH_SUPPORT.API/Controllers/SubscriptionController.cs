@@ -36,13 +36,13 @@ namespace HEALTH_SUPPORT.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost(Name = "CreateSubscription")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult> CreateSubscription([FromBody] SubscriptionRequest.CreateSubscriptionModel model)
-        {
-            await _subscriptionService.AddSubscription(model);
-            return CreatedAtRoute("GetSubscriptionById", new { subscriptionId = /* newly created id */ Guid.NewGuid() }, new { message = "Subscription created successfully" });
-        }
+        //[HttpPost(Name = "CreateSubscription")]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //public async Task<ActionResult> CreateSubscription([FromBody] SubscriptionRequest.CreateSubscriptionModel model)
+        //{
+        //    await _subscriptionService.AddSubscription(model);
+        //    return CreatedAtRoute("GetSubscriptionById", new { subscriptionId = /* newly created id */ Guid.NewGuid() }, new { message = "Subscription created successfully" });
+        //}
 
         [HttpPut("{subscriptionId}", Name = "UpdateSubscription")]
         [ProducesResponseType(StatusCodes.Status200OK)]

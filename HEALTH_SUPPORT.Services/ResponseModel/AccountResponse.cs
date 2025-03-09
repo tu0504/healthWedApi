@@ -16,7 +16,8 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             string Phone, 
             string Address,
             string PasswordHash,
-            string RoleName
+            string RoleName,
+            string ImgUrl
         );
 
         public class LoginResponseModel
