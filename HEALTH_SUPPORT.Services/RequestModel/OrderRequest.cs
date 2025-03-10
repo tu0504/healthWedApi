@@ -11,7 +11,10 @@ namespace HEALTH_SUPPORT.Services.RequestModel
     {
         public class CreateOrderModel
         {
+            [Required(ErrorMessage = "SubscriptionId is required.")]
             public Guid SubscriptionId { get; set; }
+
+            [Required(ErrorMessage = "AccountId is required.")]
             public Guid AccountId { get; set; }
 
             [Required]
