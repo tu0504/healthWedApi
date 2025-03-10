@@ -17,25 +17,16 @@ namespace HEALTH_SUPPORT.Services.Implementations
     {
         private readonly IBaseRepository<SubscriptionData, Guid> _subscriptionRepository;
         private readonly IBaseRepository<Category, Guid> _categoryRepository;
-        private readonly IBaseRepository<Order, Guid> _orderRepository;
-        private readonly IBaseRepository<SubscriptionProgress, Guid> _subscriptionProgressRepository;
         private readonly IBaseRepository<Psychologist, Guid> _psychologistRepository;
-        private readonly IBaseRepository<Account, Guid> _accountRepository;
 
         public SubscriptionService(
             IBaseRepository<SubscriptionData, Guid> subscriptionRepository,
             IBaseRepository<Category, Guid> categoryRepository,
-            IBaseRepository<Order, Guid> orderRepository,
-            IBaseRepository<SubscriptionProgress, Guid> subscriptionProgressRepository,
-            IBaseRepository<Psychologist, Guid> psychologistRepository,
-            IBaseRepository<Account, Guid> accountRepository)
+            IBaseRepository<Psychologist, Guid> psychologistRepository)
         {
             _subscriptionRepository = subscriptionRepository;
             _categoryRepository = categoryRepository;
-            _orderRepository = orderRepository;
-            _subscriptionProgressRepository = subscriptionProgressRepository;
             _psychologistRepository = psychologistRepository;
-            _accountRepository = accountRepository;
         }
 
         public async Task AddSubscription(SubscriptionRequest.CreateSubscriptionModel model)
