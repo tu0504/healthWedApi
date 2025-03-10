@@ -11,7 +11,7 @@ namespace HEALTH_SUPPORT.Services.IServices
     public interface IOrderService
     {
         Task CreateOrder(OrderRequest.CreateOrderModel model);
-
         Task<OrderResponse.GetOrderDetailsModel?> GetOrderDetails(Guid orderId);
+        Task<List<OrderResponse.GetOrderDetailsModel>> GetOrders();
     }
 }

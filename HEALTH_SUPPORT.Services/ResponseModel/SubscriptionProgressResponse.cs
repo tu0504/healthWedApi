@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Services.ResponseModel
 {
-    public static class OrderResponse
+    public static class SubscriptionProgressResponse
     {
-        public record GetOrderDetailsModel(
+        public record GetSubscriptionProgressModel(
             Guid Id,
+            string Username,
             string SubscriptionName,
             string Description,
             float Price,
-            int Quantity,
-            string AccountName,
-            string AccountEmail,
-            DateTimeOffset CreateAt,
-            string IsActive
+            DateTimeOffset StartDate,
+            DateTimeOffset? EndDate
         );
     }
 }
