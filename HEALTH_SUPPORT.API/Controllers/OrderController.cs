@@ -1,4 +1,5 @@
-﻿using HEALTH_SUPPORT.Services.IServices;
+﻿using HEALTH_SUPPORT.Services.Implementations;
+using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,5 +43,12 @@ namespace HEALTH_SUPPORT.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet(Name = "GetOrder")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetOrders()
+        {
+            var result = await _orderService.GetOrders();
+            return Ok(result);
+        }
     }
 }

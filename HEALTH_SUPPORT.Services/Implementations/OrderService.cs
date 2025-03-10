@@ -71,14 +71,35 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
 
             return new OrderResponse.GetOrderDetailsModel(
+                order.Id,
                 order.SubscriptionData.SubscriptionName,
                 order.SubscriptionData.Description,
                 (float)order.SubscriptionData.Price,
                 order.Quantity,
                 order.Accounts.Fullname,
                 order.Accounts.Email,
-                order.CreateAt
+                order.CreateAt,
+                order.IsActive ? "Active" : "Not Active"
             );
+        }
+
+        public async Task<List<OrderResponse.GetOrderDetailsModel>> GetOrders()
+        {
+            return await _orderRepository.GetAll()
+            .Where(o => !o.IsDeleted) // Exclude deleted subscriptions
+            .AsNoTracking()
+            .Select(o => new OrderResponse.GetOrderDetailsModel(
+                o.Id,
+                o.SubscriptionData.SubscriptionName,
+                o.SubscriptionData.Description,
+                (float)o.SubscriptionData.Price,
+                o.Quantity,
+                o.Accounts.Fullname,
+                o.Accounts.Email,
+                o.CreateAt,
+                o.IsActive ? "Active" : "Not Active"
+            ))
+            .ToListAsync();
         }
     }
 }
