@@ -9,7 +9,6 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
     public static class OrderResponse
     {
         public record GetOrderDetailsModel(
-            Guid Id,
             string SubscriptionName,
             string Description,
             float Price,

@@ -71,7 +71,6 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
 
             return new OrderResponse.GetOrderDetailsModel(
-                order.Id,
                 order.SubscriptionData.SubscriptionName,
                 order.SubscriptionData.Description,
                 (float)order.SubscriptionData.Price,
