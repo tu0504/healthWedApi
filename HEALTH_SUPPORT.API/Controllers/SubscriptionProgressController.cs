@@ -38,5 +38,13 @@ namespace HEALTH_SUPPORT.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet(Name = "GetSubscriptionProgress")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetSubscriptionProgress()
+        {
+            var result = await _subscriptionProgressService.GetAllSubscriptionProgress();
+            return Ok(result);
+        }
     }
 }
