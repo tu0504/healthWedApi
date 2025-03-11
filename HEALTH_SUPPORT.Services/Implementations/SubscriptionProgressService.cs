@@ -74,5 +74,22 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 subscriptionProgress.EndDate
             );
         }
+        public async Task<List<SubscriptionProgressResponse.GetSubscriptionProgressModel>> GetAllSubscriptionProgress()
+        {
+            return await _progressRepository.GetAll()
+                .Where(sp => !sp.IsDeleted) // Exclude deleted progress records
+                .AsNoTracking()
+                .Select(sp => new SubscriptionProgressResponse.GetSubscriptionProgressModel(
+                    sp.Id,
+                    sp.Order.Accounts.UseName,
+                    sp.Order.SubscriptionData.SubscriptionName,
+                    sp.Order.SubscriptionData.Description,
+                    (float)sp.Order.SubscriptionData.Price,
+                    sp.StartDate,
+                    sp.EndDate
+                ))
+                .ToListAsync();
+        }
+
     }
 }
