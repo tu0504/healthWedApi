@@ -30,6 +30,10 @@ namespace HEALTH_SUPPORT.Services.RequestModel
 
             [Required(ErrorMessage = "Thiếu tên chuyên gia!")]
             public string PsychologistName { get; set; }
+            public string Purpose { get; set; }
+            public string Criteria { get; set; }
+            public string FocusGroup { get; set; }
+            public string AssessmentTool { get; set; }
         }
         public class UpdateSubscriptionModel
         {

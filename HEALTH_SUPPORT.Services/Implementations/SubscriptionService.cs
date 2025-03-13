@@ -59,6 +59,10 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Duration = model.Duration,
                     CategoryId = category.Id,
                     PsychologistId = psychologist.Id,
+                    Purpose = model.Purpose,
+                    Criteria = model.Criteria,
+                    FocusGroup = model.FocusGroup,
+                    AssessmentTool = model.AssessmentTool,
                     CreateAt = DateTimeOffset.UtcNow
                 };
                 await _subscriptionRepository.Add(subscription);
@@ -87,7 +91,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 (float)subscription.Price,
                 subscription.Duration,
                 subscription.Category?.CategoryName ?? "Unknown",
-                subscription.Psychologists?.Name ?? "Unknown"
+                subscription.Psychologists?.Name ?? "Unknown",
+                subscription.Purpose,
+                subscription.Criteria,
+                subscription.FocusGroup,
+                subscription.AssessmentTool
             );
         }
 
@@ -103,7 +111,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 (float)s.Price,
                 s.Duration,
                 s.Category != null ? s.Category.CategoryName : "Unknown",
-                s.Psychologists != null ? s.Psychologists.Name : "Unknown"
+                s.Psychologists != null ? s.Psychologists.Name : "Unknown",
+                s.Purpose,
+                s.Criteria,
+                s.FocusGroup,
+                s.AssessmentTool
             ))
             .ToListAsync();
         }
