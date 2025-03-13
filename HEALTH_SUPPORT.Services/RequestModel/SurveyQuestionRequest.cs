@@ -13,8 +13,11 @@ namespace HEALTH_SUPPORT.Services.RequestModel
         public class CreateSurveyQuestionRequest
         {
             public string ContentQ { get; set; }
+<<<<<<< HEAD
+=======
             public string Options { get; set; }
             public bool Validity { get; set; }
+>>>>>>> develop
             public List<SurveyAnswerRequest.CreateSurveyAnswerRequest> AnswersList { get; set; }
         }
         public class UpdateSurveyQuestionRequest

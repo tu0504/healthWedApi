@@ -84,6 +84,261 @@ namespace HEALTH_SUPPORT.Repositories
             );
             modelBuilder.Entity<Account>().HasIndex(a => a.UseName).IsUnique();
 
+            modelBuilder.Entity<SurveyType>().HasData(
+                new SurveyType { Id = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8"), SurveyName = "Đánh giá lo âu (GAD-7)" },
+                new SurveyType { Id = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e"), SurveyName = "Đánh giá trầm cảm (PHQ-9)" }
+            );
+
+            modelBuilder.Entity<Survey>().HasData(
+                new Survey
+                {
+                    Id = Guid.Parse("418be23d-8db9-4b74-a86a-9402f246ea62"),
+                    MaxScore = 21,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8")
+                },
+                new Survey
+                {
+                    Id = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7"),
+                    MaxScore = 27,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e")
+                }
+            );
+
+            modelBuilder.Entity<SurveyQuestion>().HasData(
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("07cb8575-7b7d-4784-a6b2-9cc1543f0267"),
+                    ContentQ = "Cảm thấy lo lắng, căng thẳng, hoặc bồn chồn.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("798b80ac-f766-4baf-aa01-dbebca21f98b"),
+                    ContentQ = "Không thể dừng hoặc kiểm soát sự lo lắng.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("0998c44c-7a8d-41fd-8b3e-05d775ce4b27"),
+                    ContentQ = "Lo lắng quá nhiều về những điều khác nhau.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("7b1cc80a-8c8f-4695-99eb-271c46b9c766"),
+                    ContentQ = "Khó thư giãn.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("a1ce2d59-88d4-463d-8af2-f472b5771746"),
+                    ContentQ = "Bồn chồn đến mức khó ngồi yên.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("a9ffedd5-3f8e-4d98-b230-ae2491045f0d"),
+                    ContentQ = "Dễ cáu gắt hoặc bực mình.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("4f4736e4-ecbe-4bdc-a9cf-cac7db918aae"),
+                    ContentQ = "Cảm giác như có điều gì đó khủng khiếp sẽ xảy ra.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("59d5f97c-11b1-40d3-a69c-6c3700ff2c7d"),
+                    ContentQ = "Ít hứng thú hoặc niềm vui khi làm mọi việc.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("37a557b5-c10a-4062-b7e5-0b2f4e02636e"),
+                    ContentQ = "Cảm thấy buồn, chán nản, hoặc tuyệt vọng.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("416fcdf0-e6e6-4e76-9e3a-cb80b9a57a49"),
+                    ContentQ = "Khó ngủ hoặc ngủ quá nhiều.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("a36264c0-9ad8-4205-811b-a867d2c7966d"),
+                    ContentQ = "Mệt mỏi hoặc thiếu năng lượng.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("fdce1e6a-d8dc-4ddc-bd63-9f9acf666467"),
+                    ContentQ = "Chán ăn hoặc ăn quá nhiều.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("0ff7226b-02f5-45dd-b3a6-f3bb2c804c5d"),
+                    ContentQ = "Cảm giác tệ về bản thân, hoặc cảm thấy mình là người thất bại.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("8f0a5958-04ad-403a-bbad-ea476f5c2cc5"),
+                    ContentQ = "Khó tập trung vào công việc hoặc khi đọc báo/xem TV.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("3f0dce08-ebbd-4872-b9dc-d3de0b66279f"),
+                    ContentQ = "Cử động hoặc nói chậm hơn bình thường, hoặc ngược lại quá bồn chồn.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e")
+                },
+                new SurveyQuestion
+                {
+                    Id = Guid.Parse("41ecf897-7bfa-4892-abb8-eee9aacc7eb5"),
+                    ContentQ = "Suy nghĩ về việc tự làm hại bản thân hoặc muốn chết.",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyTypeId = Guid.Parse("b24fc1c5-ff98-4767-adb6-56b57f91b22e")
+                }
+            );
+
+            modelBuilder.Entity<SurveyAnswer>().HasData(
+                new SurveyAnswer
+                {
+                    Id = Guid.Parse("28dee921-db63-45c3-87a3-bdf0a263370d"),
+                    Content = "Không hề",
+                    Point = 0,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SurveyAnswer
+                {
+                    Id = Guid.Parse("66d927b9-e3c2-47f3-8aa9-82260d1579cd"),
+                    Content = "Vài ngày",
+                    Point = 1,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SurveyAnswer
+                {
+                    Id = Guid.Parse("91c14006-832a-41dd-8d03-e7950cf54347"),
+                    Content = "Hơn một nửa số ngày",
+                    Point = 2,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SurveyAnswer
+                {
+                    Id = Guid.Parse("f7095907-611f-4ed9-b622-5df984f48175"),
+                    Content = "Gần như mỗi ngày",
+                    Point = 3,
+                    CreateAt = DateTimeOffset.UtcNow
+                }
+            );
+
+            modelBuilder.Entity<SurveyResults>().HasData(
+                new SurveyResults
+                {
+                    Id = Guid.Parse("e43de268-c18c-43f7-a219-b4f072d3043e"),
+                    MinScore = 0,
+                    MaxScore = 4,
+                    ResultDescription = "Không hoặc rất nhẹ",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("418be23d-8db9-4b74-a86a-9402f246ea62")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("b0e3f7a4-47b3-470c-9612-f7030c9452ac"),
+                    MinScore = 5,
+                    MaxScore = 9,
+                    ResultDescription = "Nhẹ",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("418be23d-8db9-4b74-a86a-9402f246ea62")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("c7986ab8-672b-4bb2-ba0f-791224a29100"),
+                    MinScore = 10,
+                    MaxScore = 14,
+                    ResultDescription = "Vừa",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("418be23d-8db9-4b74-a86a-9402f246ea62")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("2d903f3f-dbd1-4266-b486-5a6ea11dd90d"),
+                    MinScore = 15,
+                    MaxScore = 21,
+                    ResultDescription = "Nặng",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("418be23d-8db9-4b74-a86a-9402f246ea62")
+                },
+
+
+                new SurveyResults
+                {
+                    Id = Guid.Parse("d9156493-2f6a-47fc-9fb9-4af265e3b182"),
+                    MinScore = 0,
+                    MaxScore = 4,
+                    ResultDescription = "Không hoặc rất nhẹ",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("4de4b9bf-0750-4960-b8b8-37e72d254d1e"),
+                    MinScore = 5,
+                    MaxScore = 9,
+                    ResultDescription = "Nhẹ",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("8e8b719f-0e0b-4dff-9188-c95e9d11ad0c"),
+                    MinScore = 10,
+                    MaxScore = 14,
+                    ResultDescription = "Vừa",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("5faf9d3c-2713-411f-992e-a61aeb6207f9"),
+                    MinScore = 15,
+                    MaxScore = 19,
+                    ResultDescription = "Nặng",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("f2b2b3b4-1b3b-4b3b-8b3b-9b3b3b3b3b3b"),
+                    MinScore = 20,
+                    MaxScore = 27,
+                    ResultDescription = "Rất nặng",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7")
+                }
+
+            );
+
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Account>().HasMany(s => s.AccountSurveys).WithOne(a => a.Account).HasForeignKey(s => s.AccountId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Survey>().HasMany(s => s.AccountSurveys).WithOne(a => a.Survey).HasForeignKey(s => s.SurveyId).OnDelete(DeleteBehavior.Restrict);
@@ -91,14 +346,11 @@ namespace HEALTH_SUPPORT.Repositories
             //Survey-SurveyResults(1-m)
             modelBuilder.Entity<Survey>().HasMany(s => s.SurveyResults).WithOne(a => a.Survey).HasForeignKey(s => s.SurveyId).OnDelete(DeleteBehavior.Restrict);
 
-            //SurveyResults-AccountSurvey(m-1)
-            modelBuilder.Entity<AccountSurvey>().HasMany(s => s.SurveyResults).WithOne(a => a.AccountSurvey).HasForeignKey(s => s.AccountSurveyId).OnDelete(DeleteBehavior.Restrict);
+            //Survey-SurveyQuestion(m-m)
+            modelBuilder.Entity<Survey>().HasMany(s => s.SurveyQuestions).WithMany(a => a.Surveys).UsingEntity(j => j.ToTable("SurveyQuestionSurvey"));
 
-            //Survey-SurveyQuestion(1-m)
-            modelBuilder.Entity<Survey>().HasMany(s => s.SurveyQuestions).WithOne(a => a.Survey).HasForeignKey(s => s.SurveyId).OnDelete(DeleteBehavior.Restrict);
-
-            //SurveyQuestion-SurveyAnswer(1-m)
-            modelBuilder.Entity<SurveyQuestion>().HasMany(s => s.SurveyAnswers).WithOne(a => a.SurveyQuestion).HasForeignKey(s => s.QuestionId).OnDelete(DeleteBehavior.Restrict);
+            //SurveyQuestion-SurveyAnswer(m-m)
+            modelBuilder.Entity<SurveyQuestion>().HasMany(q => q.SurveyAnswers).WithMany(a => a.SurveyQuestions).UsingEntity(j => j.ToTable("SurveyQuestionAnswer"));
 
             //SurveyType-Survey(1-m)
             modelBuilder.Entity<SurveyType>().HasMany(s => s.Surveys).WithOne(a => a.SurveyType).HasForeignKey(s => s.SurveyTypeId).OnDelete(DeleteBehavior.Restrict);

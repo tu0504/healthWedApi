@@ -31,8 +31,12 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 {
                     Content = item.Content,
                     CreateAt = DateTime.Now,
+<<<<<<< HEAD
+                    Point = item.Point
+=======
                     Point = item.Point,
                     QuestionId = item.QuestionId
+>>>>>>> develop
                 };
                 await _surveyAnswerRepository.Add(answer);
             }
@@ -42,7 +46,27 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<SurveyAnswerResponse.GetSurveyAnswerModel?> GetSurveyAnswerById(Guid id)
         {
             var surveyAnswer = await _surveyAnswerRepository.GetById(id);
+<<<<<<< HEAD
+            if(surveyAnswer is null || surveyAnswer.IsDeleted)
+            {
+                throw new Exception("Không tìm thấy câu trả lời.");
+            }
+            return new SurveyAnswerResponse.GetSurveyAnswerModel
+            {
+                Id = id,
+                Content = surveyAnswer.Content,
+                IsDelete = surveyAnswer.IsDeleted,
+                Point = surveyAnswer.Point
+            };
+        }
+
+        public async Task<SurveyAnswerResponse.GetSurveyAnswerModel?> GetByIdDeleted(Guid id)
+        {
+            var surveyAnswer = await _surveyAnswerRepository.GetById(id);
+            if (surveyAnswer is null)
+=======
             if(surveyAnswer is null)
+>>>>>>> develop
             {
                 throw new Exception("Không tìm thấy câu trả lời.");
             }
@@ -57,6 +81,17 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task<List<SurveyAnswerResponse.GetSurveyAnswerModel?>> GetSurveyAnswerForQuestion(List<Guid> questionIds)
         {
+<<<<<<< HEAD
+            var answerList = await _surveyAnswerRepository.GetAll()
+                .Where(s => s.SurveyQuestions.Any(q => questionIds.Contains(q.Id)))
+                .Select(s => new SurveyAnswerResponse.GetSurveyAnswerModel
+                {
+                    QuestionId = s.SurveyQuestions.FirstOrDefault().Id,
+                    Id = s.Id,
+                    IsDelete = s.IsDeleted,
+                    Point = s.Point
+                }).ToListAsync();
+=======
             var answerList = await _surveyAnswerRepository.GetAll().Where(s => questionIds.Contains(s.QuestionId)).Select(s => new SurveyAnswerResponse.GetSurveyAnswerModel
             {
                 QuestionId = s.QuestionId,
@@ -65,6 +100,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 IsDelete= s.IsDeleted,
                 Point = s.Point
             }).ToListAsync();
+>>>>>>> develop
             return answerList;
         }
 
@@ -76,7 +112,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task RemoveSurveyAnswer(Guid id)
         {
             var surveyAnswer = await _surveyAnswerRepository.GetById(id);
+<<<<<<< HEAD
+            if (surveyAnswer is null || surveyAnswer.IsDeleted)
+=======
             if (surveyAnswer is null)
+>>>>>>> develop
             {
                 throw new Exception("Không tìm thấy câu trả lời.");
             }

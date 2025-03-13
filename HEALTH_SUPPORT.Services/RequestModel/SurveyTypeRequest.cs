@@ -19,6 +19,10 @@ namespace HEALTH_SUPPORT.Services.RequestModel
         {
             [Required(ErrorMessage = "Tên khảo sát không được bỏ trống")]
             public string SurveyName { get; set; }
+<<<<<<< HEAD
+            public bool? IsDelete { get; set; }
+=======
+>>>>>>> develop
         }
     }
 }

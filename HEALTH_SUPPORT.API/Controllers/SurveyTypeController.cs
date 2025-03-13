@@ -55,7 +55,11 @@ namespace HEALTH_SUPPORT.API.Controllers
                 return BadRequest(new { message = "Invalid update data" });
             }
             // check survey type exist
+<<<<<<< HEAD
+            var exstingSurveyType=await _surveyTypeService.GetByIdDeleted(surveyTypeId);
+=======
             var exstingSurveyType=await _surveyTypeService.GetSurveyTypeById(surveyTypeId);
+>>>>>>> develop
             if (exstingSurveyType == null)
             {
                 return NotFound(new { message = "Survey Type not found" });

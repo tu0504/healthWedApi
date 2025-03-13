@@ -16,8 +16,12 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             int Quantity,
             string AccountName,
             string AccountEmail,
+<<<<<<< HEAD
+            DateTimeOffset CreateAt
+=======
             DateTimeOffset CreateAt,
             string IsActive
+>>>>>>> develop
         );
     }
 }

@@ -13,13 +13,19 @@ namespace HEALTH_SUPPORT.Services.RequestModel
         {
             public string Content { get; set; }
             public int Point { get; set; }
+<<<<<<< HEAD
+=======
             public Guid QuestionId { get; set; }
+>>>>>>> develop
         }
         public class UpdateSurveyAnswerRequest
         {
             public string Content { get; set; }
             public int Point { get; set; }
+<<<<<<< HEAD
+=======
             public Guid QuestionId { get; set; }
+>>>>>>> develop
             public bool? IsDelete { get; set; }
         }
     }

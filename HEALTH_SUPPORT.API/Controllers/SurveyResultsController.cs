@@ -18,11 +18,19 @@ namespace HEALTH_SUPPORT.API.Controllers
             _surveyResultsService = SurveyResultsService;
         }
 
+<<<<<<< HEAD
+        [HttpGet(Name = "GetSurveyResultss")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetSurveyResults()
+        {
+            var result = await _surveyResultsService.GetSurveyResults();
+=======
         [HttpGet("{accountId}", Name = "GetSurveyResultss")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetSurveyResults(Guid accountId)
         {
             var result = await _surveyResultsService.GetSurveyResults(accountId);
+>>>>>>> develop
             return Ok(result);
         }
 
@@ -31,10 +39,17 @@ namespace HEALTH_SUPPORT.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetSurveyResultsById(Guid surveyID)
         {
+<<<<<<< HEAD
+            var result = await _surveyResultsService.GetByIdDeleted(surveyID);
+            if (result == null)
+            {
+                return NotFound(new { message = "Không tìm thấy kết quả khảo sát." });
+=======
             var result = await _surveyResultsService.GetSurveyResultById(surveyID);
             if (result == null)
             {
                 return NotFound(new { message = "SurveyResults Not Found" });
+>>>>>>> develop
             }
             return Ok(result);
         }
@@ -75,7 +90,11 @@ namespace HEALTH_SUPPORT.API.Controllers
             var exstingSurveyResults = await _surveyResultsService.GetSurveyResultById(SurveyResultsId);
             if (exstingSurveyResults == null)
             {
+<<<<<<< HEAD
+                return NotFound(new { message = "Không tìm thấy kết quả khảo sát." });
+=======
                 return NotFound(new { message = "SurveyResults Not Found" });
+>>>>>>> develop
             }
             await _surveyResultsService.RemoveSurveyResult(SurveyResultsId);
             return Ok(new { message = "Delete SurveyResults Successfully" });

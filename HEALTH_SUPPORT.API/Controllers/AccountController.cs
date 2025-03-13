@@ -92,7 +92,7 @@ namespace HEALTH_SUPPORT.API.Controllers
                 return BadRequest(new { message = "Invalid update data" });
             }
 
-            var existingAccount = await _accountService.GetAccountById(accountId);
+            var existingAccount = await _accountService.GetByIdDetele(accountId);
             if (existingAccount == null)
             {
                 return NotFound(new { message = "Account not found" });

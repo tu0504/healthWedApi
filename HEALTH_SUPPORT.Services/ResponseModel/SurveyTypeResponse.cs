@@ -13,8 +13,13 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
          
             public Guid Id { get; set; }
             public string SurveyName { get; set; }
+<<<<<<< HEAD
+            public bool IsDelete { get; set; }
+
+=======
 
             
+>>>>>>> develop
         }
     }
 }

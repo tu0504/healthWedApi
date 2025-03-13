@@ -12,6 +12,10 @@ namespace HEALTH_SUPPORT.Services.IServices
     {
         Task<List<SurveyResponse.GetSurveyModel>> GetSurveys();
         Task<SurveyResponse.GetSurveyDetailsModel?> GetSurveyById(Guid id);
+<<<<<<< HEAD
+        Task<SurveyResponse.GetSurveyDetailsModel?> GetByIdDelete(Guid id);
+=======
+>>>>>>> develop
         Task AddSurvey(string userID, SurveyRequest.CreateSurveyRequest model);
         Task UpdateSurvey(Guid id, SurveyRequest.UpdateSurveyRequest model);
         Task RemoveSurvey(Guid id);

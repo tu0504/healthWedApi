@@ -43,9 +43,15 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<SurveyTypeResponse.GetSurveyTypeModel?> GetSurveyTypeById(Guid id)
         {
             var surveyType = await _surveyTypeRepository.GetById(id);
+<<<<<<< HEAD
+            if (surveyType is null || surveyType.IsDeleted)
+            {
+                return null;
+=======
             if (surveyType is null)
             {
                 throw new Exception("Not exist survey type!");
+>>>>>>> develop
             }
             return new SurveyTypeResponse.GetSurveyTypeModel
             {
@@ -71,9 +77,15 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task RemoveSurveyType(Guid id)
         {
             var surveyType = await _surveyTypeRepository.GetById(id);
+<<<<<<< HEAD
+            if (surveyType is null || surveyType.IsDeleted)
+            {
+                return;
+=======
             if (surveyType is null)
             {
                 throw new Exception("Not exist survey type!");
+>>>>>>> develop
             }
             surveyType.IsDeleted = true;
             await _surveyTypeRepository.Update(surveyType);
@@ -85,11 +97,34 @@ namespace HEALTH_SUPPORT.Services.Implementations
             var surveyType = await _surveyTypeRepository.GetById(id);
             if (surveyType is null)
             {
+<<<<<<< HEAD
+                return;
+            }
+            surveyType .IsDeleted = model.IsDelete.HasValue ? model.IsDelete.Value : surveyType.IsDeleted;
+=======
                 throw new Exception("Not exist survey type!");
             }
+>>>>>>> develop
             surveyType.SurveyName = model.SurveyName;
             await _surveyTypeRepository.Update(surveyType);
             await _surveyTypeRepository.SaveChangesAsync();
         }
+<<<<<<< HEAD
+
+        public async Task<SurveyTypeResponse.GetSurveyTypeModel?> GetByIdDeleted(Guid id)
+        {
+            var surveyType = await _surveyTypeRepository.GetById(id);
+            if (surveyType is null)
+            {
+                return null;
+            }
+            return new SurveyTypeResponse.GetSurveyTypeModel
+            {
+                Id = surveyType.Id,
+                SurveyName = surveyType.SurveyName
+            };
+        }
+=======
+>>>>>>> develop
     }
 }

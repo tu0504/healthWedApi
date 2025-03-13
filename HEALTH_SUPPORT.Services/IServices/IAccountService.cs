@@ -13,6 +13,7 @@ namespace HEALTH_SUPPORT.Services.IServices
     {
         Task<List<AccountResponse.GetAccountsModel>> GetAccounts();
         Task<AccountResponse.GetAccountsModel?> GetAccountById(Guid id);
+        Task<AccountResponse.GetAccountsModel?> GetByIdDetele(Guid id);
         Task AddAccount(AccountRequest.CreateAccountModel model);
         Task UpdateAccount(Guid id, AccountRequest.UpdateAccountModel model);
 

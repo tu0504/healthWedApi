@@ -102,6 +102,25 @@ namespace HEALTH_SUPPORT.Services.Implementations
             );
         }
 
+        public async Task<AccountResponse.GetAccountsModel?> GetByIdDetele(Guid id)
+        {
+            var account = await _accountRepository.GetAll().Include(a => a.Role).FirstOrDefaultAsync(a => a.Id == id);
+            if (account == null)
+            {
+                return null;
+            }
+            return new AccountResponse.GetAccountsModel(
+                account.Id,
+                account.UseName,
+                account.Fullname,
+                account.Email,
+                account.Phone,
+                account.Address,
+                account.PasswordHash,
+                account.Role?.Name ?? "Unknown",
+                account.ImgUrl
+            );
+        }
         public async Task<List<AccountResponse.GetAccountsModel>> GetAccounts()
         {
             return await _accountRepository.GetAll()
@@ -124,9 +143,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task RemoveAccount(Guid id)
         {
             var account = await _accountRepository.GetById(id);
-            if (account == null)
+            if (account == null || account.IsDeleted)
             {
-                throw new InvalidOperationException("Account not found");
+                return;
             }
 
             account.IsDeleted = true;
@@ -143,7 +162,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 var existedAcc = await _accountRepository.GetById(id);
                 if (existedAcc is null)
                 {
-                    throw new Exception("Not exist account!");
+                    return;
                 }
 
                 //Tracking
@@ -153,6 +172,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 existedAcc.Phone = string.IsNullOrWhiteSpace(model.Phone) ? existedAcc.Phone : model.Phone;
                 existedAcc.Address = string.IsNullOrWhiteSpace(model.Address) ? existedAcc.Address : model.Address;
                 existedAcc.PasswordHash = string.IsNullOrWhiteSpace(model.PasswordHash) ? existedAcc.PasswordHash : model.PasswordHash;
+                existedAcc.IsDeleted = string.IsNullOrWhiteSpace(model.IsDelete?.ToString()) ? existedAcc.IsDeleted : model.IsDelete ?? false;
+                existedAcc.ModifiedAt = DateTimeOffset.UtcNow;
                 //AsNoTracking
                 await _accountRepository.Update(existedAcc);
                 await _accountRepository.SaveChangesAsync();
@@ -175,6 +196,10 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
             string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
             account.PasswordHash = newHashedPassword;
+<<<<<<< HEAD
+            account.ModifiedAt = DateTimeOffset.UtcNow;
+=======
+>>>>>>> develop
             await _accountRepository.Update(account);
             await _accountRepository.SaveChangesAsync();
             return true;
@@ -279,6 +304,10 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 string oldFilePath = Path.Combine(_environment.ContentRootPath, "wwwroot", account.ImgUrl.TrimStart('/'));
                 if (File.Exists(oldFilePath)) File.Delete(oldFilePath);
             }
+<<<<<<< HEAD
+            account.ModifiedAt = DateTimeOffset.UtcNow;
+=======
+>>>>>>> develop
             return await UploadAvatarAsync(accountId, model);
         }
 

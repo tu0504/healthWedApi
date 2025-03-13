@@ -14,6 +14,10 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task<List<SurveyTypeResponse.GetSurveyTypeModel>> GetSurveyTypes();
         Task AddSurveyType(SurveyTypeRequest.CreateSurveyTypeModel model);
         Task UpdateSurveyType(Guid id, SurveyTypeRequest.UpdateSurveyTypeModel model);
+<<<<<<< HEAD
+        Task<SurveyTypeResponse.GetSurveyTypeModel?> GetByIdDeleted(Guid id);
+=======
+>>>>>>> develop
         Task RemoveSurveyType(Guid id);
     }
 }

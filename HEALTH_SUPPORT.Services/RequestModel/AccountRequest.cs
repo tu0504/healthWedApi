@@ -53,6 +53,14 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string? Address { get; set; }
             public string? PasswordHash { get; set; }
             public string? PasswordSalt { get; set; }
+            public bool? IsDelete { get; set; }
+        }
+
+        public class UpdatePasswordModel
+        {
+            public Guid AccountId { get; set; }
+            public string OldPassword { get; set; }
+            public string NewPassword { get; set; }
         }
 
         public class UpdatePasswordModel

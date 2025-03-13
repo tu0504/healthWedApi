@@ -3,6 +3,10 @@ using HEALTH_SUPPORT.Repositories.Repository;
 using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using HEALTH_SUPPORT.Services.ResponseModel;
+<<<<<<< HEAD
+using Microsoft.EntityFrameworkCore;
+=======
+>>>>>>> develop
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -56,6 +60,29 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<SurveyResponse.GetSurveyDetailsModel?> GetSurveyById(Guid id)
         {
             var survey = await _surveyRepository.GetById(id);
+<<<<<<< HEAD
+            if (survey is null || survey.IsDeleted)
+            {
+                return null;
+            }
+
+            var questionList = await _surveyQuestionService.GetSurveyQuestionsForSurvey(id);
+            return new SurveyResponse.GetSurveyDetailsModel
+            {
+                Id = id,
+                ModifiedAt = survey.ModifiedAt,
+                CreateAt = survey.CreateAt,
+                IsDeleted = survey.IsDeleted,
+                MaxScore = survey.MaxScore,
+                QuestionList = questionList
+            };
+        }
+
+        public async Task<SurveyResponse.GetSurveyDetailsModel?> GetByIdDelete(Guid id)
+        {
+            var survey = await _surveyRepository.GetById(id);
+=======
+>>>>>>> develop
             if (survey is null)
             {
                 throw new Exception("Không tìm thấy bảng khảo sát");
@@ -73,20 +100,44 @@ namespace HEALTH_SUPPORT.Services.Implementations
             };
         }
 
+<<<<<<< HEAD
+        public async Task<List<SurveyResponse.GetSurveyModel>> GetSurveys()
+        {
+            return await _surveyRepository.GetAll().Where(a => !a.IsDeleted).AsNoTracking().Select(survey => new SurveyResponse.GetSurveyModel
+            {
+                Id = survey.Id,
+                CreateAt = survey.CreateAt,
+                IsDeleted = survey.IsDeleted,
+                MaxScore = survey.MaxScore,
+                ModifiedAt = survey.ModifiedAt,
+                SurveyTypeId = survey.SurveyTypeId
+            }).ToListAsync();
+=======
         public Task<List<SurveyResponse.GetSurveyModel>> GetSurveys()
         {
             throw new NotImplementedException();
+>>>>>>> develop
         }
 
         public async Task RemoveSurvey(Guid id)
         {
             var survey = await _surveyRepository.GetById(id);
+<<<<<<< HEAD
+            if (survey is null || survey.IsDeleted)
+=======
             if (survey is null)
+>>>>>>> develop
             {
                 throw new Exception("Không tìm thấy bảng khảo sát");
             }
             survey.IsDeleted = true;
             survey.ModifiedAt = DateTime.Now;
+<<<<<<< HEAD
+
+            await _surveyRepository.Update(survey);
+            await _surveyRepository.SaveChangesAsync();
+=======
+>>>>>>> develop
         }
 
         public async Task UpdateSurvey(Guid id, SurveyRequest.UpdateSurveyRequest model)
