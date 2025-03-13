@@ -101,5 +101,20 @@ namespace HEALTH_SUPPORT.Services.Implementations
             ))
             .ToListAsync();
         }
+        public async Task CancelOrder(Guid orderId)
+        {
+            var order = await _orderRepository.GetById(orderId);
+            if (order == null)
+            {
+                throw new InvalidOperationException("Order not found.");
+            }
+
+            order.IsActive = false; // Mark order as inactive (canceled)
+            order.ModifiedAt = DateTimeOffset.UtcNow; // Track modification time
+
+            await _orderRepository.Update(order);
+            await _orderRepository.SaveChangesAsync();
+        }
+
     }
 }
