@@ -33,7 +33,11 @@ namespace HEALTH_SUPPORT.API.Controllers
             var result = await _surveyService.GetSurveyById(SurveyId);
             if (result == null)
             {
+<<<<<<< HEAD
                 return NotFound(new { message = "Không tìm thấy bảng khảo sát" });
+=======
+                return NotFound(new { message = "Survey Not Found" });
+>>>>>>> develop
             }
             return Ok(result);
         }
@@ -61,11 +65,14 @@ namespace HEALTH_SUPPORT.API.Controllers
             {
                 return BadRequest(new { message = "Invalid update data" });
             }
+<<<<<<< HEAD
             var exstingSurvey = await _surveyService.GetSurveyById(SurveyId);
             if (exstingSurvey == null)
             {
                 return NotFound(new { message = "Survey Not Found" });
             }
+=======
+>>>>>>> develop
             await _surveyService.UpdateSurvey(SurveyId, model);
             return Ok(new { message = "Create Survey Successfully" });
         }

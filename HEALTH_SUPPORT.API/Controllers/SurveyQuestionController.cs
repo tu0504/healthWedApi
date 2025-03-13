@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 ﻿using HEALTH_SUPPORT.Repositories.Entities;
 using HEALTH_SUPPORT.Services.Implementations;
 using HEALTH_SUPPORT.Services.IServices;
+=======
+﻿using HEALTH_SUPPORT.Services.IServices;
+>>>>>>> develop
 using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -56,11 +60,14 @@ namespace HEALTH_SUPPORT.API.Controllers
             {
                 return BadRequest(new { message = "Invalid update data" });
             }
+<<<<<<< HEAD
             var exsting = await _SurveyQuestionService.GetByIdDeleted(SurveyQuestionId);
             if (exsting == null)
             {
                 return NotFound(new { message = "Survey Type not found" });
             }
+=======
+>>>>>>> develop
             await _SurveyQuestionService.UpdateSurveyQuestion(SurveyQuestionId, model);
             return Ok(new { message = "Create SurveyQuestion Successfully" });
         }

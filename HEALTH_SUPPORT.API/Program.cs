@@ -81,6 +81,11 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IAvatarRepository, AvatarRepository>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+<<<<<<< HEAD
+=======
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<ISubscriptionProgressService, SubscriptionProgressService>();
+>>>>>>> develop
             builder.Services.AddScoped<ISurveyService, SurveyService>();
             builder.Services.AddScoped<ISurveyTypeService, SurveyTypeService>();
             builder.Services.AddScoped<ISurveyQuestionService, SurveyQuestionService>();

@@ -14,11 +14,19 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
         public class GetSurveyResultModel
         {
             public Guid Id { get; set; }
+<<<<<<< HEAD
             public int MinScore { get; set; }
             public int MaxScore { get; set; }
             public string ResultDescription { get; set; }
             public DateTimeOffset CreateAt { get; set; }
             public DateTimeOffset? ModifiedAt { get; set; }
+=======
+            public int Score { get; set; }
+            public string ResultDescription { get; set; }
+            public DateTimeOffset CreateAt { get; set; }
+            public DateTimeOffset? ModifiedAt { get; set; }
+            public Guid AccountSurveyId { get; set; }
+>>>>>>> develop
             public Guid SurveyId { get; set; }
             public bool IsDelete { get; set; }
         }

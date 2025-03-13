@@ -15,6 +15,14 @@ namespace HEALTH_SUPPORT.API.Controllers
             _subscriptionService = subscriptionService;
         }
 
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreateSubscription([FromBody] SubscriptionRequest.CreateSubscriptionModel model)
+        {
+            await _subscriptionService.AddSubscription(model);
+
+            return Ok(new { message = "Tạo chương trình thành công!" });
+        }
+
         [HttpGet(Name = "GetSubscriptions")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetSubscriptions()
@@ -36,6 +44,7 @@ namespace HEALTH_SUPPORT.API.Controllers
             return Ok(result);
         }
 
+<<<<<<< HEAD
         //[HttpPost(Name = "CreateSubscription")]
         //[ProducesResponseType(StatusCodes.Status201Created)]
         //public async Task<ActionResult> CreateSubscription([FromBody] SubscriptionRequest.CreateSubscriptionModel model)
@@ -44,6 +53,8 @@ namespace HEALTH_SUPPORT.API.Controllers
         //    return CreatedAtRoute("GetSubscriptionById", new { subscriptionId = /* newly created id */ Guid.NewGuid() }, new { message = "Subscription created successfully" });
         //}
 
+=======
+>>>>>>> develop
         [HttpPut("{subscriptionId}", Name = "UpdateSubscription")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -78,6 +89,7 @@ namespace HEALTH_SUPPORT.API.Controllers
             await _subscriptionService.RemoveSubscription(subscriptionId);
             return Ok(new { message = "Subscription deleted successfully" });
         }
+<<<<<<< HEAD
 
         //[HttpPost(Name = "CreateOrder")]
         //[ProducesResponseType(StatusCodes.Status201Created)]
@@ -122,5 +134,7 @@ namespace HEALTH_SUPPORT.API.Controllers
         //}
 
 
+=======
+>>>>>>> develop
     }
 }

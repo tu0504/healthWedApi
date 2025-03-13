@@ -17,14 +17,19 @@ namespace HEALTH_SUPPORT.Services.Implementations
     {
         private readonly IBaseRepository<SubscriptionData, Guid> _subscriptionRepository;
         private readonly IBaseRepository<Category, Guid> _categoryRepository;
+<<<<<<< HEAD
         private readonly IBaseRepository<Order, Guid> _orderRepository;
         private readonly IBaseRepository<SubscriptionProgress, Guid> _subscriptionProgressRepository;
         private readonly IBaseRepository<Psychologist, Guid> _psychologistRepository;
         private readonly IBaseRepository<Account, Guid> _accountRepository;
+=======
+        private readonly IBaseRepository<Psychologist, Guid> _psychologistRepository;
+>>>>>>> develop
 
         public SubscriptionService(
             IBaseRepository<SubscriptionData, Guid> subscriptionRepository,
             IBaseRepository<Category, Guid> categoryRepository,
+<<<<<<< HEAD
             IBaseRepository<Order, Guid> orderRepository,
             IBaseRepository<SubscriptionProgress, Guid> subscriptionProgressRepository,
             IBaseRepository<Psychologist, Guid> psychologistRepository,
@@ -36,6 +41,13 @@ namespace HEALTH_SUPPORT.Services.Implementations
             _subscriptionProgressRepository = subscriptionProgressRepository;
             _psychologistRepository = psychologistRepository;
             _accountRepository = accountRepository;
+=======
+            IBaseRepository<Psychologist, Guid> psychologistRepository)
+        {
+            _subscriptionRepository = subscriptionRepository;
+            _categoryRepository = categoryRepository;
+            _psychologistRepository = psychologistRepository;
+>>>>>>> develop
         }
 
         public async Task AddSubscription(SubscriptionRequest.CreateSubscriptionModel model)

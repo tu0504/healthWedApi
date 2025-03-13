@@ -31,12 +31,16 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 throw new Exception("Không tìm thấy bảng khảo sát.");
             }
+<<<<<<< HEAD
             var surveyQuestions = new List<SurveyQuestion>();
+=======
+>>>>>>> develop
             foreach (var surveyQuestion in model)
             {
                 var question = new SurveyQuestion
                 {
                     CreateAt = DateTime.Now,
+<<<<<<< HEAD
                     SurveyTypeId = survey.SurveyTypeId,
                     ContentQ = surveyQuestion.ContentQ,
                     SurveyAnswers = surveyQuestion.AnswersList?.Select(answer => new SurveyAnswer
@@ -55,11 +59,35 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 await _surveyQuestionRepository.Add(question);
             }
             await _surveyQuestionRepository.SaveChangesAsync();
+=======
+                    Options = surveyQuestion.Options,
+                    SurveyId = surveyID,
+                    SurveyTypeId = survey.SurveyTypeId,
+                    Validity = surveyQuestion.Validity,
+                    ContentQ = surveyQuestion.ContentQ
+                };
+                await _surveyQuestionRepository.Add(question);
+                if(surveyQuestion.AnswersList.Any())
+                {
+                    surveyQuestion.AnswersList.ForEach(answer => answer.QuestionId = question.Id);
+                }
+            }
+            await _surveyQuestionRepository.SaveChangesAsync();
+            var answerList = model
+                .SelectMany(surveyQuestion => surveyQuestion.AnswersList)
+                .ToList();
+
+            if (answerList.Any())
+            {
+                await _surveyAnswerService.AddSurveyAnswerForSurveyQuestion(answerList);
+            }
+>>>>>>> develop
         }
 
         public async Task<SurveyQuestionResponse.GetSurveyQuestionModel?> GetSurveyQuestionById(Guid id)
         {
             var question = await _surveyQuestionRepository.GetById(id);
+<<<<<<< HEAD
             if (question is null || question.IsDeleted)
             {
                 throw new Exception("Không tìm thấy câu hỏi.");
@@ -77,6 +105,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<SurveyQuestionResponse.GetSurveyQuestionModel?> GetByIdDeleted(Guid id)
         {
             var question = await _surveyQuestionRepository.GetById(id);
+=======
+>>>>>>> develop
             if (question is null)
             {
                 throw new Exception("Không tìm thấy câu hỏi.");
@@ -87,10 +117,16 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 ContentQ = question.ContentQ,
                 CreateAt = question.CreateAt,
                 ModifiedAt = question.ModifiedAt,
+<<<<<<< HEAD
+=======
+                Options = question.Options,
+                Validity = question.Validity,
+>>>>>>> develop
                 IsDelete = question.IsDeleted
             };
         }
 
+<<<<<<< HEAD
         public async Task<List<SurveyQuestionResponse.GetSurveyQuestionModel>> GetSurveyQuestions()
         {
             return await _surveyQuestionRepository.GetAll()
@@ -104,10 +140,16 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     IsDelete = q.IsDeleted
                 })
                 .ToListAsync(); 
+=======
+        public Task<List<SurveyQuestionResponse.GetSurveyQuestionModel>> GetSurveyQuestions()
+        {
+            throw new NotImplementedException();
+>>>>>>> develop
         }
 
         public async Task<List<SurveyQuestionResponse.GetSurveyQuestionModel>> GetSurveyQuestionsForSurvey(Guid surveyId)
         {
+<<<<<<< HEAD
             // Lấy danh sách SurveyQuestion từ bảng trung gian SurveyQuestionSurvey
             var questionList = await _surveyQuestionRepository.GetAll()
                 .Where(q => q.Surveys.Any(s => s.Id == surveyId)) // Kiểm tra xem SurveyQuestion thuộc Survey nào
@@ -130,6 +172,29 @@ namespace HEALTH_SUPPORT.Services.Implementations
             foreach (var question in questionList)
             {
                 question.AnswerList = answerList.Where(a => a.QuestionId == question.Id).ToList();
+=======
+            var questionList = await _surveyQuestionRepository.GetAll().Where(s => s.SurveyId == surveyId).Select(s => new SurveyQuestionResponse.GetSurveyQuestionModel
+            {
+                Id= s.Id,
+                SurveyId = s.SurveyId,
+                ContentQ = s.ContentQ,
+                CreateAt = s.CreateAt,
+                Options= s.Options,
+                ModifiedAt= s.ModifiedAt,
+                Validity= s.Validity,
+                IsDelete= s.IsDeleted
+            }).ToListAsync();
+
+            var answerList = await _surveyAnswerService.GetSurveyAnswerForQuestion(questionList.Select(s => s.Id).ToList());
+
+            foreach (var item in questionList)
+            {
+                var answer = answerList.Where(s => s.QuestionId == item.Id).ToList();
+                if (answer.Any())
+                {
+                    item.AnswerList.AddRange(answer);
+                }
+>>>>>>> develop
             }
 
             return questionList;
@@ -138,7 +203,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task RemoveSurveyQuestion(Guid id)
         {
             var question = await _surveyQuestionRepository.GetById(id);
+<<<<<<< HEAD
             if (question is null || question.IsDeleted)
+=======
+            if (question is null)
+>>>>>>> develop
             {
                 throw new Exception("Không tìm thấy câu hỏi.");
             }
@@ -158,6 +227,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
             question.ContentQ = model.ContentQ;
             question.IsDeleted = model.IsDelete.HasValue ? model.IsDelete.Value : question.IsDeleted;
             question.ModifiedAt = DateTime.Now;
+<<<<<<< HEAD
+=======
+            question.Options = model.Options;
+            question.Validity = model.Validity;
+>>>>>>> develop
             await _surveyQuestionRepository.Update(question);
             await _surveyQuestionRepository.SaveChangesAsync();
         }

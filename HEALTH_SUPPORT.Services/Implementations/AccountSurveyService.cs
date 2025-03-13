@@ -15,11 +15,21 @@ namespace HEALTH_SUPPORT.Services.Implementations
     {
         private readonly IBaseRepository<Survey, Guid> _surveyRepository;
         private readonly IBaseRepository<AccountSurvey, Guid> _accountSurveyRepository;
+<<<<<<< HEAD
 
         public AccountSurveyService(IBaseRepository<Survey, Guid> surveyRepository, IBaseRepository<AccountSurvey, Guid> accountSurveyRepository)
         {
             _surveyRepository = surveyRepository;
             _accountSurveyRepository = accountSurveyRepository;
+=======
+        private readonly IBaseRepository<SurveyResults, Guid> _surveyResultRepository;
+
+        public AccountSurveyService(IBaseRepository<Survey, Guid> surveyRepository, IBaseRepository<AccountSurvey, Guid> accountSurveyRepository, IBaseRepository<SurveyResults, Guid> surveyResultRepository)
+        {
+            _surveyRepository = surveyRepository;
+            _accountSurveyRepository = accountSurveyRepository;
+            _surveyResultRepository = surveyResultRepository;
+>>>>>>> develop
         }
 
         public async Task AddAccountSurvey(AccountSurveyRequest.CreateAccountSurveyModel model)
@@ -41,7 +51,21 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 throw new Exception("Không tìm thấy khảo sát.");
             }
+<<<<<<< HEAD
       
+=======
+            var surveyResult = _surveyResultRepository.GetAll().Where(s => s.AccountSurveyId == accountSurvey.Id).Select(s => new SurveyResultResponse.GetSurveyResultModel
+            {
+                SurveyId = s.SurveyId,
+                AccountSurveyId = s.AccountSurveyId,
+                CreateAt = s.CreateAt,
+                ResultDescription = s.ResultDescription,
+                ModifiedAt = s.ModifiedAt,
+                Score = s.Score,
+                Id = s.Id,
+                IsDelete = s.IsDeleted
+            }).ToList();
+>>>>>>> develop
             return new AccountSurveyResponse.GetAccountSurveysModel
             {
                 CreateAt = accountSurvey.CreateAt,
@@ -50,7 +74,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 SurveyId = accountSurvey.SurveyId,
                 Id = id,
                 IsDelete = accountSurvey.IsDeleted,
+<<<<<<< HEAD
             
+=======
+                ResultList = surveyResult != null ? surveyResult : null
+>>>>>>> develop
             };
         }
 

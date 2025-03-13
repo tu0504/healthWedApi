@@ -196,7 +196,10 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
             string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
             account.PasswordHash = newHashedPassword;
+<<<<<<< HEAD
             account.ModifiedAt = DateTimeOffset.UtcNow;
+=======
+>>>>>>> develop
             await _accountRepository.Update(account);
             await _accountRepository.SaveChangesAsync();
             return true;
@@ -301,7 +304,10 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 string oldFilePath = Path.Combine(_environment.ContentRootPath, "wwwroot", account.ImgUrl.TrimStart('/'));
                 if (File.Exists(oldFilePath)) File.Delete(oldFilePath);
             }
+<<<<<<< HEAD
             account.ModifiedAt = DateTimeOffset.UtcNow;
+=======
+>>>>>>> develop
             return await UploadAvatarAsync(accountId, model);
         }
 
