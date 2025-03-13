@@ -13,8 +13,8 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task<List<SurveyAnswerResponse.GetSurveyAnswerModel>> GetSurveyAnswers();
         Task<SurveyAnswerResponse.GetSurveyAnswerModel?> GetSurveyAnswerById(Guid id);
         Task<SurveyAnswerResponse.GetSurveyAnswerModel?> GetByIdDeleted(Guid id);
-        Task<List<SurveyAnswerResponse.GetSurveyAnswerModel?>> GetSurveyAnswerForQuestion(List<Guid> questionIds);
         Task AddSurveyAnswerForSurveyQuestion(List<SurveyAnswerRequest.CreateSurveyAnswerRequest> model);
+        Task<List<SurveyAnswerResponse.GetSurveyAnswerModel?>> GetSurveyAnswerForQuestion(List<Guid> questionIds);
         Task UpdateSurveyAnswer(Guid id, SurveyAnswerRequest.UpdateSurveyAnswerRequest model);
         Task RemoveSurveyAnswer(Guid id);
     }

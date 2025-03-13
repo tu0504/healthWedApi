@@ -76,7 +76,6 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 .Where(s => s.SurveyQuestions.Any(q => questionIds.Contains(q.Id)))
                 .Select(s => new SurveyAnswerResponse.GetSurveyAnswerModel
                 {
-                    QuestionId = s.SurveyQuestions.FirstOrDefault().Id,
                     Id = s.Id,
                     IsDelete = s.IsDeleted,
                     Point = s.Point
@@ -84,9 +83,17 @@ namespace HEALTH_SUPPORT.Services.Implementations
             return answerList;
         }
 
-        public Task<List<SurveyAnswerResponse.GetSurveyAnswerModel>> GetSurveyAnswers()
+        public async Task<List<SurveyAnswerResponse.GetSurveyAnswerModel>> GetSurveyAnswers()
         {
-            throw new NotImplementedException();
+            return await _surveyAnswerRepository.GetAll()
+                .Where(s => !s.IsDeleted)
+                .Select(s => new SurveyAnswerResponse.GetSurveyAnswerModel
+                {
+                    Id = s.Id,
+                    Content = s.Content,
+                    IsDelete = s.IsDeleted,
+                    Point = s.Point
+                }).ToListAsync();
         }
 
         public async Task RemoveSurveyAnswer(Guid id)

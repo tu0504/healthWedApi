@@ -129,7 +129,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
             // Gán danh sách câu trả lời vào từng câu hỏi
             foreach (var question in questionList)
             {
-                question.AnswerList = answerList.Where(a => a.QuestionId == question.Id).ToList();
+                question.AnswerList = answerList
+                    .Where(a => a.QuestionIds.Contains(question.Id)) // Kiểm tra danh sách QuestionIds
+                    .ToList();
             }
 
             return questionList;
