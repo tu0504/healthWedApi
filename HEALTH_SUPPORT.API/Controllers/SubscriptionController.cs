@@ -15,6 +15,14 @@ namespace HEALTH_SUPPORT.API.Controllers
             _subscriptionService = subscriptionService;
         }
 
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreateSubscription([FromBody] SubscriptionRequest.CreateSubscriptionModel model)
+        {
+            await _subscriptionService.AddSubscription(model);
+
+            return Ok(new { message = "Tạo chương trình thành công!" });
+        }
+
         [HttpGet(Name = "GetSubscriptions")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetSubscriptions()
@@ -34,14 +42,6 @@ namespace HEALTH_SUPPORT.API.Controllers
                 return NotFound(new { message = "Subscription not found" });
             }
             return Ok(result);
-        }
-
-        [HttpPost(Name = "CreateSubscription")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult> CreateSubscription([FromBody] SubscriptionRequest.CreateSubscriptionModel model)
-        {
-            await _subscriptionService.AddSubscription(model);
-            return CreatedAtRoute("GetSubscriptionById", new { subscriptionId = /* newly created id */ Guid.NewGuid() }, new { message = "Subscription created successfully" });
         }
 
         [HttpPut("{subscriptionId}", Name = "UpdateSubscription")]

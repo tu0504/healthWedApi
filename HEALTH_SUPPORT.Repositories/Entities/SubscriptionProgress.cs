@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Repositories.Entities
 {
-    public class SubscriptionProgress : Entity<Guid>
+    public class SubscriptionProgress : Entity<Guid>, IAuditable
     {
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         public DateTimeOffset StartDate { get; set; }
@@ -19,9 +19,12 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public DateTimeOffset? EndDate { get; set; }
 
         [Required]
-        public Guid SubscriptionId { get; set; }
+        public Guid OrderId { get; set; }
 
-        [ForeignKey("SubscriptionId")]
-        public SubscriptionData Subscription { get; set; }
+        [ForeignKey("OrderId")]
+        public Order Order { get; set; }
+
+        public DateTimeOffset CreateAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
     }
 }

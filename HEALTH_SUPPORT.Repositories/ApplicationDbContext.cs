@@ -101,7 +101,7 @@ namespace HEALTH_SUPPORT.Repositories
             modelBuilder.Entity<SurveyQuestion>().HasMany(s => s.SurveyAnswers).WithOne(a => a.SurveyQuestion).HasForeignKey(s => s.QuestionId).OnDelete(DeleteBehavior.Restrict);
 
             //SurveyType-Survey(1-m)
-            modelBuilder.Entity<SurveyType>().HasMany(s => s.Surveys).WithOne(a => a.SurveyType).HasForeignKey(s => s.SurveyTpyeId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SurveyType>().HasMany(s => s.Surveys).WithOne(a => a.SurveyType).HasForeignKey(s => s.SurveyTypeId).OnDelete(DeleteBehavior.Restrict);
 
             //SurveyType-SurveyQuestion(1-m)
             modelBuilder.Entity<SurveyType>().HasMany(s => s.SurveyQuestions).WithOne(a => a.SurveyType).HasForeignKey(s => s.SurveyTypeId).OnDelete(DeleteBehavior.Restrict);
@@ -131,8 +131,8 @@ namespace HEALTH_SUPPORT.Repositories
             //Category - SubscriptionData(1-m)
             modelBuilder.Entity<Category>().HasMany(d => d.SubscriptionDatas).WithOne(c => c.Category).HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Restrict);
 
-            //SubscriptionData - SubscriptionProgress(1-m)
-            modelBuilder.Entity<SubscriptionData>().HasMany(p => p.SubscriptionProgresses).WithOne(d => d.Subscription).HasForeignKey(p => p.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
+            // SubscriptionProgress - Order (m-1)
+            modelBuilder.Entity<Order>().HasMany(p => p.SubscriptionProgresses).WithOne(o => o.Order).HasForeignKey(p => p.OrderId).OnDelete(DeleteBehavior.Restrict);
         }
 
     }

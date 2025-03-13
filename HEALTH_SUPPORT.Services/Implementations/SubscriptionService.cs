@@ -17,42 +17,67 @@ namespace HEALTH_SUPPORT.Services.Implementations
     {
         private readonly IBaseRepository<SubscriptionData, Guid> _subscriptionRepository;
         private readonly IBaseRepository<Category, Guid> _categoryRepository;
+        private readonly IBaseRepository<Psychologist, Guid> _psychologistRepository;
 
         public SubscriptionService(
             IBaseRepository<SubscriptionData, Guid> subscriptionRepository,
-            IBaseRepository<Category, Guid> categoryRepository)
+            IBaseRepository<Category, Guid> categoryRepository,
+            IBaseRepository<Psychologist, Guid> psychologistRepository)
         {
             _subscriptionRepository = subscriptionRepository;
             _categoryRepository = categoryRepository;
+            _psychologistRepository = psychologistRepository;
         }
 
         public async Task AddSubscription(SubscriptionRequest.CreateSubscriptionModel model)
         {
-            var category = await _categoryRepository.GetAll().FirstOrDefaultAsync(c => c.Id == model.CategoryId);
+            //Kiểm tra xem subscription đã tồn tại chưa
+            var existingSubscription = await _subscriptionRepository.GetAll().AnyAsync(s => s.SubscriptionName == model.SubscriptionName);
+            if (existingSubscription)
+            {
+                throw new Exception("Tên chương trình đã tồn tại!");
+            }
+            //Kiểm tra xem category có tồn tại không
+            var category = await _categoryRepository.GetAll().FirstOrDefaultAsync(c => c.CategoryName.ToLower() == model.CategoryName.ToLower());
             if (category == null)
             {
-                throw new Exception("Invalid Category ID");
+                throw new Exception("Vui lòng chọn loại chương trình!");
             }
-
-            var subscription = new SubscriptionData()
+            var psychologist = await _psychologistRepository.GetAll().FirstOrDefaultAsync(p => p.Name == model.PsychologistName);
+            if (psychologist == null)
             {
-                Id = Guid.NewGuid(),
-                SubscriptionName = model.SubscriptionName,
-                Description = model.Description,
-                Price = model.Price,
-                Duration = model.Duration,
-                CategoryId = model.CategoryId,
-                CreateAt = DateTimeOffset.UtcNow
-            };
-
-            await _subscriptionRepository.Add(subscription);
+                throw new Exception("Vui lòng chọn tên chuyên gia");
+            }
+            try
+            {
+                var subscription = new SubscriptionData()
+                {
+                    Id = Guid.NewGuid(),
+                    SubscriptionName = model.SubscriptionName,
+                    Description = model.Description,
+                    Price = model.Price,
+                    Duration = model.Duration,
+                    CategoryId = category.Id,
+                    PsychologistId = psychologist.Id,
+                    Purpose = model.Purpose,
+                    Criteria = model.Criteria,
+                    FocusGroup = model.FocusGroup,
+                    AssessmentTool = model.AssessmentTool,
+                    CreateAt = DateTimeOffset.UtcNow
+                };
+                await _subscriptionRepository.Add(subscription);
+                await _subscriptionRepository.SaveChangesAsync();
+            }
+            
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public async Task<SubscriptionResponse.GetSubscriptionsModel?> GetSubscriptionById(Guid id)
         {
-            var subscription = await _subscriptionRepository.GetAll()
-                .Include(s => s.Category)
-                .FirstOrDefaultAsync(s => s.Id == id);
+            var subscription = await _subscriptionRepository.GetAll().Include(s => s.Category).Include(s => s.Psychologists).FirstOrDefaultAsync(s => s.Id == id);
 
             if (subscription == null || subscription.IsDeleted)
             {
@@ -63,28 +88,36 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 subscription.Id,
                 subscription.SubscriptionName,
                 subscription.Description,
-                subscription.Price,
+                (float)subscription.Price,
                 subscription.Duration,
-                subscription.CategoryId,
-                subscription.Category?.CategoryName ?? "Unknown"
+                subscription.Category?.CategoryName ?? "Unknown",
+                subscription.Psychologists?.Name ?? "Unknown",
+                subscription.Purpose,
+                subscription.Criteria,
+                subscription.FocusGroup,
+                subscription.AssessmentTool
             );
         }
 
         public async Task<List<SubscriptionResponse.GetSubscriptionsModel>> GetSubscriptions()
         {
             return await _subscriptionRepository.GetAll()
-                .Where(s => !s.IsDeleted)
-                .AsNoTracking()
-                .Select(s => new SubscriptionResponse.GetSubscriptionsModel(
-                    s.Id,
-                    s.SubscriptionName,
-                    s.Description,
-                    s.Price,
-                    s.Duration,
-                    s.CategoryId,
-                    s.Category.CategoryName
-                ))
-                .ToListAsync();
+            .Where(s => !s.IsDeleted) // Exclude deleted subscriptions
+            .AsNoTracking()
+            .Select(s => new SubscriptionResponse.GetSubscriptionsModel(
+                s.Id,
+                s.SubscriptionName,
+                s.Description,
+                (float)s.Price,
+                s.Duration,
+                s.Category != null ? s.Category.CategoryName : "Unknown",
+                s.Psychologists != null ? s.Psychologists.Name : "Unknown",
+                s.Purpose,
+                s.Criteria,
+                s.FocusGroup,
+                s.AssessmentTool
+            ))
+            .ToListAsync();
         }
 
         public async Task RemoveSubscription(Guid id)
@@ -92,11 +125,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
             var subscription = await _subscriptionRepository.GetById(id);
             if (subscription == null)
             {
-                throw new InvalidOperationException("Subscription not found");
+                throw new InvalidOperationException("Subscription not found.");
             }
 
             subscription.IsDeleted = true;
-            subscription.ModifiedAt = DateTimeOffset.UtcNow;
+            subscription.ModifiedAt = DateTimeOffset.UtcNow; // Track modification
 
             await _subscriptionRepository.Update(subscription);
             await _subscriptionRepository.SaveChangesAsync();
@@ -104,22 +137,31 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task UpdateSubscription(Guid id, SubscriptionRequest.UpdateSubscriptionModel model)
         {
-            var existingSubscription = await _subscriptionRepository.GetById(id);
-            if (existingSubscription is null)
+            try
             {
-                throw new Exception("Subscription not found!");
+                // Find the subscription by Id
+                var existedSubscription = await _subscriptionRepository.GetById(id);
+
+                if (existedSubscription == null)
+                {
+                    throw new Exception("Subscription not found.");
+                }
+
+                // Update only if new values are provided
+                existedSubscription.Description = string.IsNullOrWhiteSpace(model.Description) ? existedSubscription.Description : model.Description;
+                existedSubscription.Price = model.Price > 0 ? model.Price : existedSubscription.Price;
+                existedSubscription.Duration = model.Duration > 0 ? model.Duration : existedSubscription.Duration;
+                existedSubscription.ModifiedAt = DateTimeOffset.UtcNow;
+
+                // Save changes to database
+                await _subscriptionRepository.Update(existedSubscription);
+                await _subscriptionRepository.SaveChangesAsync();
             }
-
-            existingSubscription.SubscriptionName = string.IsNullOrWhiteSpace(model.SubscriptionName)
-                ? existingSubscription.SubscriptionName : model.SubscriptionName;
-            existingSubscription.Description = string.IsNullOrWhiteSpace(model.Description)
-                ? existingSubscription.Description : model.Description;
-            existingSubscription.Price = model.Price ?? existingSubscription.Price;
-            existingSubscription.Duration = model.Duration ?? existingSubscription.Duration;
-            existingSubscription.CategoryId = model.CategoryId ?? existingSubscription.CategoryId;
-
-            await _subscriptionRepository.Update(existingSubscription);
-            await _subscriptionRepository.SaveChangesAsync();
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
+
     }
 }

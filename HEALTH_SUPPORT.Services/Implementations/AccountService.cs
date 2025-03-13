@@ -6,8 +6,10 @@ using HEALTH_SUPPORT.Services.RequestModel;
 using HEALTH_SUPPORT.Services.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
+
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,23 +26,41 @@ namespace HEALTH_SUPPORT.Services.Implementations
         private readonly IBaseRepository<Role, Guid> _roleRepository;
         private readonly IConfiguration _configuration;
 
-        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration)
+        private readonly IHostEnvironment _environment;
+        private readonly IAvatarRepository _avatarRepository;
+
+        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration, IHostEnvironment environment, IAvatarRepository avatarRepository)
         {
             _accountRepository = accountRepository;
             _roleRepository = roleRepository;
             _configuration = configuration;
+            _environment = environment;
+            _avatarRepository = avatarRepository;
         }
 
         public async Task AddAccount(AccountRequest.CreateAccountModel model)
         {
+            // Kiểm tra email đã tồn tại chưa
+            var existingUser = await _accountRepository.GetAll().AnyAsync(r => r.Email == model.Email);
+            if (existingUser)
+            {
+                throw new Exception("Email đã được sử dụng.");
+            }
+            // Kiểm tra role có tồn tại không
             var role = await _roleRepository.GetAll().FirstOrDefaultAsync(r => r.Name == model.RoleName);
             if (role == null)
             {
-                throw new Exception("Invalid Role Name");
+                throw new Exception("Vui lòng chọn vai trò.");
             }
+            // Kiểm tra mật khẩu nhập lại
+            if (model.PasswordHash != model.ConfirmPassword)
+            {
+                throw new Exception("Mật khẩu nhập lại không khớp!");
+            }
+            // Mã hóa mật khẩu
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash);
             try
             {
-
                 var acc = new Account()
                 {
                     Id = Guid.NewGuid(),
@@ -49,13 +69,12 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Email = model.Email,
                     Phone = model.Phone,
                     Address = model.Address,
-                    PasswordHash = model.PasswordHash,
+                    PasswordHash = passwordHash,
                     RoleId = role.Id,
                     CreateAt = DateTimeOffset.UtcNow,
-                    LoginDate = DateTimeOffset.UtcNow
                 };
-
                 await _accountRepository.Add(acc);
+                await _accountRepository.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -78,7 +97,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 account.Phone,
                 account.Address,
                 account.PasswordHash,
-                account.Role?.Name ?? "Unknown"
+                account.Role?.Name ?? "Unknown",
+                account.ImgUrl
             );
         }
 
@@ -95,7 +115,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     a.Phone,
                     a.Address,
                     a.PasswordHash,
-                    a.Role.Name
+                    a.Role.Name,
+                    a.ImgUrl
                 ))
                 .ToListAsync();
         }
@@ -142,6 +163,22 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
         }
 
+        public async Task<bool> UpdatePassword(AccountRequest.UpdatePasswordModel model)
+        {
+            var account = await _accountRepository.GetById(model.AccountId);
+            if (account == null || account.IsDeleted) throw new Exception("Tài khoản không tồn tại hoặc đã bị xóa.");
+
+            bool isOldPasswordCorrect = BCrypt.Net.BCrypt.Verify(model.OldPassword, account.PasswordHash);
+            if (!isOldPasswordCorrect)
+            {
+                throw new Exception("Mật khẩu cũ không chính xác.");
+            }
+            string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+            account.PasswordHash = newHashedPassword;
+            await _accountRepository.Update(account);
+            await _accountRepository.SaveChangesAsync();
+            return true;
+        }
         public async Task<AccountResponse.LoginResponseModel> ValidateLoginAsync(AccountRequest.LoginRequestModel model)
         {
             // Tìm account theo UserName và đảm bảo không bị xóa
@@ -149,19 +186,20 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 .Include(a => a.Role)
                 .FirstOrDefaultAsync(a => a.Email == model.Email && !a.IsDeleted);
 
-            if (account == null)
+            if (account == null || !BCrypt.Net.BCrypt.Verify(model.Password, account.PasswordHash))
                 return null;
 
-            // So sánh mật khẩu (trong thực tế nên sử dụng phương pháp băm mật khẩu)
-            if (account.PasswordHash != model.Password)
-                return null;
+
+            account.LoginDate = DateTimeOffset.UtcNow;
+            await _accountRepository.Update(account);
 
             // Trả về thông tin cần thiết qua DTO LoginResponseModel
             return new AccountResponse.LoginResponseModel
             {
                 Id = account.Id,
                 UserName = account.UseName,
-                RoleName = account.Role?.Name ?? "Unknown"
+                RoleName = account.Role?.Name ?? "Unknown",
+                IsEmailVerified = account.IsEmailVerified
             };
         }
 
@@ -177,11 +215,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
             // Thêm claim RoleName vào token
             var claims = new List<Claim>
-    {
-        new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
-        new Claim(JwtRegisteredClaimNames.UniqueName, account.UserName),
-        new Claim(ClaimTypes.Role, account.RoleName) // Claim chứa thông tin Role
-    };
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, account.UserName),
+                new Claim(ClaimTypes.Role, account.RoleName) // Claim chứa thông tin Role
+            };
 
             var token = new JwtSecurityToken(
                 issuer: issuer,
@@ -192,6 +230,70 @@ namespace HEALTH_SUPPORT.Services.Implementations
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+        
+        public async Task<bool> VerifyEmailAsync(string email)
+        {
+            var account = await _accountRepository.GetAll()
+                .Include(a => a.Role)
+                .FirstOrDefaultAsync(a => a.Email == email);
+            if (account == null) return false;
+
+            if (account.IsEmailVerified) return true;
+
+            account.IsEmailVerified = true;
+            await _accountRepository.Update(account);
+            return true;
+        }
+        
+        public async Task<AccountResponse.AvatarResponseModel> UploadAvatarAsync(Guid accountId, AccountRequest.UploadAvatarModel model)
+        {
+            var account = await _accountRepository.GetById(accountId);
+            if (account == null) throw new Exception("Account not found");
+
+            // Vì IHostEnvironment không có WebRootPath, cần tự tạo đường dẫn wwwroot
+            string uploadsFolder = Path.Combine(_environment.ContentRootPath, "wwwroot", "uploads");
+            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+
+            string fileName = $"{Guid.NewGuid()}_{model.File.FileName}";
+            string filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await model.File.CopyToAsync(stream);
+            }
+
+            string relativePath = $"/uploads/{fileName}";
+            await _avatarRepository.UpdateAvatarAsync(accountId, relativePath);
+
+            return new AccountResponse.AvatarResponseModel { AvatarUrl = relativePath };
+        }
+
+        public async Task<AccountResponse.AvatarResponseModel> UpdateAvatarAsync(Guid accountId, AccountRequest.UploadAvatarModel model)
+        {
+            var account = await _accountRepository.GetById(accountId);
+            if (account == null) throw new Exception("Account not found");
+
+            if (!string.IsNullOrEmpty(account.ImgUrl))
+            {
+                string oldFilePath = Path.Combine(_environment.ContentRootPath, "wwwroot", account.ImgUrl.TrimStart('/'));
+                if (File.Exists(oldFilePath)) File.Delete(oldFilePath);
+            }
+            return await UploadAvatarAsync(accountId, model);
+        }
+
+        public async Task RemoveAvatarAsync(Guid accountId)
+        {
+            var account = await _accountRepository.GetById(accountId);
+            if (account == null) throw new Exception("Account not found");
+
+            if (!string.IsNullOrEmpty(account.ImgUrl))
+            {
+                string filePath = Path.Combine(_environment.ContentRootPath, "wwwroot", account.ImgUrl.TrimStart('/'));
+                if (File.Exists(filePath)) File.Delete(filePath);
+
+                await _avatarRepository.UpdateAvatarAsync(accountId, null);
+            }
         }
     }
 }

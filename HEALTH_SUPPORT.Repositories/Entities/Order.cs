@@ -14,8 +14,6 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         [Required]
         public int Quantity { get; set; }
 
-        public ICollection<Transaction> Transaction { get; set; }
-
         [Required]
         public Guid SubscriptionDataId { get; set; }
         [ForeignKey("SubscriptionDataId")]
@@ -27,5 +25,8 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Account Accounts { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
+        public bool IsActive { get; set; } = true;
+        public ICollection<Transaction> Transaction { get; set; }
+        public ICollection<SubscriptionProgress> SubscriptionProgresses { get; set; }
     }
 }

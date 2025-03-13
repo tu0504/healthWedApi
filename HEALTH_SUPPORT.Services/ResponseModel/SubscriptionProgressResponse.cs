@@ -6,20 +6,16 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Services.ResponseModel
 {
-    public static class SubscriptionResponse
+    public static class SubscriptionProgressResponse
     {
-        public record GetSubscriptionsModel(
+        public record GetSubscriptionProgressModel(
             Guid Id,
+            string Username,
             string SubscriptionName,
             string Description,
             float Price,
-            int Duration,
-            string CategoryName,
-            string PsychologistName,
-            string Purpose,
-            string Criteria,
-            string FocusGroup,
-            string AssessmentTool
+            DateTimeOffset StartDate,
+            DateTimeOffset? EndDate
         );
     }
 }

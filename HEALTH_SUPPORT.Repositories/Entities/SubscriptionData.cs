@@ -18,10 +18,14 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public string Description { get; set; }
 
         [Required]
-        public double Price { get; set; }
+        public float Price { get; set; }
 
         [Required]
         public int Duration { get; set; }
+        public string Purpose { get; set; }
+        public string Criteria { get; set; }
+        public string FocusGroup { get; set; }
+        public string AssessmentTool { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
 
@@ -36,6 +40,5 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Psychologist Psychologists { get; set; }
 
         public ICollection<Order> Orders { get; set; }
-        public ICollection<SubscriptionProgress> SubscriptionProgresses { get; set; }
     }
 }
