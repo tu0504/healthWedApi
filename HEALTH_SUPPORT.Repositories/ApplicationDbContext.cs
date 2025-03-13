@@ -252,15 +252,99 @@ namespace HEALTH_SUPPORT.Repositories
                 }
             );
 
+            modelBuilder.Entity<SurveyResults>().HasData(
+                new SurveyResults
+                {
+                    Id = Guid.Parse("e43de268-c18c-43f7-a219-b4f072d3043e"),
+                    MinScore = 0,
+                    MaxScore = 4,
+                    ResultDescription = "Không hoặc rất nhẹ",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("418be23d-8db9-4b74-a86a-9402f246ea62")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("b0e3f7a4-47b3-470c-9612-f7030c9452ac"),
+                    MinScore = 5,
+                    MaxScore = 9,
+                    ResultDescription = "Nhẹ",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("418be23d-8db9-4b74-a86a-9402f246ea62")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("c7986ab8-672b-4bb2-ba0f-791224a29100"),
+                    MinScore = 10,
+                    MaxScore = 14,
+                    ResultDescription = "Vừa",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("418be23d-8db9-4b74-a86a-9402f246ea62")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("2d903f3f-dbd1-4266-b486-5a6ea11dd90d"),
+                    MinScore = 15,
+                    MaxScore = 21,
+                    ResultDescription = "Nặng",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("418be23d-8db9-4b74-a86a-9402f246ea62")
+                },
+
+
+                new SurveyResults
+                {
+                    Id = Guid.Parse("d9156493-2f6a-47fc-9fb9-4af265e3b182"),
+                    MinScore = 0,
+                    MaxScore = 4,
+                    ResultDescription = "Không hoặc rất nhẹ",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("4de4b9bf-0750-4960-b8b8-37e72d254d1e"),
+                    MinScore = 5,
+                    MaxScore = 9,
+                    ResultDescription = "Nhẹ",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("8e8b719f-0e0b-4dff-9188-c95e9d11ad0c"),
+                    MinScore = 10,
+                    MaxScore = 14,
+                    ResultDescription = "Vừa",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("5faf9d3c-2713-411f-992e-a61aeb6207f9"),
+                    MinScore = 15,
+                    MaxScore = 19,
+                    ResultDescription = "Nặng",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7")
+                },
+                new SurveyResults
+                {
+                    Id = Guid.Parse("f2b2b3b4-1b3b-4b3b-8b3b-9b3b3b3b3b3b"),
+                    MinScore = 20,
+                    MaxScore = 27,
+                    ResultDescription = "Rất nặng",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    SurveyId = Guid.Parse("86deeb52-2ef9-47d9-8496-edac723ffbf7")
+                }
+
+            );
+
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Account>().HasMany(s => s.AccountSurveys).WithOne(a => a.Account).HasForeignKey(s => s.AccountId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Survey>().HasMany(s => s.AccountSurveys).WithOne(a => a.Survey).HasForeignKey(s => s.SurveyId).OnDelete(DeleteBehavior.Restrict);
 
             //Survey-SurveyResults(1-m)
             modelBuilder.Entity<Survey>().HasMany(s => s.SurveyResults).WithOne(a => a.Survey).HasForeignKey(s => s.SurveyId).OnDelete(DeleteBehavior.Restrict);
-
-            //SurveyResults-AccountSurvey(m-1)
-            modelBuilder.Entity<AccountSurvey>().HasMany(s => s.SurveyResults).WithOne(a => a.AccountSurvey).HasForeignKey(s => s.AccountSurveyId).OnDelete(DeleteBehavior.Restrict);
 
             //Survey-SurveyQuestion(m-m)
             modelBuilder.Entity<Survey>().HasMany(s => s.SurveyQuestions).WithMany(a => a.Surveys).UsingEntity(j => j.ToTable("SurveyQuestionSurvey"));

@@ -16,7 +16,8 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             string Phone, 
             string Address,
             string PasswordHash,
-            string RoleName
+            string RoleName,
+            string ImgUrl
         );
 
         public class LoginResponseModel
@@ -24,6 +25,12 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public Guid Id { get; set; }
             public string UserName { get; set; }
             public string RoleName { get; set; }
+            public bool IsEmailVerified { get; set; }
+        }
+
+        public class AvatarResponseModel
+        {
+            public string AvatarUrl { get; set; }
         }
     }
 }

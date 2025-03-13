@@ -4,6 +4,7 @@ using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace HEALTH_SUPPORT.API.Controllers
 {
@@ -13,11 +14,13 @@ namespace HEALTH_SUPPORT.API.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IEmailService _emailService;
+        private readonly IMemoryCache _cache;
 
-        public AccountController(IAccountService accountService, IEmailService emailService)
+        public AccountController(IAccountService accountService, IEmailService emailService, IMemoryCache cache)
         {
             _accountService = accountService;
             _emailService = emailService;
+            _cache = cache;
         }
 
         [HttpPost("Register")]
@@ -46,16 +49,15 @@ namespace HEALTH_SUPPORT.API.Controllers
             var loginResult = await _accountService.ValidateLoginAsync(model);
             if (loginResult == null)
             {
-                return Unauthorized(new { message = "Tài khoản hoặc mật khẩu không đúng" });
+                return Unauthorized(new { message = "Email hoặc mật khẩu không đúng" });
             }
-
+            if (!loginResult.IsEmailVerified)
+            {
+                return BadRequest(new { message = "Bạn cần xác thực email bằng OTP trước khi đăng nhập." });
+            }
             var token = _accountService.GenerateJwtToken(loginResult);
 
-            return Ok(new
-            {
-                accessToken = token,
-                user = loginResult
-            });
+            return Ok(new { accessToken = token });
         }
 
         [HttpGet(Name = "GetAccounts")]
@@ -90,7 +92,7 @@ namespace HEALTH_SUPPORT.API.Controllers
                 return BadRequest(new { message = "Invalid update data" });
             }
 
-            var existingAccount = await _accountService.GetAccountById(accountId);
+            var existingAccount = await _accountService.GetByIdDetele(accountId);
             if (existingAccount == null)
             {
                 return NotFound(new { message = "Account not found" });
@@ -98,6 +100,23 @@ namespace HEALTH_SUPPORT.API.Controllers
 
             await _accountService.UpdateAccount(accountId, model);
             return Ok(new { message = "Account updated successfully" });
+        }
+
+        [HttpPost("UpdatePassword")]
+        public async Task<IActionResult> UpdatePassword([FromBody] AccountRequest.UpdatePasswordModel request)
+        {
+            try
+            {
+                bool result = await _accountService.UpdatePassword(request);
+                if (result)
+                    return Ok(new { message = "Cập nhật mật khẩu thành công." });
+                else
+                    return BadRequest(new { message = "Cập nhật mật khẩu thất bại." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpDelete("{accountId}", Name = "DeleteAccount")]
@@ -112,6 +131,28 @@ namespace HEALTH_SUPPORT.API.Controllers
             }
             await _accountService.RemoveAccount(accountId);
             return Ok(new { message = "Account deleted successfully" });
+        }
+
+
+        [HttpPost("{accountId}/avatar")]
+        public async Task<IActionResult> UploadAvatar(Guid accountId, [FromForm] AccountRequest.UploadAvatarModel model)
+        {
+            var response = await _accountService.UploadAvatarAsync(accountId, model);
+            return Ok(response);
+        }
+
+        [HttpPut("{accountId}/avatar")]
+        public async Task<IActionResult> UpdateAvatar(Guid accountId, [FromForm] AccountRequest.UploadAvatarModel model)
+        {
+            var response = await _accountService.UpdateAvatarAsync(accountId, model);
+            return Ok(response);
+        }
+
+        [HttpDelete("{accountId}/avatar")]
+        public async Task<IActionResult> DeleteAvatar(Guid accountId)
+        {
+            await _accountService.RemoveAvatarAsync(accountId);
+            return Ok(new { Message = "Avatar deleted successfully" });
         }
     }
 }
