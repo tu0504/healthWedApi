@@ -46,5 +46,21 @@ namespace HEALTH_SUPPORT.API.Controllers
             var result = await _subscriptionProgressService.GetAllSubscriptionProgress();
             return Ok(result);
         }
+
+        [HttpDelete("{progressId}", Name = "DeleteSubscriptionProgress")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteSubscriptionProgress(Guid progressId)
+        {
+            var existingProgress = await _subscriptionProgressService.GetSubscriptionProgressById(progressId);
+            if (existingProgress == null)
+            {
+                return NotFound(new { message = "Subscription progress not found" });
+            }
+
+            await _subscriptionProgressService.RemoveSubscriptionProgress(progressId);
+            return Ok(new { message = "Subscription progress deleted successfully" });
+        }
+
     }
 }

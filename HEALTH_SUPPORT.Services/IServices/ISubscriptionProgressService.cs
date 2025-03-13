@@ -13,5 +13,6 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task CreateSubscriptionProgress(SubscriptionProgressRequest.CreateSubscriptionProgressModel model);
         Task <SubscriptionProgressResponse.GetSubscriptionProgressModel> GetSubscriptionProgressById(Guid progressId);
         Task<List<SubscriptionProgressResponse.GetSubscriptionProgressModel>> GetAllSubscriptionProgress();
+        Task RemoveSubscriptionProgress(Guid id);
     }
 }

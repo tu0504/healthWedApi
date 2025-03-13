@@ -90,6 +90,20 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 ))
                 .ToListAsync();
         }
+        public async Task RemoveSubscriptionProgress(Guid id)
+        {
+            var subscriptionProgress = await _progressRepository.GetById(id);
+            if (subscriptionProgress == null)
+            {
+                throw new InvalidOperationException("Subscription progress not found.");
+            }
+
+            subscriptionProgress.IsDeleted = true;
+            subscriptionProgress.ModifiedAt = DateTimeOffset.UtcNow; // Track modification
+
+            await _progressRepository.Update(subscriptionProgress);
+            await _progressRepository.SaveChangesAsync();
+        }
 
     }
 }
