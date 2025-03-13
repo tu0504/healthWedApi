@@ -13,5 +13,6 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task CreateOrder(OrderRequest.CreateOrderModel model);
         Task<OrderResponse.GetOrderDetailsModel?> GetOrderDetails(Guid orderId);
         Task<List<OrderResponse.GetOrderDetailsModel>> GetOrders();
+        Task CancelOrder(Guid Id);
     }
 }
