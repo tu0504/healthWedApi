@@ -54,6 +54,11 @@ namespace HEALTH_SUPPORT.API.Controllers
             {
                 return BadRequest(new { message = "Invalid update data" });
             }
+            var exstingSurveyAnswer = await _SurveyAnswerService.GetByIdDeleted(SurveyAnswerId);
+            if (exstingSurveyAnswer == null)
+            {
+                return NotFound(new { message = "SurveyAnswer Not Found" });
+            }
             await _SurveyAnswerService.UpdateSurveyAnswer(SurveyAnswerId, model);
             return Ok(new { message = "Create SurveyAnswer Successfully" });
         }
