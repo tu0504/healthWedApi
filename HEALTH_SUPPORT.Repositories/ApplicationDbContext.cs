@@ -58,7 +58,7 @@ namespace HEALTH_SUPPORT.Repositories
                 new Account
                 {
                     Id = Guid.Parse("5b0884a0-0067-49f5-b3be-a29ef58aa70c"),
-                    UseName = "Manager1",
+                    UserName = "Manager1",
                     Fullname = "Manager1 nè",
                     Email = "admin@example.com",
                     Phone = "0123456789",
@@ -71,7 +71,7 @@ namespace HEALTH_SUPPORT.Repositories
                 new Account
                 {
                     Id = Guid.Parse("dad2a80f-70e4-49f6-b3c5-3c1eedf525e4"),
-                    UseName = "Manager2",
+                    UserName = "Manager2",
                     Fullname = "Manager2 nè",
                     Email = "admin2@example.com",
                     Phone = "0123456789",
@@ -82,7 +82,7 @@ namespace HEALTH_SUPPORT.Repositories
                     RoleId = Guid.Parse("2a5f5c96-cb79-40d4-a604-d484b7041e7f")
                 }
             );
-            modelBuilder.Entity<Account>().HasIndex(a => a.UseName).IsUnique();
+            modelBuilder.Entity<Account>().HasIndex(a => a.UserName).IsUnique();
 
             modelBuilder.Entity<SurveyType>().HasData(
                 new SurveyType { Id = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8"), SurveyName = "Đánh giá lo âu (GAD-7)" },
@@ -338,7 +338,6 @@ namespace HEALTH_SUPPORT.Repositories
                 }
 
             );
-
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Account>().HasMany(s => s.AccountSurveys).WithOne(a => a.Account).HasForeignKey(s => s.AccountId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Survey>().HasMany(s => s.AccountSurveys).WithOne(a => a.Survey).HasForeignKey(s => s.SurveyId).OnDelete(DeleteBehavior.Restrict);

@@ -32,6 +32,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 throw new Exception("Không tìm thấy bảng khảo sát.");
             }
             var surveyQuestions = new List<SurveyQuestion>();
+
             foreach (var surveyQuestion in model)
             {
                 var question = new SurveyQuestion

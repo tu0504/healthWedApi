@@ -160,5 +160,110 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
         }
 
+        //Dùng để tạo order khi user đăng ký subscription
+        public async Task<OrderResponse.GetOrderDetailsModel?> CreateOrder(SubscriptionRequest.RegisterSubscriptionModel model)
+        {
+            // Check if the subscription exists
+            var subscription = await _subscriptionRepository.GetById(model.SubscriptionId);
+            if (subscription == null || subscription.IsDeleted)
+            {
+                return null; // Subscription does not exist or is deleted
+            }
+
+            // Check if the account exists
+            var account = await _accountRepository.GetById(model.AccountId);
+            if (account == null || account.IsDeleted)
+            {
+                return null; // Account does not exist or is deleted
+            }
+
+            // Create a new order
+            var newOrder = new Order
+            {
+                Id = Guid.NewGuid(),
+                SubscriptionDataId = model.SubscriptionId,
+                AccountId = model.AccountId,
+                Quantity = model.Quantity,
+                CreateAt = DateTimeOffset.UtcNow,
+                IsActive = true
+            };
+
+            await _orderRepository.Add(newOrder);
+            await _orderRepository.SaveChangesAsync();
+
+            // Return order details
+            return await GetOrderDetails(newOrder.Id);
+        }
+
+        public async Task<Guid> CreateOrder(Guid subscriptionDataId, Guid accountId, int quantity)
+        {
+            var subscription = await _subscriptionRepository.GetById(subscriptionDataId);
+            var account = await _accountRepository.GetById(accountId);
+
+            if (subscription == null || account == null)
+            {
+                return Guid.Empty; // Subscription or Account does not exist
+            }
+
+            var newOrder = new Order
+            {
+                Id = Guid.NewGuid(),
+                SubscriptionDataId = subscriptionDataId,
+                AccountId = accountId,
+                Quantity = quantity,
+                CreateAt = DateTimeOffset.UtcNow,
+                IsActive = true
+            };
+
+            await _orderRepository.Add(newOrder);
+            await _orderRepository.SaveChangesAsync();
+
+            return newOrder.Id;
+        }
+
+
+        //Để lấy thông tin chi tiết của order
+        public async Task<OrderResponse.GetOrderDetailsModel?> GetOrderDetails(Guid orderId)
+        {
+            var order = await _orderRepository.GetAll()
+                .Include(o => o.SubscriptionData)
+                .Include(o => o.Accounts)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null || order.IsDeleted)
+            {
+                return null;
+            }
+
+            return new OrderResponse.GetOrderDetailsModel(
+                order.Id,
+                order.SubscriptionData.SubscriptionName,
+                order.SubscriptionData.Description,
+                (float)order.SubscriptionData.Price,
+                order.Quantity,
+                order.Accounts.Fullname,
+                order.Accounts.Email,
+                order.CreateAt
+            );
+        }
+        public async Task<OrderResponse.GetOrderDetailsModel?> ConfirmOrder(Guid orderId)
+        {
+            // Retrieve order
+            var order = await _orderRepository.GetById(orderId);
+            if (order == null || order.IsDeleted)
+            {
+                return null; // Order does not exist or was deleted
+            }
+
+            // Confirm the order
+            order.IsActive = true;
+            order.ModifiedAt = DateTimeOffset.UtcNow;
+
+            await _orderRepository.Update(order);
+            await _orderRepository.SaveChangesAsync();
+
+            // Return order details after confirmation
+            return await GetOrderDetails(orderId);
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             _configuration = configuration;
             _environment = environment;
             _avatarRepository = avatarRepository;
+
         }
 
         public async Task AddAccount(AccountRequest.CreateAccountModel model)
@@ -64,7 +65,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 var acc = new Account()
                 {
                     Id = Guid.NewGuid(),
-                    UseName = model.UserName,
+                    UserName = model.UserName,
                     Fullname = model.Fullname,
                     Email = model.Email,
                     Phone = model.Phone,
@@ -91,7 +92,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
             return new AccountResponse.GetAccountsModel(
                 account.Id,
-                account.UseName,
+                account.UserName,
                 account.Fullname,
                 account.Email,
                 account.Phone,
@@ -111,7 +112,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
             return new AccountResponse.GetAccountsModel(
                 account.Id,
-                account.UseName,
+                account.UserName,
                 account.Fullname,
                 account.Email,
                 account.Phone,
@@ -128,7 +129,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 .AsNoTracking()
                 .Select(a => new AccountResponse.GetAccountsModel(
                     a.Id,
-                    a.UseName,
+                    a.UserName,
                     a.Fullname,
                     a.Email,
                     a.Phone,
@@ -166,7 +167,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 }
 
                 //Tracking
-                existedAcc.UseName = string.IsNullOrWhiteSpace(model.Username) ? existedAcc.UseName : model.Username;
+                existedAcc.UserName = string.IsNullOrWhiteSpace(model.Username) ? existedAcc.UserName : model.Username;
                 existedAcc.Fullname = string.IsNullOrWhiteSpace(model.Fullname) ? existedAcc.Fullname : model.Fullname;
                 existedAcc.Email = string.IsNullOrWhiteSpace(model.Email) ? existedAcc.Email : model.Email;
                 existedAcc.Phone = string.IsNullOrWhiteSpace(model.Phone) ? existedAcc.Phone : model.Phone;
@@ -219,7 +220,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             return new AccountResponse.LoginResponseModel
             {
                 Id = account.Id,
-                UserName = account.UseName,
+                UserName = account.UserName,
                 RoleName = account.Role?.Name ?? "Unknown",
                 IsEmailVerified = account.IsEmailVerified
             };

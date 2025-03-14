@@ -76,6 +76,14 @@ namespace HEALTH_SUPPORT.API
             // Inject IWebHostEnvironment: giúp acc update ảnh đại diện
             builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
 
+            // Add CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    policy => policy.AllowAnyOrigin()
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
 
             // Register IService and Service
             builder.Services.AddScoped<IAccountService, AccountService>();
@@ -87,8 +95,14 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddScoped<ISurveyAnswerService, SurveyAnswerService>();
             builder.Services.AddScoped<IAccountSurveyService, AccountSurveyService>();
             builder.Services.AddScoped<ISurveyResultsService, SurveyResultService>();
+            builder.Services.AddScoped<IHealthDataService, HealthDataService>();
+            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 
             var app = builder.Build();
+
+            app.UseCors("AllowAll");
+            app.UseAuthorization();
+            app.MapControllers();
 
             // Lấy IWebHostEnvironment từ app.Services
             var env = app.Services.GetRequiredService<IWebHostEnvironment>();
@@ -115,6 +129,8 @@ namespace HEALTH_SUPPORT.API
             app.MapControllers();
 
             app.Run();
+
+           
         }
     }
 }
