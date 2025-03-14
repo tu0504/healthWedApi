@@ -27,6 +27,5 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public DateTimeOffset? ModifiedAt { get; set; }
         public bool IsActive { get; set; } = true;
         public ICollection<Transaction> Transaction { get; set; }
-        public ICollection<SubscriptionProgress> SubscriptionProgresses { get; set; }
     }
 }
