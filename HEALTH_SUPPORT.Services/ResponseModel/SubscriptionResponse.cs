@@ -15,7 +15,11 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             float Price,
             int Duration,
             string CategoryName,
-            string PsychologistName
+            string PsychologistName,
+            string Purpose,
+            string Criteria,
+            string FocusGroup,
+            string AssessmentTool
         );
     }
 }
