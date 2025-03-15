@@ -55,6 +55,14 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             [Required]
             [Range(1, int.MaxValue, ErrorMessage = "Thời hạn cần phải nhiều hơn 1 ngày")]
             public int Duration { get; set; }
+
+            [Required(ErrorMessage = "Vui lòng chọn một chuyên gia tâm lý.")]
+            public Guid PsychologistId { get; set; }
+
+            public string? Purpose { get; set; }
+            public string? Criteria { get; set; }
+            public string? FocusGroup { get; set; }
+            public string? AssessmentTool { get; set; }
         }
         
     }

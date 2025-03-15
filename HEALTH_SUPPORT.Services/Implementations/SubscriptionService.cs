@@ -154,6 +154,12 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 existedSubscription.Description = string.IsNullOrWhiteSpace(model.Description) ? existedSubscription.Description : model.Description;
                 existedSubscription.Price = model.Price > 0 ? model.Price : existedSubscription.Price;
                 existedSubscription.Duration = model.Duration > 0 ? model.Duration : existedSubscription.Duration;
+                existedSubscription.PsychologistId = model.PsychologistId != Guid.Empty ? model.PsychologistId : existedSubscription.PsychologistId;
+                existedSubscription.Purpose = string.IsNullOrWhiteSpace(model.Purpose) ? existedSubscription.Purpose : model.Purpose;
+                existedSubscription.Criteria = string.IsNullOrWhiteSpace(model.Criteria) ? existedSubscription.Criteria : model.Criteria;
+                existedSubscription.FocusGroup = string.IsNullOrWhiteSpace(model.FocusGroup) ? existedSubscription.FocusGroup : model.FocusGroup;
+                existedSubscription.AssessmentTool = string.IsNullOrWhiteSpace(model.AssessmentTool) ? existedSubscription.AssessmentTool : model.AssessmentTool;
+
                 existedSubscription.ModifiedAt = DateTimeOffset.UtcNow;
 
                 // Save changes to database
