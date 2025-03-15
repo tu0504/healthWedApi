@@ -427,6 +427,8 @@ namespace HEALTH_SUPPORT.Repositories
                 .WithMany(s => s.SurveyQuestionSurveys)
                 .HasForeignKey(sqs => sqs.SurveysId)
                 .OnDelete(DeleteBehavior.Restrict);
+            // SubscriptionProgress - SubscriptionProgress (1-m)
+            modelBuilder.Entity<SubscriptionData>().HasMany(p => p.SubscriptionProgresses).WithOne(d => d.SubscriptionDatas).HasForeignKey(p => p.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
         }
 
     }

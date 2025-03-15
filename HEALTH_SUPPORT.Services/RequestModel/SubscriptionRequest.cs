@@ -30,6 +30,18 @@ namespace HEALTH_SUPPORT.Services.RequestModel
 
             [Required(ErrorMessage = "Thiếu tên chuyên gia!")]
             public string PsychologistName { get; set; }
+
+            [Required(ErrorMessage = "Thiếu mục đích chương trình!")]
+            public string Purpose { get; set; }
+
+            [Required(ErrorMessage = "Thiếu các chỉ số đánh giá của chương trình!")]
+            public string Criteria { get; set; }
+
+            [Required(ErrorMessage = "Thiếu nhóm đối tượng của chương trình!")]
+            public string FocusGroup { get; set; }
+
+            [Required(ErrorMessage = "Thiếu công cụ đánh giá cho chương trình!")]
+            public string AssessmentTool { get; set; }
         }
         public class UpdateSubscriptionModel
         {
@@ -43,6 +55,14 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             [Required]
             [Range(1, int.MaxValue, ErrorMessage = "Thời hạn cần phải nhiều hơn 1 ngày")]
             public int Duration { get; set; }
+
+            [Required(ErrorMessage = "Vui lòng chọn một chuyên gia tâm lý.")]
+            public Guid PsychologistId { get; set; }
+
+            public string? Purpose { get; set; }
+            public string? Criteria { get; set; }
+            public string? FocusGroup { get; set; }
+            public string? AssessmentTool { get; set; }
         }
         public class RegisterSubscriptionModel
         {
