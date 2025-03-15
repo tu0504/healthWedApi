@@ -14,8 +14,6 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
         {
             public Guid Id { get; set; }
             public string ContentQ { get; set; }
-            public string Options { get; set; }
-            public bool Validity { get; set; }
             public DateTimeOffset CreateAt { get; set; }
             public DateTimeOffset? ModifiedAt { get; set; }
             public Guid SurveyTypeId { get; set; }

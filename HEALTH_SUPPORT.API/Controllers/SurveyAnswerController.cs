@@ -16,14 +16,6 @@ namespace HEALTH_SUPPORT.API.Controllers
             _SurveyAnswerService = SurveyAnswerService;
         }
 
-        [HttpGet(Name = "GetSurveyAnswers")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetSurveyAnswers()
-        {
-            var result = await _SurveyAnswerService.GetSurveyAnswers();
-            return Ok(result);
-        }
-
         [HttpGet("{SurveyAnswerId}", Name = "GetSurveyAnswerById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -36,11 +28,11 @@ namespace HEALTH_SUPPORT.API.Controllers
             }
             return Ok(result);
         }
-        [HttpPost(Name = "CreateSurveyAnswer")]
+        [HttpPost("{surveyQuestionId}", Name = "CreateSurveyAnswer")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult> CreateSurveyAnswer([FromBody] List<SurveyAnswerRequest.CreateSurveyAnswerRequest> model)
+        public async Task<ActionResult> CreateSurveyAnswer(Guid surveyQuestionId, [FromBody] List<SurveyAnswerRequest.CreateSurveyAnswerRequest> model)
         {
-            await _SurveyAnswerService.AddSurveyAnswerForSurveyQuestion(model);
+            await _SurveyAnswerService.AddSurveyAnswerForSurveyQuestion(surveyQuestionId, model);
             return CreatedAtRoute("GetSurveyAnswerById", new { SurveyAnswerId = /* newly created id */ Guid.NewGuid() }, new { message = "SurveyAnswer Type created successfully" });
         }
         //Update SurveyAnswer Type

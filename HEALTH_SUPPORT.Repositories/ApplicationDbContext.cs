@@ -27,8 +27,9 @@ namespace HEALTH_SUPPORT.Repositories
         public DbSet<SurveyResults> SurveyResults { get; set; }
         public DbSet<AccountSurvey> AccountSurveys { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
-
-
+        public DbSet<SurveyQuestionAnswer> SurveyQuestionAnswer { get; set; }
+        public DbSet<SurveyQuestionSurvey> SurveyQuestionSurvey { get; set; }
+        public DbSet<SurveyAnswerRecord> SurveyAnswerRecord { get; set; }
 
         private readonly IConfiguration _configuration;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
@@ -58,7 +59,7 @@ namespace HEALTH_SUPPORT.Repositories
                 new Account
                 {
                     Id = Guid.Parse("5b0884a0-0067-49f5-b3be-a29ef58aa70c"),
-                    UseName = "Manager1",
+                    UserName = "Manager1",
                     Fullname = "Manager1 nè",
                     Email = "admin@example.com",
                     Phone = "0123456789",
@@ -71,7 +72,7 @@ namespace HEALTH_SUPPORT.Repositories
                 new Account
                 {
                     Id = Guid.Parse("dad2a80f-70e4-49f6-b3c5-3c1eedf525e4"),
-                    UseName = "Manager2",
+                    UserName = "Manager2",
                     Fullname = "Manager2 nè",
                     Email = "admin2@example.com",
                     Phone = "0123456789",
@@ -82,7 +83,7 @@ namespace HEALTH_SUPPORT.Repositories
                     RoleId = Guid.Parse("2a5f5c96-cb79-40d4-a604-d484b7041e7f")
                 }
             );
-            modelBuilder.Entity<Account>().HasIndex(a => a.UseName).IsUnique();
+            modelBuilder.Entity<Account>().HasIndex(a => a.UserName).IsUnique();
 
             modelBuilder.Entity<SurveyType>().HasData(
                 new SurveyType { Id = Guid.Parse("b23f0870-f5d9-463f-8ffc-98a133da47e8"), SurveyName = "Đánh giá lo âu (GAD-7)" },
@@ -338,19 +339,12 @@ namespace HEALTH_SUPPORT.Repositories
                 }
 
             );
-
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Account>().HasMany(s => s.AccountSurveys).WithOne(a => a.Account).HasForeignKey(s => s.AccountId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Survey>().HasMany(s => s.AccountSurveys).WithOne(a => a.Survey).HasForeignKey(s => s.SurveyId).OnDelete(DeleteBehavior.Restrict);
 
             //Survey-SurveyResults(1-m)
             modelBuilder.Entity<Survey>().HasMany(s => s.SurveyResults).WithOne(a => a.Survey).HasForeignKey(s => s.SurveyId).OnDelete(DeleteBehavior.Restrict);
-
-            //Survey-SurveyQuestion(m-m)
-            modelBuilder.Entity<Survey>().HasMany(s => s.SurveyQuestions).WithMany(a => a.Surveys).UsingEntity(j => j.ToTable("SurveyQuestionSurvey"));
-
-            //SurveyQuestion-SurveyAnswer(m-m)
-            modelBuilder.Entity<SurveyQuestion>().HasMany(q => q.SurveyAnswers).WithMany(a => a.SurveyQuestions).UsingEntity(j => j.ToTable("SurveyQuestionAnswer"));
 
             //SurveyType-Survey(1-m)
             modelBuilder.Entity<SurveyType>().HasMany(s => s.Surveys).WithOne(a => a.SurveyType).HasForeignKey(s => s.SurveyTypeId).OnDelete(DeleteBehavior.Restrict);
@@ -383,6 +377,56 @@ namespace HEALTH_SUPPORT.Repositories
             //Category - SubscriptionData(1-m)
             modelBuilder.Entity<Category>().HasMany(d => d.SubscriptionDatas).WithOne(c => c.Category).HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Restrict);
 
+            // SubscriptionProgress - Order (m-1)
+            modelBuilder.Entity<Order>().HasMany(p => p.SubscriptionProgresses).WithOne(o => o.Order).HasForeignKey(p => p.OrderId).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestionSurvey>()
+                        .Ignore(e => e.Id) // Ignore Id property during insert
+                        .Ignore(e => e.IsDeleted); // Ignore IsDeleted property during insert
+
+            modelBuilder.Entity<SurveyQuestionAnswer>()
+            .Ignore(e => e.Id) // Ignore Id property during insert
+            .Ignore(e => e.IsDeleted); // Ignore IsDeleted property during insert
+
+            modelBuilder.Entity<SurveyQuestionAnswer>()
+                .Property(s => s.SurveyQuestionsId)
+                .HasColumnName("SurveyQuestionsId");
+
+            modelBuilder.Entity<SurveyQuestionAnswer>()
+            .HasKey(sq => new { sq.SurveyAnswersId, sq.SurveyQuestionsId });
+
+            modelBuilder.Entity<SurveyQuestionSurvey>()
+                .HasKey(sq => new { sq.SurveyQuestionsId, sq.SurveysId });
+
+            modelBuilder.Entity<SurveyQuestionAnswer>()
+                .HasOne(sqa => sqa.SurveyAnswer)
+                .WithMany(sa => sa.SurveyQuestionAnswers)
+                .HasForeignKey(sqa => sqa.SurveyAnswersId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestionAnswer>()
+                .HasOne(sqa => sqa.SurveyQuestion)
+                .WithMany(sq => sq.SurveyQuestionAnswers)
+                .HasForeignKey(sqa => sqa.SurveyQuestionsId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestion>()
+                .HasOne(sq => sq.SurveyType)
+                .WithMany(st => st.SurveyQuestions)
+                .HasForeignKey(sq => sq.SurveyTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestionSurvey>()
+                .HasOne(sqs => sqs.SurveyQuestion)
+                .WithMany(sq => sq.SurveyQuestionSurveys)
+                .HasForeignKey(sqs => sqs.SurveyQuestionsId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestionSurvey>()
+                .HasOne(sqs => sqs.Survey)
+                .WithMany(s => s.SurveyQuestionSurveys)
+                .HasForeignKey(sqs => sqs.SurveysId)
+                .OnDelete(DeleteBehavior.Restrict);
             // SubscriptionProgress - SubscriptionProgress (1-m)
             modelBuilder.Entity<SubscriptionData>().HasMany(p => p.SubscriptionProgresses).WithOne(d => d.SubscriptionDatas).HasForeignKey(p => p.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
         }

@@ -17,7 +17,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public int Point { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
-        public ICollection<SurveyQuestion> SurveyQuestions { get; set; }
+        public ICollection<SurveyQuestionAnswer> SurveyQuestionAnswers { get; set; }
 
     }
 }

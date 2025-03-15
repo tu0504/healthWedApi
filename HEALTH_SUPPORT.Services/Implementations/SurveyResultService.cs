@@ -129,6 +129,5 @@ namespace HEALTH_SUPPORT.Services.Implementations
             await _surveyResultsRepository.Update(surveyResult);
             await _surveyAnswerRepository.SaveChangesAsync();
         }
-
     }
 }

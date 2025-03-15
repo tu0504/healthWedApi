@@ -40,14 +40,6 @@ namespace HEALTH_SUPPORT.Services.Implementations
             await _surveyRepository.Add(survey);
             await _surveyRepository.SaveChangesAsync();
 
-            //AccountSurvey
-            var accountSurvey = new AccountSurveyRequest.CreateAccountSurveyModel
-            {
-                AccountId = Guid.Parse(userID),
-                SurveyId = survey.Id
-            };
-            await _accountSurveyService.AddAccountSurvey(accountSurvey);
-
             if (model.QuestionList.Any())
             {
                 await _surveyQuestionService.AddSurveyQuestionForSurvey(survey.Id, model.QuestionList);

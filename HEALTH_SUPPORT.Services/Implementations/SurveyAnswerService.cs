@@ -16,14 +16,17 @@ namespace HEALTH_SUPPORT.Services.Implementations
     {
         private readonly IBaseRepository<SurveyAnswer, Guid> _surveyAnswerRepository;
         private readonly IBaseRepository<SurveyQuestion, Guid> _surveyQuestionRepository;
+        private readonly IBaseRepository<SurveyQuestionAnswer, Guid> _surveyQuestionAnswerRepository;
 
-        public SurveyAnswerService(IBaseRepository<SurveyAnswer, Guid> surveyAnswerRepository, IBaseRepository<SurveyQuestion, Guid> surveyQuestionRepository)
+        public SurveyAnswerService(IBaseRepository<SurveyAnswer, Guid> surveyAnswerRepository, IBaseRepository<SurveyQuestion, 
+            Guid> surveyQuestionRepository, IBaseRepository<SurveyQuestionAnswer, Guid> surveyQuestionAnswerRepository)
         {
             _surveyAnswerRepository = surveyAnswerRepository;
             _surveyQuestionRepository = surveyQuestionRepository;
+            _surveyQuestionAnswerRepository = surveyQuestionAnswerRepository;
         }
 
-        public async Task AddSurveyAnswerForSurveyQuestion(List<SurveyAnswerRequest.CreateSurveyAnswerRequest> model)
+        public async Task AddSurveyAnswerForSurveyQuestion(Guid surveyQuestionId, List<SurveyAnswerRequest.CreateSurveyAnswerRequest> model)
         {
             foreach (var item in model)
             {
@@ -34,6 +37,13 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Point = item.Point
                 };
                 await _surveyAnswerRepository.Add(answer);
+                var surveyQuestionAnswer = new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = answer.Id,
+                    SurveyQuestionsId = surveyQuestionId
+                };
+                await _surveyQuestionAnswerRepository.Add(surveyQuestionAnswer);
+                await _surveyQuestionAnswerRepository.SaveChangesAsync();
             }
             await _surveyQuestionRepository.SaveChangesAsync();
         }
@@ -70,23 +80,24 @@ namespace HEALTH_SUPPORT.Services.Implementations
             };
         }
 
-        public async Task<List<SurveyAnswerResponse.GetSurveyAnswerModel?>> GetSurveyAnswerForQuestion(List<Guid> questionIds)
+        public async Task<List<SurveyAnswerResponse.GetSurveyAnswerModel?>> GetSurveyAnswerForQuestion(Guid questionIds)
         {
+            var answerIdList = await _surveyQuestionAnswerRepository.GetAll()
+                .Where(s => s.SurveyQuestionsId == questionIds).Select(s => s.SurveyAnswersId).ToListAsync();
+            if(!answerIdList.Any())
+            {
+                return new List<SurveyAnswerResponse.GetSurveyAnswerModel?>();
+            }
             var answerList = await _surveyAnswerRepository.GetAll()
-                .Where(s => s.SurveyQuestions.Any(q => questionIds.Contains(q.Id)))
+                .Where(s => answerIdList.Contains(s.Id))
                 .Select(s => new SurveyAnswerResponse.GetSurveyAnswerModel
                 {
-                    QuestionId = s.SurveyQuestions.FirstOrDefault().Id,
+                    QuestionId = questionIds,
                     Id = s.Id,
                     IsDelete = s.IsDeleted,
                     Point = s.Point
                 }).ToListAsync();
             return answerList;
-        }
-
-        public Task<List<SurveyAnswerResponse.GetSurveyAnswerModel>> GetSurveyAnswers()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task RemoveSurveyAnswer(Guid id)

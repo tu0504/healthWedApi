@@ -13,7 +13,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
     public class Account : Entity<Guid>, IAuditable
     {
         [Required]
-        public string UseName { get; set; }
+        public string UserName { get; set; }
         [Required]
         public string Fullname { get; set; }
         [Required, EmailAddress]

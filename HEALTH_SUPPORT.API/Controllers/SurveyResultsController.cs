@@ -35,6 +35,7 @@ namespace HEALTH_SUPPORT.API.Controllers
             if (result == null)
             {
                 return NotFound(new { message = "Không tìm thấy kết quả khảo sát." });
+
             }
             return Ok(result);
         }
