@@ -17,25 +17,16 @@ namespace HEALTH_SUPPORT.Services.Implementations
     {
         private readonly IBaseRepository<SubscriptionData, Guid> _subscriptionRepository;
         private readonly IBaseRepository<Category, Guid> _categoryRepository;
-        private readonly IBaseRepository<Order, Guid> _orderRepository;
-        private readonly IBaseRepository<SubscriptionProgress, Guid> _subscriptionProgressRepository;
         private readonly IBaseRepository<Psychologist, Guid> _psychologistRepository;
-        private readonly IBaseRepository<Account, Guid> _accountRepository;
 
         public SubscriptionService(
             IBaseRepository<SubscriptionData, Guid> subscriptionRepository,
             IBaseRepository<Category, Guid> categoryRepository,
-            IBaseRepository<Order, Guid> orderRepository,
-            IBaseRepository<SubscriptionProgress, Guid> subscriptionProgressRepository,
-            IBaseRepository<Psychologist, Guid> psychologistRepository,
-            IBaseRepository<Account, Guid> accountRepository)
+            IBaseRepository<Psychologist, Guid> psychologistRepository)
         {
             _subscriptionRepository = subscriptionRepository;
             _categoryRepository = categoryRepository;
-            _orderRepository = orderRepository;
-            _subscriptionProgressRepository = subscriptionProgressRepository;
             _psychologistRepository = psychologistRepository;
-            _accountRepository = accountRepository;
         }
 
         public async Task AddSubscription(SubscriptionRequest.CreateSubscriptionModel model)
@@ -68,6 +59,10 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Duration = model.Duration,
                     CategoryId = category.Id,
                     PsychologistId = psychologist.Id,
+                    Purpose = model.Purpose,
+                    Criteria = model.Criteria,
+                    FocusGroup = model.FocusGroup,
+                    AssessmentTool = model.AssessmentTool,
                     CreateAt = DateTimeOffset.UtcNow
                 };
                 await _subscriptionRepository.Add(subscription);
@@ -82,7 +77,10 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task<SubscriptionResponse.GetSubscriptionsModel?> GetSubscriptionById(Guid id)
         {
-            var subscription = await _subscriptionRepository.GetAll().Include(s => s.Category).Include(s => s.Psychologists).FirstOrDefaultAsync(s => s.Id == id);
+            var subscription = await _subscriptionRepository.GetAll()
+                .Include(s => s.Category)
+                .Include(s => s.Psychologists)
+                .FirstOrDefaultAsync(s => s.Id == id);
 
             if (subscription == null || subscription.IsDeleted)
             {
@@ -96,7 +94,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 (float)subscription.Price,
                 subscription.Duration,
                 subscription.Category?.CategoryName ?? "Unknown",
-                subscription.Psychologists?.Name ?? "Unknown"
+                subscription.Psychologists?.Name ?? "Unknown",
+                subscription.Purpose,
+                subscription.Criteria,
+                subscription.FocusGroup,
+                subscription.AssessmentTool
             );
         }
 
@@ -112,7 +114,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 (float)s.Price,
                 s.Duration,
                 s.Category != null ? s.Category.CategoryName : "Unknown",
-                s.Psychologists != null ? s.Psychologists.Name : "Unknown"
+                s.Psychologists != null ? s.Psychologists.Name : "Unknown",
+                s.Purpose,
+                s.Criteria,
+                s.FocusGroup,
+                s.AssessmentTool
             ))
             .ToListAsync();
         }
@@ -148,6 +154,12 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 existedSubscription.Description = string.IsNullOrWhiteSpace(model.Description) ? existedSubscription.Description : model.Description;
                 existedSubscription.Price = model.Price > 0 ? model.Price : existedSubscription.Price;
                 existedSubscription.Duration = model.Duration > 0 ? model.Duration : existedSubscription.Duration;
+                existedSubscription.PsychologistId = model.PsychologistId != Guid.Empty ? model.PsychologistId : existedSubscription.PsychologistId;
+                existedSubscription.Purpose = string.IsNullOrWhiteSpace(model.Purpose) ? existedSubscription.Purpose : model.Purpose;
+                existedSubscription.Criteria = string.IsNullOrWhiteSpace(model.Criteria) ? existedSubscription.Criteria : model.Criteria;
+                existedSubscription.FocusGroup = string.IsNullOrWhiteSpace(model.FocusGroup) ? existedSubscription.FocusGroup : model.FocusGroup;
+                existedSubscription.AssessmentTool = string.IsNullOrWhiteSpace(model.AssessmentTool) ? existedSubscription.AssessmentTool : model.AssessmentTool;
+
                 existedSubscription.ModifiedAt = DateTimeOffset.UtcNow;
 
                 // Save changes to database

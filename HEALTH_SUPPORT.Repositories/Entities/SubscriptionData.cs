@@ -22,6 +22,10 @@ namespace HEALTH_SUPPORT.Repositories.Entities
 
         [Required]
         public int Duration { get; set; }
+        public string Purpose { get; set; }
+        public string Criteria { get; set; }
+        public string FocusGroup { get; set; }
+        public string AssessmentTool { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
 
@@ -34,7 +38,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Guid PsychologistId { get; set; }
         [ForeignKey("PsychologistId")]
         public Psychologist Psychologists { get; set; }
-
+        public ICollection<SubscriptionProgress> SubscriptionProgresses { get; set; }
         public ICollection<Order> Orders { get; set; }
     }
 }
