@@ -16,6 +16,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public Guid AccountId { get; set; }
             public Guid PsychologistId { get; set; }
             public DateTimeOffset AppointmentDate { get; set; }
+            public int Status { get; set; }
         }
 
         public class EditAppointmentRequestRequest
@@ -23,6 +24,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public Guid AccountId { get; set; }
             public Guid PsychologistId { get; set; }
             public DateTimeOffset AppointmentDate { get; set; }
+            public int Status { get; set; }
         }
     }
 }

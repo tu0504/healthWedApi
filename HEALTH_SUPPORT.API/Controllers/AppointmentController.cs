@@ -75,7 +75,7 @@ namespace HEALTH_SUPPORT.API.Controllers
                 return BadRequest(new { message = "Invalid update data" });
             }
             await _appointmentService.UpdateAppointment(AppointmentId, model);
-            return Ok(new { message = "Create Appointment Successfully" });
+            return Ok(new { message = "Update Appointment Successfully" });
         }
 
         [HttpDelete("{AppointmentId}", Name = "DeleteAppointment")]

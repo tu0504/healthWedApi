@@ -23,6 +23,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             [ForeignKey("PsychologistId")]
             public PsychologistResponse.GetPsychologistModel Psychologist { get; set; }
             public bool IsDelete { get; set; }
+            public int Status { get; set; }
         }
 
         public class GetAccountsForAppointmentModel
@@ -33,6 +34,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public string Email { get; set; }
             public string Phone { get; set; }
             public string Address { get; set; }
+            public int Status { get; set; }
         }
     }
 }

@@ -27,8 +27,9 @@ namespace HEALTH_SUPPORT.Repositories
         public DbSet<SurveyResults> SurveyResults { get; set; }
         public DbSet<AccountSurvey> AccountSurveys { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
-
-
+        public DbSet<SurveyQuestionAnswer> SurveyQuestionAnswer { get; set; }
+        public DbSet<SurveyQuestionSurvey> SurveyQuestionSurvey { get; set; }
+        public DbSet<SurveyAnswerRecord> SurveyAnswerRecord { get; set; }
 
         private readonly IConfiguration _configuration;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
@@ -345,12 +346,6 @@ namespace HEALTH_SUPPORT.Repositories
             //Survey-SurveyResults(1-m)
             modelBuilder.Entity<Survey>().HasMany(s => s.SurveyResults).WithOne(a => a.Survey).HasForeignKey(s => s.SurveyId).OnDelete(DeleteBehavior.Restrict);
 
-            //Survey-SurveyQuestion(m-m)
-            modelBuilder.Entity<Survey>().HasMany(s => s.SurveyQuestions).WithMany(a => a.Surveys).UsingEntity(j => j.ToTable("SurveyQuestionSurvey"));
-
-            //SurveyQuestion-SurveyAnswer(m-m)
-            modelBuilder.Entity<SurveyQuestion>().HasMany(q => q.SurveyAnswers).WithMany(a => a.SurveyQuestions).UsingEntity(j => j.ToTable("SurveyQuestionAnswer"));
-
             //SurveyType-Survey(1-m)
             modelBuilder.Entity<SurveyType>().HasMany(s => s.Surveys).WithOne(a => a.SurveyType).HasForeignKey(s => s.SurveyTypeId).OnDelete(DeleteBehavior.Restrict);
 
@@ -384,6 +379,54 @@ namespace HEALTH_SUPPORT.Repositories
 
             // SubscriptionProgress - Order (m-1)
             modelBuilder.Entity<Order>().HasMany(p => p.SubscriptionProgresses).WithOne(o => o.Order).HasForeignKey(p => p.OrderId).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestionSurvey>()
+                        .Ignore(e => e.Id) // Ignore Id property during insert
+                        .Ignore(e => e.IsDeleted); // Ignore IsDeleted property during insert
+
+            modelBuilder.Entity<SurveyQuestionAnswer>()
+            .Ignore(e => e.Id) // Ignore Id property during insert
+            .Ignore(e => e.IsDeleted); // Ignore IsDeleted property during insert
+
+            modelBuilder.Entity<SurveyQuestionAnswer>()
+                .Property(s => s.SurveyQuestionsId)
+                .HasColumnName("SurveyQuestionsId");
+
+            modelBuilder.Entity<SurveyQuestionAnswer>()
+            .HasKey(sq => new { sq.SurveyAnswersId, sq.SurveyQuestionsId });
+
+            modelBuilder.Entity<SurveyQuestionSurvey>()
+                .HasKey(sq => new { sq.SurveyQuestionsId, sq.SurveysId });
+
+            modelBuilder.Entity<SurveyQuestionAnswer>()
+                .HasOne(sqa => sqa.SurveyAnswer)
+                .WithMany(sa => sa.SurveyQuestionAnswers)
+                .HasForeignKey(sqa => sqa.SurveyAnswersId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestionAnswer>()
+                .HasOne(sqa => sqa.SurveyQuestion)
+                .WithMany(sq => sq.SurveyQuestionAnswers)
+                .HasForeignKey(sqa => sqa.SurveyQuestionsId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestion>()
+                .HasOne(sq => sq.SurveyType)
+                .WithMany(st => st.SurveyQuestions)
+                .HasForeignKey(sq => sq.SurveyTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestionSurvey>()
+                .HasOne(sqs => sqs.SurveyQuestion)
+                .WithMany(sq => sq.SurveyQuestionSurveys)
+                .HasForeignKey(sqs => sqs.SurveyQuestionsId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestionSurvey>()
+                .HasOne(sqs => sqs.Survey)
+                .WithMany(s => s.SurveyQuestionSurveys)
+                .HasForeignKey(sqs => sqs.SurveysId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

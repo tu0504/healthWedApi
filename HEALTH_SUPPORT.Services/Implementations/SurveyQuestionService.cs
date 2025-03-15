@@ -16,12 +16,23 @@ namespace HEALTH_SUPPORT.Services.Implementations
     {
         private readonly IBaseRepository<Survey, Guid> _surveyRepository;
         private readonly IBaseRepository<SurveyQuestion, Guid> _surveyQuestionRepository;
+        private readonly IBaseRepository<SurveyAnswer, Guid> _surveyAnswerRepository;
+        private readonly IBaseRepository<SurveyQuestionSurvey, Guid> _surveyQuestionSurveyRepository;
         private readonly ISurveyAnswerService _surveyAnswerService;
-        public SurveyQuestionService(IBaseRepository<Survey, Guid> surveyRepository, IBaseRepository<SurveyQuestion, Guid> surveyQuestionRepository, ISurveyAnswerService surveyAnswerService)
+        private readonly ISurveyQuestionSurveyService _surveyQuestionSurveyService;
+        private readonly ISurveyQuestionAnswerService _surveyQuestionAnswerService;
+
+        public SurveyQuestionService(IBaseRepository<Survey, Guid> surveyRepository, IBaseRepository<SurveyQuestion, Guid> surveyQuestionRepository, 
+            IBaseRepository<SurveyAnswer, Guid> surveyAnswerRepository, IBaseRepository<SurveyQuestionSurvey, Guid> surveyQuestionSurveyRepository, 
+            ISurveyAnswerService surveyAnswerService, ISurveyQuestionSurveyService surveyQuestionSurveyService, ISurveyQuestionAnswerService surveyQuestionAnswerService)
         {
             _surveyRepository = surveyRepository;
             _surveyQuestionRepository = surveyQuestionRepository;
+            _surveyAnswerRepository = surveyAnswerRepository;
+            _surveyQuestionSurveyRepository = surveyQuestionSurveyRepository;
             _surveyAnswerService = surveyAnswerService;
+            _surveyQuestionSurveyService = surveyQuestionSurveyService;
+            _surveyQuestionAnswerService = surveyQuestionAnswerService;
         }
 
         public async Task AddSurveyQuestionForSurvey(Guid surveyID, List<SurveyQuestionRequest.CreateSurveyQuestionRequest> model)
@@ -31,7 +42,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 throw new Exception("Không tìm thấy bảng khảo sát.");
             }
-            var surveyQuestions = new List<SurveyQuestion>();
+            //var surveyAnswers = new List<SurveyAnswer>();
+            var surveyQuestionSurveyModel = new SurveyQuestionSurveyRequest.AddSurveyQuestionSurvey();
+            var surveyQuestionAnswerModel = new SurveyQuestionAnswerRequest.AddSurveyQuestionAnswer();
 
             foreach (var surveyQuestion in model)
             {
@@ -39,23 +52,35 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 {
                     CreateAt = DateTime.Now,
                     SurveyTypeId = survey.SurveyTypeId,
-                    ContentQ = surveyQuestion.ContentQ,
-                    SurveyAnswers = surveyQuestion.AnswersList?.Select(answer => new SurveyAnswer
-                    {
-                        Content = answer.Content,
-                        Point = answer.Point,
-                        CreateAt = DateTime.Now
-                    }).ToList() ?? new List<SurveyAnswer>()
+                    ContentQ = surveyQuestion.ContentQ
                 };
 
-                surveyQuestions.Add(question);
-            }
-
-            foreach (var question in surveyQuestions)
-            {
                 await _surveyQuestionRepository.Add(question);
+                surveyQuestionSurveyModel.SurveyQuestionsId = question.Id;
+                surveyQuestionSurveyModel.SurveysId = surveyID;
+                await _surveyQuestionSurveyService.AddSurveyQuestionSurvey(surveyQuestionSurveyModel);
+
+                var surveyAnswerByQuestion = surveyQuestion.AnswersList?.Select(answer => new SurveyAnswer
+                {
+                    Content = answer.Content,
+                    Point = answer.Point,
+                    CreateAt = DateTime.Now
+                }).ToList() ?? new List<SurveyAnswer>();
+
+                if (surveyAnswerByQuestion.Any())
+                {
+                    foreach (var answer in surveyAnswerByQuestion)
+                    {
+                        await _surveyAnswerRepository.Add(answer);
+                        surveyQuestionAnswerModel.SurveyQuestionsId = question.Id;
+                        surveyQuestionAnswerModel.SurveyAnswersId = answer.Id;
+                        await _surveyQuestionAnswerService.AddSurveyQuestionAnswer(surveyQuestionAnswerModel);
+                    }
+                    await _surveyAnswerRepository.SaveChangesAsync();
+                }
             }
             await _surveyQuestionRepository.SaveChangesAsync();
+            return;
         }
 
         public async Task<SurveyQuestionResponse.GetSurveyQuestionModel?> GetSurveyQuestionById(Guid id)
@@ -110,28 +135,34 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<List<SurveyQuestionResponse.GetSurveyQuestionModel>> GetSurveyQuestionsForSurvey(Guid surveyId)
         {
             // Lấy danh sách SurveyQuestion từ bảng trung gian SurveyQuestionSurvey
-            var questionList = await _surveyQuestionRepository.GetAll()
-                .Where(q => q.Surveys.Any(s => s.Id == surveyId)) // Kiểm tra xem SurveyQuestion thuộc Survey nào
+            var questionIdList = await _surveyQuestionSurveyRepository.GetAll().Where(s => s.SurveysId == surveyId).Select(s => s.SurveyQuestionsId).ToListAsync();
+            if (!questionIdList.Any())
+            {
+                return new List<SurveyQuestionResponse.GetSurveyQuestionModel>();
+            }
+            var questionList = await _surveyQuestionRepository
+                .GetAll()
+                .Include(s => s.SurveyQuestionAnswers)
+                .ThenInclude(s => s.SurveyAnswer)
+                .Where(s => questionIdList.Contains(s.Id))
                 .Select(q => new SurveyQuestionResponse.GetSurveyQuestionModel
                 {
                     Id = q.Id,
-                    SurveyId = surveyId, // SurveyQuestion không có trực tiếp SurveyId
+                    SurveyId = surveyId, // SurveyQuestion doesn't have SurveyId directly
                     ContentQ = q.ContentQ,
                     CreateAt = q.CreateAt,
                     ModifiedAt = q.ModifiedAt,
-                    IsDelete = q.IsDeleted
+                    IsDelete = q.IsDeleted,
+                    AnswerList = q.SurveyQuestionAnswers.Select(sqs => new SurveyAnswerResponse.GetSurveyAnswerModel
+                    {
+                        Id = sqs.SurveyAnswer.Id,  // Assuming SurveyAnswer is accessible this way
+                        Content = sqs.SurveyAnswer.Content,
+                        Point = sqs.SurveyAnswer.Point,
+                        QuestionId = q.Id,
+                        IsDelete = sqs.SurveyAnswer.IsDeleted
+                    }).ToList()  // Convert to List
                 })
                 .ToListAsync();
-
-            // Lấy danh sách Answer tương ứng với QuestionId trong questionList
-            var questionIds = questionList.Select(q => q.Id).ToList();
-            var answerList = await _surveyAnswerService.GetSurveyAnswerForQuestion(questionIds);
-
-            // Gán danh sách câu trả lời vào từng câu hỏi
-            foreach (var question in questionList)
-            {
-                question.AnswerList = answerList.Where(a => a.QuestionId == question.Id).ToList();
-            }
 
             return questionList;
         }

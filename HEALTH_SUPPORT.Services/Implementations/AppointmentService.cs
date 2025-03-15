@@ -37,7 +37,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 AccountId = model.AccountId,
                 CreateAt = DateTime.Now,
                 PsychologistId = model.PsychologistId,
-                AppointmentDate = model.AppointmentDate
+                AppointmentDate = model.AppointmentDate,
+                Status = model.Status
             };
             await _appointmentRepository.Add(appointment);
             await _appointmentRepository.SaveChangesAsync();
@@ -78,6 +79,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 AppointmentDate = appointment.AppointmentDate,
                 IsDelete = appointment.IsDeleted,
                 PsychologistId = appointment.PsychologistId,
+                Status = appointment.Status,
                 Psychologist = new PsychologistResponse.GetPsychologistModel
                 {
                     IsDelete = psychologist.IsDeleted,
@@ -100,7 +102,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 ModifiedAt = s.ModifiedAt,
                 AppointmentDate = s.AppointmentDate,
                 IsDelete = s.IsDeleted,
-                PsychologistId = s.PsychologistId
+                PsychologistId = s.PsychologistId,
+                Status = s.Status
             }).ToList();
             if (!appointment.Any())
             {
@@ -137,7 +140,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 ModifiedAt = s.ModifiedAt,
                 AppointmentDate = s.AppointmentDate,
                 IsDelete = s.IsDeleted,
-                PsychologistId = s.PsychologistId
+                PsychologistId = s.PsychologistId,
+                Status = s.Status
             }).ToList();
             if (!appointment.Any())
             {
@@ -188,6 +192,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             appointment.PsychologistId = model.PsychologistId;
             appointment.ModifiedAt = DateTime.Now;
             appointment.AppointmentDate = model.AppointmentDate;
+            appointment.Status = model.Status;
             await _appointmentRepository.Update(appointment);
             await _appointmentRepository.SaveChangesAsync();
         }

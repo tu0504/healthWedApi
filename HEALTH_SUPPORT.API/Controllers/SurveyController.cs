@@ -47,6 +47,7 @@ namespace HEALTH_SUPPORT.API.Controllers
             {
                 throw new Exception("Không tìm thấy người dùng.");
             }
+            //var userId = "DAD2A80F-70E4-49F6-B3C5-3C1EEDF525E4";
             await _surveyService.AddSurvey(userId, model);
             return CreatedAtRoute("GetSurveyById", new { SurveyId = /* newly created id */ Guid.NewGuid() }, new { message = "Survey created successfully" });
         }
