@@ -1,4 +1,5 @@
-﻿using HEALTH_SUPPORT.Services.IServices;
+﻿using HEALTH_SUPPORT.Repositories.Entities;
+using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,15 @@ namespace HEALTH_SUPPORT.API.Controllers
             }
             return Ok(result);
         }
+
+        [HttpGet("{surveyQuestionId}/SurveyQuestion", Name = "GetSurveyAnswerByQuestionId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetSurveyAnswerForQuestion(Guid surveyQuestionId)
+        {
+            var result = await _SurveyAnswerService.GetSurveyAnswerForQuestion(surveyQuestionId);
+            return Ok(result);
+        }
+
         [HttpPost("{surveyQuestionId}", Name = "CreateSurveyAnswer")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult> CreateSurveyAnswer(Guid surveyQuestionId, [FromBody] List<SurveyAnswerRequest.CreateSurveyAnswerRequest> model)

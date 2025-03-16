@@ -158,7 +158,6 @@ namespace HEALTH_SUPPORT.Services.Implementations
                         Id = sqs.SurveyAnswer.Id,  // Assuming SurveyAnswer is accessible this way
                         Content = sqs.SurveyAnswer.Content,
                         Point = sqs.SurveyAnswer.Point,
-                        QuestionId = q.Id,
                         IsDelete = sqs.SurveyAnswer.IsDeleted
                     }).ToList()  // Convert to List
                 })

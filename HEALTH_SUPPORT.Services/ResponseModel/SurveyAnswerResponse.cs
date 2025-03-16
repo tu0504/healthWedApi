@@ -13,7 +13,8 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public Guid Id { get; set; }
             public string Content { get; set; }
             public int Point { get; set; }
-            public Guid QuestionId { get; set; }
+            public DateTimeOffset CreateAt { get; set; }
+            public DateTimeOffset? ModifiedAt { get; set; }
             public bool IsDelete { get; set; }
         }
     }

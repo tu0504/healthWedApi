@@ -18,15 +18,16 @@ namespace HEALTH_SUPPORT.Services.Implementations
         private readonly IBaseRepository<SubscriptionData, Guid> _subscriptionRepository;
         private readonly IBaseRepository<Category, Guid> _categoryRepository;
         private readonly IBaseRepository<Psychologist, Guid> _psychologistRepository;
+        private readonly IBaseRepository<Account, Guid> _accountRepository;
+        private readonly IBaseRepository<Order, Guid> _orderRepository;
 
-        public SubscriptionService(
-            IBaseRepository<SubscriptionData, Guid> subscriptionRepository,
-            IBaseRepository<Category, Guid> categoryRepository,
-            IBaseRepository<Psychologist, Guid> psychologistRepository)
+        public SubscriptionService(IBaseRepository<SubscriptionData, Guid> subscriptionRepository, IBaseRepository<Category, Guid> categoryRepository, IBaseRepository<Psychologist, Guid> psychologistRepository, IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Order, Guid> orderRepository)
         {
             _subscriptionRepository = subscriptionRepository;
             _categoryRepository = categoryRepository;
             _psychologistRepository = psychologistRepository;
+            _accountRepository = accountRepository;
+            _orderRepository = orderRepository;
         }
 
         public async Task AddSubscription(SubscriptionRequest.CreateSubscriptionModel model)
@@ -255,7 +256,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 order.Quantity,
                 order.Accounts.Fullname,
                 order.Accounts.Email,
-                order.CreateAt
+                order.CreateAt,
+                order.IsActive
             );
         }
         public async Task<OrderResponse.GetOrderDetailsModel?> ConfirmOrder(Guid orderId)

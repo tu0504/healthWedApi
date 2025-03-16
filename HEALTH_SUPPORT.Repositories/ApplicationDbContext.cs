@@ -13,6 +13,10 @@ namespace HEALTH_SUPPORT.Repositories
 {
     public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+        {
+        }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Survey> Surveys { get; set; }
@@ -378,7 +382,7 @@ namespace HEALTH_SUPPORT.Repositories
             modelBuilder.Entity<Category>().HasMany(d => d.SubscriptionDatas).WithOne(c => c.Category).HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Restrict);
 
             // SubscriptionProgress - Order (m-1)
-            modelBuilder.Entity<Order>().HasMany(p => p.SubscriptionProgresses).WithOne(o => o.Order).HasForeignKey(p => p.OrderId).OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<Order>().HasMany(p => p.SubscriptionProgresses).WithOne(o => o.Order).HasForeignKey(p => p.OrderId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<SurveyQuestionSurvey>()
                         .Ignore(e => e.Id) // Ignore Id property during insert
@@ -427,6 +431,435 @@ namespace HEALTH_SUPPORT.Repositories
                 .WithMany(s => s.SurveyQuestionSurveys)
                 .HasForeignKey(sqs => sqs.SurveysId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SurveyQuestionSurvey>().HasData(
+                new SurveyQuestionSurvey { 
+                    SurveyQuestionsId = Guid.Parse("0998C44C-7A8D-41FD-8B3E-05D775CE4B27"), 
+                    SurveysId = Guid.Parse("418BE23D-8DB9-4B74-A86A-9402F246EA62") },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("7B1CC80A-8C8F-4695-99EB-271C46B9C766"),
+                    SurveysId = Guid.Parse("418BE23D-8DB9-4B74-A86A-9402F246EA62")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("07CB8575-7B7D-4784-A6B2-9CC1543F0267"),
+                    SurveysId = Guid.Parse("418BE23D-8DB9-4B74-A86A-9402F246EA62")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("A9FFEDD5-3F8E-4D98-B230-AE2491045F0D"),
+                    SurveysId = Guid.Parse("418BE23D-8DB9-4B74-A86A-9402F246EA62")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("4F4736E4-ECBE-4BDC-A9CF-CAC7DB918AAE"),
+                    SurveysId = Guid.Parse("418BE23D-8DB9-4B74-A86A-9402F246EA62")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("798B80AC-F766-4BAF-AA01-DBEBCA21F98B"),
+                    SurveysId = Guid.Parse("418BE23D-8DB9-4B74-A86A-9402F246EA62")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("A1CE2D59-88D4-463D-8AF2-F472B5771746"),
+                    SurveysId = Guid.Parse("418BE23D-8DB9-4B74-A86A-9402F246EA62")
+                },
+
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("37A557B5-C10A-4062-B7E5-0B2F4E02636E"),
+                    SurveysId = Guid.Parse("86DEEB52-2EF9-47D9-8496-EDAC723FFBF7")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("59D5F97C-11B1-40D3-A69C-6C3700FF2C7D"),
+                    SurveysId = Guid.Parse("86DEEB52-2EF9-47D9-8496-EDAC723FFBF7")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("FDCE1E6A-D8DC-4DDC-BD63-9F9ACF666467"),
+                    SurveysId = Guid.Parse("86DEEB52-2EF9-47D9-8496-EDAC723FFBF7")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("A36264C0-9AD8-4205-811B-A867D2C7966D"),
+                    SurveysId = Guid.Parse("86DEEB52-2EF9-47D9-8496-EDAC723FFBF7")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("416FCDF0-E6E6-4E76-9E3A-CB80B9A57A49"),
+                    SurveysId = Guid.Parse("86DEEB52-2EF9-47D9-8496-EDAC723FFBF7")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("3F0DCE08-EBBD-4872-B9DC-D3DE0B66279F"),
+                    SurveysId = Guid.Parse("86DEEB52-2EF9-47D9-8496-EDAC723FFBF7")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("8F0A5958-04AD-403A-BBAD-EA476F5C2CC5"),
+                    SurveysId = Guid.Parse("86DEEB52-2EF9-47D9-8496-EDAC723FFBF7")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("41ECF897-7BFA-4892-ABB8-EEE9AACC7EB5"),
+                    SurveysId = Guid.Parse("86DEEB52-2EF9-47D9-8496-EDAC723FFBF7")
+                },
+                new SurveyQuestionSurvey
+                {
+                    SurveyQuestionsId = Guid.Parse("0FF7226B-02F5-45DD-B3A6-F3BB2C804C5D"),
+                    SurveysId = Guid.Parse("86DEEB52-2EF9-47D9-8496-EDAC723FFBF7")
+                }
+    );
+
+            modelBuilder.Entity<SurveyQuestionAnswer>().HasData(
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28dee921-db63-45c3-87a3-bdf0a263370d"),
+                    SurveyQuestionsId = Guid.Parse("0998C44C-7A8D-41FD-8B3E-05D775CE4B27")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("0998C44C-7A8D-41FD-8B3E-05D775CE4B27")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91c14006-832a-41dd-8d03-e7950cf54347"),
+                    SurveyQuestionsId = Guid.Parse("0998C44C-7A8D-41FD-8B3E-05D775CE4B27")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("f7095907-611f-4ed9-b622-5df984f48175"),
+                    SurveyQuestionsId = Guid.Parse("0998C44C-7A8D-41FD-8B3E-05D775CE4B27")
+                },
+                ////////////////////////////////////
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("37A557B5-C10A-4062-B7E5-0B2F4E02636E")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("37A557B5-C10A-4062-B7E5-0B2F4E02636E")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("37A557B5-C10A-4062-B7E5-0B2F4E02636E")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("37A557B5-C10A-4062-B7E5-0B2F4E02636E")
+                },
+                //////////////////////////
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("7B1CC80A-8C8F-4695-99EB-271C46B9C766")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("7B1CC80A-8C8F-4695-99EB-271C46B9C766")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("7B1CC80A-8C8F-4695-99EB-271C46B9C766")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("7B1CC80A-8C8F-4695-99EB-271C46B9C766")
+                },
+                ///////////////////////////////
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("59D5F97C-11B1-40D3-A69C-6C3700FF2C7D")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("59D5F97C-11B1-40D3-A69C-6C3700FF2C7D")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("59D5F97C-11B1-40D3-A69C-6C3700FF2C7D")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("59D5F97C-11B1-40D3-A69C-6C3700FF2C7D")
+                },
+                ////////////////////////
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("07CB8575-7B7D-4784-A6B2-9CC1543F0267")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("07CB8575-7B7D-4784-A6B2-9CC1543F0267")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("07CB8575-7B7D-4784-A6B2-9CC1543F0267")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("07CB8575-7B7D-4784-A6B2-9CC1543F0267")
+                },
+                //////////////////////
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("FDCE1E6A-D8DC-4DDC-BD63-9F9ACF666467")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("FDCE1E6A-D8DC-4DDC-BD63-9F9ACF666467")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("FDCE1E6A-D8DC-4DDC-BD63-9F9ACF666467")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("FDCE1E6A-D8DC-4DDC-BD63-9F9ACF666467")
+                },
+                /////////////////////////////
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("A36264C0-9AD8-4205-811B-A867D2C7966D")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("A36264C0-9AD8-4205-811B-A867D2C7966D")
+                },
+                
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("A36264C0-9AD8-4205-811B-A867D2C7966D")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("A36264C0-9AD8-4205-811B-A867D2C7966D")
+                },
+                //////////////////////
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("A9FFEDD5-3F8E-4D98-B230-AE2491045F0D")
+                },            
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("A9FFEDD5-3F8E-4D98-B230-AE2491045F0D")
+                },
+                
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("A9FFEDD5-3F8E-4D98-B230-AE2491045F0D")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("A9FFEDD5-3F8E-4D98-B230-AE2491045F0D")
+                },
+                ////////////////////////////
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("4F4736E4-ECBE-4BDC-A9CF-CAC7DB918AAE")
+                },               
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("4F4736E4-ECBE-4BDC-A9CF-CAC7DB918AAE")
+                },
+                
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("4F4736E4-ECBE-4BDC-A9CF-CAC7DB918AAE")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("4F4736E4-ECBE-4BDC-A9CF-CAC7DB918AAE")
+                },
+                ///////////////////////////
+
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("416FCDF0-E6E6-4E76-9E3A-CB80B9A57A49")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("416FCDF0-E6E6-4E76-9E3A-CB80B9A57A49")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("416FCDF0-E6E6-4E76-9E3A-CB80B9A57A49")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("416FCDF0-E6E6-4E76-9E3A-CB80B9A57A49")
+                },
+                /////////////////////////
+
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("3F0DCE08-EBBD-4872-B9DC-D3DE0B66279F")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("3F0DCE08-EBBD-4872-B9DC-D3DE0B66279F")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("3F0DCE08-EBBD-4872-B9DC-D3DE0B66279F")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("3F0DCE08-EBBD-4872-B9DC-D3DE0B66279F")
+                },
+                ///////////////////////////////////
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("798B80AC-F766-4BAF-AA01-DBEBCA21F98B")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("798B80AC-F766-4BAF-AA01-DBEBCA21F98B")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("798B80AC-F766-4BAF-AA01-DBEBCA21F98B")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("798B80AC-F766-4BAF-AA01-DBEBCA21F98B")
+                },
+                /////////////////////////////
+
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("8F0A5958-04AD-403A-BBAD-EA476F5C2CC5")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("8F0A5958-04AD-403A-BBAD-EA476F5C2CC5")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("8F0A5958-04AD-403A-BBAD-EA476F5C2CC5")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("8F0A5958-04AD-403A-BBAD-EA476F5C2CC5")
+                },
+                /////////////////////////
+
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("41ECF897-7BFA-4892-ABB8-EEE9AACC7EB5")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("41ECF897-7BFA-4892-ABB8-EEE9AACC7EB5")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("41ECF897-7BFA-4892-ABB8-EEE9AACC7EB5")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("41ECF897-7BFA-4892-ABB8-EEE9AACC7EB5")
+                },
+                //////////////////////////////////
+
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("0FF7226B-02F5-45DD-B3A6-F3BB2C804C5D")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("0FF7226B-02F5-45DD-B3A6-F3BB2C804C5D")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("0FF7226B-02F5-45DD-B3A6-F3BB2C804C5D")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("0FF7226B-02F5-45DD-B3A6-F3BB2C804C5D")
+                },
+                /////////////////////////////
+
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("28DEE921-DB63-45C3-87A3-BDF0A263370D"),
+                    SurveyQuestionsId = Guid.Parse("A1CE2D59-88D4-463D-8AF2-F472B5771746")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyQuestionsId = Guid.Parse("A1CE2D59-88D4-463D-8AF2-F472B5771746")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("91C14006-832A-41DD-8D03-E7950CF54347"),
+                    SurveyQuestionsId = Guid.Parse("A1CE2D59-88D4-463D-8AF2-F472B5771746")
+                },
+                new SurveyQuestionAnswer
+                {
+                    SurveyAnswersId = Guid.Parse("F7095907-611F-4ED9-B622-5DF984F48175"),
+                    SurveyQuestionsId = Guid.Parse("A1CE2D59-88D4-463D-8AF2-F472B5771746")
+                }
+            );
             // SubscriptionProgress - SubscriptionProgress (1-m)
             modelBuilder.Entity<SubscriptionData>().HasMany(p => p.SubscriptionProgresses).WithOne(d => d.SubscriptionDatas).HasForeignKey(p => p.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
         }

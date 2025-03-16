@@ -10,8 +10,8 @@ namespace HEALTH_SUPPORT.Services.IServices
 {
     public interface IPsychologistService
     {
-        Task<List<PsychologistResponse.GetPsychologistsModel>> GetPsychologists();
-        Task<PsychologistResponse.GetPsychologistsModel?> GetPsychologistById(Guid id);
+        Task<List<PsychologistResponse.GetPsychologistModel>> GetPsychologists();
+        Task<PsychologistResponse.GetPsychologistModel?> GetPsychologistById(Guid id);
         Task AddPsychologist(PsychologistRequest.CreatePsychologistModel model);
         Task UpdatePsychologist(Guid id, PsychologistRequest.UpdatePsychologistModel model);
         Task RemovePsychologist(Guid id);

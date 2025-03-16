@@ -1,4 +1,6 @@
-﻿using HEALTH_SUPPORT.Services.IServices;
+﻿using HEALTH_SUPPORT.Repositories.Entities;
+using HEALTH_SUPPORT.Services.Implementations;
+using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +33,7 @@ namespace HEALTH_SUPPORT.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetSurveyResultsById(Guid surveyID)
         {
-            var result = await _surveyResultsService.GetByIdDeleted(surveyID);
+            var result = await _surveyResultsService.GetSurveyResultById(surveyID);
             if (result == null)
             {
                 return NotFound(new { message = "Không tìm thấy kết quả khảo sát." });
@@ -63,6 +65,11 @@ namespace HEALTH_SUPPORT.API.Controllers
             if (model == null)
             {
                 return BadRequest(new { message = "Invalid update data" });
+            }
+            var exsting = await _surveyResultsService.GetByIdDeleted(SurveyResultsId);
+            if (exsting == null)
+            {
+                return NotFound(new { message = "Survey Type not found" });
             }
             await _surveyResultsService.UpdateSurveyResult(SurveyResultsId, model);
             return Ok(new { message = "Update SurveyResults Successfully" });

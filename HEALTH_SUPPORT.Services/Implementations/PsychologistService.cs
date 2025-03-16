@@ -45,7 +45,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         }
 
 
-        public async Task<PsychologistResponse.GetPsychologistsModel?> GetPsychologistById(Guid id)
+        public async Task<PsychologistResponse.GetPsychologistModel?> GetPsychologistById(Guid id)
         {
             var psychologist = await _psychologistRepository.GetById(id);
             if (psychologist == null || psychologist.IsDeleted)
@@ -53,29 +53,31 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 return null;
             }
 
-            return new PsychologistResponse.GetPsychologistsModel(
-                psychologist.Id,
-                psychologist.Name,
-                psychologist.Email,
-                psychologist.PhoneNumber,
-                psychologist.Specialization,
-                psychologist.CreateAt
-            );
+            return new PsychologistResponse.GetPsychologistModel
+            {
+                Id = psychologist.Id,
+                Name = psychologist.Name,
+                Email = psychologist.Email,
+                PhoneNumber = psychologist.PhoneNumber,
+                Specialization = psychologist.Specialization,
+                IsDeleted = psychologist.IsDeleted
+            };
         }
 
-        public async Task<List<PsychologistResponse.GetPsychologistsModel>> GetPsychologists()
+        public async Task<List<PsychologistResponse.GetPsychologistModel>> GetPsychologists()
         {
             return await _psychologistRepository.GetAll()
-                .Where(p => !p.IsDeleted)
-                .Select(p => new PsychologistResponse.GetPsychologistsModel(
-                    p.Id,
-                    p.Name,
-                    p.Email,
-                    p.PhoneNumber,
-                    p.Specialization,
-                    p.CreateAt
-                ))
-                .ToListAsync();
+            .Where(p => !p.IsDeleted)
+            .Select(p => new PsychologistResponse.GetPsychologistModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Email = p.Email,
+                PhoneNumber = p.PhoneNumber,
+                Specialization = p.Specialization,
+                IsDeleted = p.IsDeleted
+            })
+    .ToListAsync();
         }
 
         public async Task UpdatePsychologist(Guid id, PsychologistRequest.UpdatePsychologistModel model)

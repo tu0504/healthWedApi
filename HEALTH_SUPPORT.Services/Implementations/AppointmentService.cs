@@ -82,7 +82,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Status = appointment.Status,
                 Psychologist = new PsychologistResponse.GetPsychologistModel
                 {
-                    IsDelete = psychologist.IsDeleted,
+                    IsDeleted = psychologist.IsDeleted,
                     Email = psychologist.Email,
                     Id = psychologist.Id,
                     Name = psychologist.Name,
@@ -112,7 +112,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             var psychologistIdList = appointment.Select(s => s.PsychologistId).ToList();
             var psychologist = _psychologistRepository.GetAll().Where(s => psychologistIdList.Contains(s.Id)).Distinct().Select(s => new PsychologistResponse.GetPsychologistModel
             {
-                IsDelete = s.IsDeleted,
+                IsDeleted = s.IsDeleted,
                 Email = s.Email,
                 Id = s.Id,
                 Name = s.Name,

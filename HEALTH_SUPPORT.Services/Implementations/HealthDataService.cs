@@ -77,7 +77,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Email = healthData.Psychologist.Email,
                     PhoneNumber = healthData.Psychologist.PhoneNumber,
                     Specialization = healthData.Psychologist.Specialization,
-                    IsDelete = healthData.Psychologist.IsDeleted
+                    IsDeleted = healthData.Psychologist.IsDeleted
                 }
             };
 
@@ -113,7 +113,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                         Email = s.Psychologist.Email,
                         PhoneNumber = s.Psychologist.PhoneNumber,
                         Specialization = s.Psychologist.Specialization,
-                        IsDelete = s.Psychologist.IsDeleted
+                        IsDeleted = s.Psychologist.IsDeleted
                     }
                 }).ToListAsync();
             return healthData;
@@ -150,7 +150,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                         Email = s.Psychologist.Email,
                         PhoneNumber = s.Psychologist.PhoneNumber,
                         Specialization = s.Psychologist.Specialization,
-                        IsDelete = s.Psychologist.IsDeleted
+                        IsDeleted = s.Psychologist.IsDeleted
                     }
                 }).ToListAsync();
             return healthData;
@@ -186,7 +186,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                         Email = s.Psychologist.Email,
                         PhoneNumber = s.Psychologist.PhoneNumber,
                         Specialization = s.Psychologist.Specialization,
-                        IsDelete = s.Psychologist.IsDeleted
+                        IsDeleted = s.Psychologist.IsDeleted
                     }
                 }).ToListAsync();
             return healthData;

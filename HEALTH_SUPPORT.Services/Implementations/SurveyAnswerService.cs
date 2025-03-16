@@ -59,8 +59,10 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 Id = id,
                 Content = surveyAnswer.Content,
+                CreateAt = surveyAnswer.CreateAt,
+                ModifiedAt = surveyAnswer.ModifiedAt,
+                Point = surveyAnswer.Point,
                 IsDelete = surveyAnswer.IsDeleted,
-                Point = surveyAnswer.Point
             };
         }
 
@@ -75,8 +77,10 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 Id = id,
                 Content = surveyAnswer.Content,
+                CreateAt = surveyAnswer.CreateAt,
+                ModifiedAt = surveyAnswer.ModifiedAt,
+                Point = surveyAnswer.Point,
                 IsDelete = surveyAnswer.IsDeleted,
-                Point = surveyAnswer.Point
             };
         }
 
@@ -92,8 +96,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 .Where(s => answerIdList.Contains(s.Id))
                 .Select(s => new SurveyAnswerResponse.GetSurveyAnswerModel
                 {
-                    QuestionId = questionIds,
                     Id = s.Id,
+                    Content = s.Content,
                     IsDelete = s.IsDeleted,
                     Point = s.Point
                 }).ToListAsync();

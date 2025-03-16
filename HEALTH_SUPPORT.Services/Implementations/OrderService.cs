@@ -79,7 +79,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 order.Accounts.Fullname,
                 order.Accounts.Email,
                 order.CreateAt,
-                order.IsActive ? "Active" : "Not Active"
+                order.IsActive ? true : false
             );
         }
 
@@ -97,7 +97,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 o.Accounts.Fullname,
                 o.Accounts.Email,
                 o.CreateAt,
-                o.IsActive ? "Active" : "Not Active"
+                o.IsActive ? true : false
             ))
             .ToListAsync();
         }
