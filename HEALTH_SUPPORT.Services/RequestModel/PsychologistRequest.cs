@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,6 +25,9 @@ namespace HEALTH_SUPPORT.Services.RequestModel
 
             [Required(ErrorMessage = "Thiếu chuyên môn!")]
             public string Specialization { get; set; }
+
+            [Required(ErrorMessage = "Thiếu mô tả!")]
+            public string Description { get; set; }
         }
 
         public class UpdatePsychologistModel
@@ -32,6 +36,12 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string? Email { get; set; }
             public string? PhoneNumber { get; set; }
             public string? Specialization { get; set; }
+            public string? Description { get; set; }
+        }
+
+        public class UploadAvatarModel
+        {
+            public IFormFile File { get; set; }
         }
     }
 }

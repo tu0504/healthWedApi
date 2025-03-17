@@ -1,4 +1,5 @@
-﻿using HEALTH_SUPPORT.Services.IServices;
+﻿using HEALTH_SUPPORT.Services.Implementations;
+using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -77,6 +78,27 @@ namespace HEALTH_SUPPORT.API.Controllers
 
             await _psychologistService.RemovePsychologist(psychologistId);
             return Ok(new { message = "Psychologist deleted successfully" });
+        }
+
+        [HttpPost("{psychologistId}/avatar")]
+        public async Task<IActionResult> UploadAvatar(Guid psychologistId, [FromForm] PsychologistRequest.UploadAvatarModel model)
+        {
+            var response = await _psychologistService.UploadAvatarAsync(psychologistId, model);
+            return Ok(response);
+        }
+
+        [HttpPut("{psychologistId}/avatar")]
+        public async Task<IActionResult> UpdateAvatar(Guid psychologistId, [FromForm] PsychologistRequest.UploadAvatarModel model)
+        {
+            var response = await _psychologistService.UpdateAvatarAsync(psychologistId, model);
+            return Ok(response);
+        }
+
+        [HttpDelete("{psychologistId}/avatar")]
+        public async Task<IActionResult> DeleteAvatar(Guid psychologistId)
+        {
+            await _psychologistService.RemoveAvatarAsync(psychologistId);
+            return Ok(new { Message = "Avatar deleted successfully" });
         }
     }
 }

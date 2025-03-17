@@ -27,9 +27,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
         private readonly IConfiguration _configuration;
 
         private readonly IHostEnvironment _environment;
-        private readonly IAvatarRepository _avatarRepository;
+        private readonly IAvatarRepository<Account, Guid> _avatarRepository;
 
-        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration, IHostEnvironment environment, IAvatarRepository avatarRepository)
+        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration, IHostEnvironment environment, IAvatarRepository<Account, Guid> avatarRepository)
         {
             _accountRepository = accountRepository;
             _roleRepository = roleRepository;
@@ -272,7 +272,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<AccountResponse.AvatarResponseModel> UploadAvatarAsync(Guid accountId, AccountRequest.UploadAvatarModel model)
         {
             var account = await _accountRepository.GetById(accountId);
-            if (account == null) throw new Exception("Account not found");
+            if (account == null || account.IsDeleted) throw new Exception("Account not found");
 
             // Vì IHostEnvironment không có WebRootPath, cần tự tạo đường dẫn wwwroot
             string uploadsFolder = Path.Combine(_environment.ContentRootPath, "wwwroot", "uploads");
@@ -295,7 +295,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<AccountResponse.AvatarResponseModel> UpdateAvatarAsync(Guid accountId, AccountRequest.UploadAvatarModel model)
         {
             var account = await _accountRepository.GetById(accountId);
-            if (account == null) throw new Exception("Account not found");
+            if (account == null || account.IsDeleted) throw new Exception("Account not found");
 
             if (!string.IsNullOrEmpty(account.ImgUrl))
             {
@@ -309,7 +309,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task RemoveAvatarAsync(Guid accountId)
         {
             var account = await _accountRepository.GetById(accountId);
-            if (account == null) throw new Exception("Account not found");
+            if (account == null || account.IsDeleted) throw new Exception("Account not found");
 
             if (!string.IsNullOrEmpty(account.ImgUrl))
             {

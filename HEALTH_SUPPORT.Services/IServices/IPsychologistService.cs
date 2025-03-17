@@ -15,5 +15,9 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task AddPsychologist(PsychologistRequest.CreatePsychologistModel model);
         Task UpdatePsychologist(Guid id, PsychologistRequest.UpdatePsychologistModel model);
         Task RemovePsychologist(Guid id);
+
+        Task<PsychologistResponse.AvatarResponseModel> UploadAvatarAsync(Guid id, PsychologistRequest.UploadAvatarModel model);
+        Task<PsychologistResponse.AvatarResponseModel> UpdateAvatarAsync(Guid id, PsychologistRequest.UploadAvatarModel model);
+        Task RemoveAvatarAsync(Guid id);
     }
 }

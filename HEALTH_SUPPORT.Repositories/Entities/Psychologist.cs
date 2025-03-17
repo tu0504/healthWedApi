@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Repositories.Entities
 {
-    public class Psychologist : Entity<Guid>, IAuditable
+    public class Psychologist : Entity<Guid>,IAuditable
     {
         [Required]
         public string Name { get; set; }
@@ -24,6 +24,8 @@ namespace HEALTH_SUPPORT.Repositories.Entities
 
         [Required]
         public string Specialization { get; set; }
+        public string Description { get; set; }
+        public string? ImgUrl { get; set; }
 
         public DateTimeOffset CreateAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset? ModifiedAt { get; set; }
