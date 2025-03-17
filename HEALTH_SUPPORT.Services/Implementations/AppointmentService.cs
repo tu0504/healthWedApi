@@ -38,6 +38,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 CreateAt = DateTime.Now,
                 PsychologistId = model.PsychologistId,
                 AppointmentDate = model.AppointmentDate,
+                Content = model.Content,
                 Status = model.Status
             };
             await _appointmentRepository.Add(appointment);
@@ -77,6 +78,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 CreateAt = appointment.CreateAt,
                 ModifiedAt = appointment.ModifiedAt,
                 AppointmentDate = appointment.AppointmentDate,
+                Content = appointment.Content,
                 IsDelete = appointment.IsDeleted,
                 PsychologistId = appointment.PsychologistId,
                 Status = appointment.Status,
@@ -101,6 +103,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 CreateAt = s.CreateAt,
                 ModifiedAt = s.ModifiedAt,
                 AppointmentDate = s.AppointmentDate,
+                Content = s.Content,
                 IsDelete = s.IsDeleted,
                 PsychologistId = s.PsychologistId,
                 Status = s.Status
@@ -141,6 +144,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 AppointmentDate = s.AppointmentDate,
                 IsDelete = s.IsDeleted,
                 PsychologistId = s.PsychologistId,
+                Content = s.Content,
                 Status = s.Status
             }).ToList();
             if (!appointment.Any())
@@ -192,6 +196,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             appointment.PsychologistId = model.PsychologistId;
             appointment.ModifiedAt = DateTime.Now;
             appointment.AppointmentDate = model.AppointmentDate;
+            appointment.Content = model.Content;
             appointment.Status = model.Status;
             await _appointmentRepository.Update(appointment);
             await _appointmentRepository.SaveChangesAsync();
