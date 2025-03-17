@@ -12,11 +12,14 @@ namespace HEALTH_SUPPORT.Repositories.Entities
     {
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
+        public DateTimeOffset AppointmentDate { get; set; }
+        public string Content { get; set; }
         public Guid AccountId { get; set; }
         [ForeignKey("AccountId")]
         public Account Account { get; set; }
         public Guid PsychologistId { get; set; }
         [ForeignKey("PsychologistId")]
         public Psychologist Psychologist { get; set; }
+        public int Status { get; set; }
     }
 }

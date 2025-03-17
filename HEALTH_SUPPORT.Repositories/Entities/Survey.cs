@@ -18,7 +18,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Guid SurveyTypeId { get; set; }
         [ForeignKey("SurveyTypeId")]
         public SurveyType SurveyType { get; set; }
-        public ICollection<SurveyQuestion> SurveyQuestions { get; set; }
+        public ICollection<SurveyQuestionSurvey> SurveyQuestionSurveys { get; set; }
         public ICollection<AccountSurvey> AccountSurveys { get; set; }
         public ICollection<SurveyResults> SurveyResults { get; set; }
     }

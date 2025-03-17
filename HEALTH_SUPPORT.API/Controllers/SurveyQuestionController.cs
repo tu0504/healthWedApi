@@ -1,3 +1,4 @@
+
 ﻿using HEALTH_SUPPORT.Repositories.Entities;
 using HEALTH_SUPPORT.Services.Implementations;
 using HEALTH_SUPPORT.Services.IServices;
@@ -18,11 +19,11 @@ namespace HEALTH_SUPPORT.API.Controllers
             _SurveyQuestionService = SurveyQuestionService;
         }
 
-        [HttpGet("{surveyId}", Name = "GetSurveyQuestions")]
+        [HttpGet("{surveyId}/Survey", Name = "GetSurveyQuestions")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetSurveyQuestionsForSurvey(Guid surveyID)
+        public async Task<ActionResult> GetSurveyQuestionsForSurvey(Guid surveyId)
         {
-            var result = await _SurveyQuestionService.GetSurveyQuestionsForSurvey(surveyID);
+            var result = await _SurveyQuestionService.GetSurveyQuestionsForSurvey(surveyId);
             return Ok(result);
         }
 

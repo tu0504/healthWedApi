@@ -76,20 +76,39 @@ namespace HEALTH_SUPPORT.API
             // Inject IWebHostEnvironment: giúp acc update ảnh đại diện
             builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
 
+            // Add CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    policy => policy.AllowAnyOrigin()
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
 
             // Register IService and Service
             builder.Services.AddScoped<IAccountService, AccountService>();
-            builder.Services.AddScoped<IAvatarRepository, AvatarRepository>();
+            builder.Services.AddScoped(typeof(IAvatarRepository<,>), typeof(AvatarRepository<,>));
+            builder.Services.AddScoped<IPsychologistService, PsychologistService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<ISurveyService, SurveyService>();
             builder.Services.AddScoped<ISurveyTypeService, SurveyTypeService>();
             builder.Services.AddScoped<ISurveyQuestionService, SurveyQuestionService>();
             builder.Services.AddScoped<ISurveyAnswerService, SurveyAnswerService>();
             builder.Services.AddScoped<IAccountSurveyService, AccountSurveyService>();
             builder.Services.AddScoped<ISurveyResultsService, SurveyResultService>();
+            builder.Services.AddScoped<IHealthDataService, HealthDataService>();
+            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+            builder.Services.AddScoped<ISurveyQuestionSurveyService, SurveyQuestionSurveyService>();
+            builder.Services.AddScoped<ISurveyQuestionAnswerService, SurveyQuestionAnswerService>();
+            builder.Services.AddScoped<ISurveyAnswerRecordService, SurveyAnswerRecordService>();
 
             var app = builder.Build();
+
+            app.UseCors("AllowAll");
+            app.UseAuthorization();
+            app.MapControllers();
 
             // Lấy IWebHostEnvironment từ app.Services
             var env = app.Services.GetRequiredService<IWebHostEnvironment>();
@@ -116,6 +135,8 @@ namespace HEALTH_SUPPORT.API
             app.MapControllers();
 
             app.Run();
+
+           
         }
     }
 }

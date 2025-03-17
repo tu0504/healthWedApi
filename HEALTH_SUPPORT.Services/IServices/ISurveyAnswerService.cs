@@ -10,11 +10,10 @@ namespace HEALTH_SUPPORT.Services.IServices
 {
     public interface ISurveyAnswerService
     {
-        Task<List<SurveyAnswerResponse.GetSurveyAnswerModel>> GetSurveyAnswers();
         Task<SurveyAnswerResponse.GetSurveyAnswerModel?> GetSurveyAnswerById(Guid id);
         Task<SurveyAnswerResponse.GetSurveyAnswerModel?> GetByIdDeleted(Guid id);
-        Task AddSurveyAnswerForSurveyQuestion(List<SurveyAnswerRequest.CreateSurveyAnswerRequest> model);
-        Task<List<SurveyAnswerResponse.GetSurveyAnswerModel?>> GetSurveyAnswerForQuestion(List<Guid> questionIds);
+        Task<List<SurveyAnswerResponse.GetSurveyAnswerModel?>> GetSurveyAnswerForQuestion(Guid questionIds);
+        Task AddSurveyAnswerForSurveyQuestion(Guid surveyQuestionId, List<SurveyAnswerRequest.CreateSurveyAnswerRequest> model);
         Task UpdateSurveyAnswer(Guid id, SurveyAnswerRequest.UpdateSurveyAnswerRequest model);
         Task RemoveSurveyAnswer(Guid id);
     }

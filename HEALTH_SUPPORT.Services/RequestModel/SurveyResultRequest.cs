@@ -26,7 +26,6 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string ResultDescription { get; set; }
             public Guid SurveyId { get; set; }
             public bool? IsDelete { get; set; }
-
         }
     }
 }

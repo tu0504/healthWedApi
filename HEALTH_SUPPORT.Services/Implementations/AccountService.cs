@@ -27,15 +27,16 @@ namespace HEALTH_SUPPORT.Services.Implementations
         private readonly IConfiguration _configuration;
 
         private readonly IHostEnvironment _environment;
-        private readonly IAvatarRepository _avatarRepository;
+        private readonly IAvatarRepository<Account, Guid> _avatarRepository;
 
-        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration, IHostEnvironment environment, IAvatarRepository avatarRepository)
+        public AccountService(IBaseRepository<Account, Guid> accountRepository, IBaseRepository<Role, Guid> roleRepository, IConfiguration configuration, IHostEnvironment environment, IAvatarRepository<Account, Guid> avatarRepository)
         {
             _accountRepository = accountRepository;
             _roleRepository = roleRepository;
             _configuration = configuration;
             _environment = environment;
             _avatarRepository = avatarRepository;
+
         }
 
         public async Task AddAccount(AccountRequest.CreateAccountModel model)
@@ -64,7 +65,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 var acc = new Account()
                 {
                     Id = Guid.NewGuid(),
-                    UseName = model.UserName,
+                    UserName = model.UserName,
                     Fullname = model.Fullname,
                     Email = model.Email,
                     Phone = model.Phone,
@@ -91,7 +92,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
             return new AccountResponse.GetAccountsModel(
                 account.Id,
-                account.UseName,
+                account.UserName,
                 account.Fullname,
                 account.Email,
                 account.Phone,
@@ -111,7 +112,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
             return new AccountResponse.GetAccountsModel(
                 account.Id,
-                account.UseName,
+                account.UserName,
                 account.Fullname,
                 account.Email,
                 account.Phone,
@@ -128,7 +129,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 .AsNoTracking()
                 .Select(a => new AccountResponse.GetAccountsModel(
                     a.Id,
-                    a.UseName,
+                    a.UserName,
                     a.Fullname,
                     a.Email,
                     a.Phone,
@@ -166,7 +167,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 }
 
                 //Tracking
-                existedAcc.UseName = string.IsNullOrWhiteSpace(model.Username) ? existedAcc.UseName : model.Username;
+                existedAcc.UserName = string.IsNullOrWhiteSpace(model.Username) ? existedAcc.UserName : model.Username;
                 existedAcc.Fullname = string.IsNullOrWhiteSpace(model.Fullname) ? existedAcc.Fullname : model.Fullname;
                 existedAcc.Email = string.IsNullOrWhiteSpace(model.Email) ? existedAcc.Email : model.Email;
                 existedAcc.Phone = string.IsNullOrWhiteSpace(model.Phone) ? existedAcc.Phone : model.Phone;
@@ -219,7 +220,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             return new AccountResponse.LoginResponseModel
             {
                 Id = account.Id,
-                UserName = account.UseName,
+                UserName = account.UserName,
                 RoleName = account.Role?.Name ?? "Unknown",
                 IsEmailVerified = account.IsEmailVerified
             };
@@ -271,7 +272,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<AccountResponse.AvatarResponseModel> UploadAvatarAsync(Guid accountId, AccountRequest.UploadAvatarModel model)
         {
             var account = await _accountRepository.GetById(accountId);
-            if (account == null) throw new Exception("Account not found");
+            if (account == null || account.IsDeleted) throw new Exception("Account not found");
 
             // Vì IHostEnvironment không có WebRootPath, cần tự tạo đường dẫn wwwroot
             string uploadsFolder = Path.Combine(_environment.ContentRootPath, "wwwroot", "uploads");
@@ -294,7 +295,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<AccountResponse.AvatarResponseModel> UpdateAvatarAsync(Guid accountId, AccountRequest.UploadAvatarModel model)
         {
             var account = await _accountRepository.GetById(accountId);
-            if (account == null) throw new Exception("Account not found");
+            if (account == null || account.IsDeleted) throw new Exception("Account not found");
 
             if (!string.IsNullOrEmpty(account.ImgUrl))
             {
@@ -308,7 +309,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task RemoveAvatarAsync(Guid accountId)
         {
             var account = await _accountRepository.GetById(accountId);
-            if (account == null) throw new Exception("Account not found");
+            if (account == null || account.IsDeleted) throw new Exception("Account not found");
 
             if (!string.IsNullOrEmpty(account.ImgUrl))
             {

@@ -12,6 +12,7 @@ namespace HEALTH_SUPPORT.Services.IServices
     {
         Task<List<CategoryResponse.GetCategoryModel>> GetCategory();
         Task<CategoryResponse.GetCategoryModel?> GetCategoryById(Guid id);
+        Task<CategoryResponse.GetCategoryModel?> GetCategoryByIdDelete(Guid id);
         Task AddCategory(CategoryRequest.CreateCategoryModel model);
         Task UpdateCategory(Guid id, CategoryRequest.UpdateCategoryModel model);
         Task RemoveCategory(Guid id);

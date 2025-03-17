@@ -19,15 +19,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         private readonly IBaseRepository<Category, Guid> _categoryRepository;
         private readonly IBaseRepository<Psychologist, Guid> _psychologistRepository;
 
-        public SubscriptionService(
-            IBaseRepository<SubscriptionData, Guid> subscriptionRepository,
-            IBaseRepository<Category, Guid> categoryRepository,
-<<<<<<< HEAD
-            IBaseRepository<Psychologist, Guid> psychologistRepository,
-            IBaseRepository<Account, Guid> accountRepository)
-=======
-            IBaseRepository<Psychologist, Guid> psychologistRepository)
->>>>>>> bb3289919873a3575303b86a77b526a77031babb
+        public SubscriptionService(IBaseRepository<SubscriptionData, Guid> subscriptionRepository, IBaseRepository<Category, Guid> categoryRepository, IBaseRepository<Psychologist, Guid> psychologistRepository)
         {
             _subscriptionRepository = subscriptionRepository;
             _categoryRepository = categoryRepository;
@@ -176,6 +168,5 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Console.WriteLine(ex.Message);
             }
         }
-
     }
 }

@@ -41,7 +41,6 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 throw new Exception("Không tìm thấy khảo sát.");
             }
-      
             return new AccountSurveyResponse.GetAccountSurveysModel
             {
                 CreateAt = accountSurvey.CreateAt,
@@ -50,7 +49,6 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 SurveyId = accountSurvey.SurveyId,
                 Id = id,
                 IsDelete = accountSurvey.IsDeleted,
-            
             };
         }
 

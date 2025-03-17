@@ -64,6 +64,5 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string? FocusGroup { get; set; }
             public string? AssessmentTool { get; set; }
         }
-        
     }
 }

@@ -60,10 +60,24 @@ namespace HEALTH_SUPPORT.Services.Implementations
             );
         }
 
+        public async Task<CategoryResponse.GetCategoryModel?> GetCategoryByIdDelete(Guid id)
+        {
+            var category = await _categoryRepository.GetById(id);
+            if (category == null)
+            {
+                return null;
+            }
+
+            return new CategoryResponse.GetCategoryModel(
+                category.Id,
+                category.CategoryName,
+                category.Description
+            );
+        }
         public async Task UpdateCategory(Guid id, CategoryRequest.UpdateCategoryModel model)
         {
             var existingCategory = await _categoryRepository.GetById(id);
-            if (existingCategory == null || existingCategory.IsDeleted)
+            if (existingCategory == null)
             {
                 throw new InvalidOperationException("Category not found.");
             }
@@ -75,6 +89,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
             existingCategory.Description = string.IsNullOrWhiteSpace(model.Description)
                 ? existingCategory.Description
                 : model.Description;
+
+            existingCategory.IsDeleted = model.IsDeleted;
 
             await _categoryRepository.Update(existingCategory);
             await _categoryRepository.SaveChangesAsync();

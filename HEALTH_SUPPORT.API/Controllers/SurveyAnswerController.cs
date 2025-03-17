@@ -1,4 +1,5 @@
-﻿using HEALTH_SUPPORT.Services.IServices;
+﻿using HEALTH_SUPPORT.Repositories.Entities;
+using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,6 @@ namespace HEALTH_SUPPORT.API.Controllers
             _SurveyAnswerService = SurveyAnswerService;
         }
 
-        [HttpGet(Name = "GetSurveyAnswers")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetSurveyAnswers()
-        {
-            var result = await _SurveyAnswerService.GetSurveyAnswers();
-            return Ok(result);
-        }
-
         [HttpGet("{SurveyAnswerId}", Name = "GetSurveyAnswerById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -36,11 +29,20 @@ namespace HEALTH_SUPPORT.API.Controllers
             }
             return Ok(result);
         }
-        [HttpPost(Name = "CreateSurveyAnswer")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult> CreateSurveyAnswer([FromBody] List<SurveyAnswerRequest.CreateSurveyAnswerRequest> model)
+
+        [HttpGet("{surveyQuestionId}/SurveyQuestion", Name = "GetSurveyAnswerByQuestionId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetSurveyAnswerForQuestion(Guid surveyQuestionId)
         {
-            await _SurveyAnswerService.AddSurveyAnswerForSurveyQuestion(model);
+            var result = await _SurveyAnswerService.GetSurveyAnswerForQuestion(surveyQuestionId);
+            return Ok(result);
+        }
+
+        [HttpPost("{surveyQuestionId}", Name = "CreateSurveyAnswer")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult> CreateSurveyAnswer(Guid surveyQuestionId, [FromBody] List<SurveyAnswerRequest.CreateSurveyAnswerRequest> model)
+        {
+            await _SurveyAnswerService.AddSurveyAnswerForSurveyQuestion(surveyQuestionId, model);
             return CreatedAtRoute("GetSurveyAnswerById", new { SurveyAnswerId = /* newly created id */ Guid.NewGuid() }, new { message = "SurveyAnswer Type created successfully" });
         }
         //Update SurveyAnswer Type

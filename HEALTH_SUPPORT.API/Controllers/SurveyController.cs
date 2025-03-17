@@ -17,7 +17,7 @@ namespace HEALTH_SUPPORT.API.Controllers
             _surveyService = SurveyService;
         }
 
-        [HttpGet(Name = "GetSurveys")]
+        [HttpGet(Name = "GetAllSurveys")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetSurveys()
         {
@@ -33,7 +33,7 @@ namespace HEALTH_SUPPORT.API.Controllers
             var result = await _surveyService.GetSurveyById(SurveyId);
             if (result == null)
             {
-                return NotFound(new { message = "Không tìm thấy bảng khảo sát" });
+                return NotFound(new { message = "Survey Not Found" });
             }
             return Ok(result);
         }
@@ -47,6 +47,7 @@ namespace HEALTH_SUPPORT.API.Controllers
             {
                 throw new Exception("Không tìm thấy người dùng.");
             }
+            //var userId = "DAD2A80F-70E4-49F6-B3C5-3C1EEDF525E4";
             await _surveyService.AddSurvey(userId, model);
             return CreatedAtRoute("GetSurveyById", new { SurveyId = /* newly created id */ Guid.NewGuid() }, new { message = "Survey created successfully" });
         }
@@ -60,11 +61,6 @@ namespace HEALTH_SUPPORT.API.Controllers
             if (model == null)
             {
                 return BadRequest(new { message = "Invalid update data" });
-            }
-            var exstingSurvey = await _surveyService.GetSurveyById(SurveyId);
-            if (exstingSurvey == null)
-            {
-                return NotFound(new { message = "Survey Not Found" });
             }
             await _surveyService.UpdateSurvey(SurveyId, model);
             return Ok(new { message = "Create Survey Successfully" });
