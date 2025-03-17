@@ -87,7 +87,7 @@ namespace HEALTH_SUPPORT.API
 
             // Register IService and Service
             builder.Services.AddScoped<IAccountService, AccountService>();
-            builder.Services.AddScoped<IAvatarRepository, AvatarRepository>();
+            builder.Services.AddScoped(typeof(IAvatarRepository<,>), typeof(AvatarRepository<,>));
             builder.Services.AddScoped<IPsychologistService, PsychologistService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HEALTH_SUPPORT.Repositories.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Repositories.Repository
 {
-    public class AvatarRepository : IAvatarRepository
+    public class AvatarRepository<TEntity, TKey> : IAvatarRepository<TEntity, TKey> where TEntity : Entity<TKey>
     {
         private readonly ApplicationDbContext _context;
 
@@ -15,14 +16,15 @@ namespace HEALTH_SUPPORT.Repositories.Repository
             _context = context;
         }
 
-        public async Task UpdateAvatarAsync(Guid accountId, string avatarPath)
+        public async Task UpdateAvatarAsync(TKey id, string avatarPath)
         {
-            var account = await _context.Accounts.FindAsync(accountId);
-            if (account != null)
+            var entity = await _context.Accounts.FindAsync(id);
+            if (entity != null)
             {
-                account.ImgUrl = avatarPath;
+                entity.ImgUrl = avatarPath;
                 await _context.SaveChangesAsync();
             }
         }
     }
+    
 }
