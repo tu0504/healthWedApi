@@ -17,7 +17,9 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             string AccountName,
             string AccountEmail,
             DateTimeOffset CreateAt,
+            DateTimeOffset? ModifiedAt,
             bool IsActive
+
         );
     }
 }

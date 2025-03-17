@@ -44,6 +44,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     SubscriptionDataId = subscription.Id,
                     AccountId = account.Id,
                     Quantity = model.Quantity,
+                    IsDeleted = model.IsDelete,
                     CreateAt = DateTimeOffset.UtcNow,
                     IsActive = true
                 };
@@ -79,6 +80,32 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 order.Accounts.Fullname,
                 order.Accounts.Email,
                 order.CreateAt,
+                order.ModifiedAt,
+                order.IsActive ? true : false
+            );
+        }
+        public async Task<OrderResponse.GetOrderDetailsModel?> GetOrderDetailsDeleted(Guid orderId)
+        {
+            var order = await _orderRepository.GetAll()
+                .Include(o => o.SubscriptionData)
+                .Include(o => o.Accounts)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                return null;
+            }
+
+            return new OrderResponse.GetOrderDetailsModel(
+                order.Id,
+                order.SubscriptionData.SubscriptionName,
+                order.SubscriptionData.Description,
+                (float)order.SubscriptionData.Price,
+                order.Quantity,
+                order.Accounts.Fullname,
+                order.Accounts.Email,
+                order.CreateAt,
+                order.ModifiedAt,
                 order.IsActive ? true : false
             );
         }
@@ -97,11 +124,12 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 o.Accounts.Fullname,
                 o.Accounts.Email,
                 o.CreateAt,
+                o.ModifiedAt,
                 o.IsActive ? true : false
             ))
             .ToListAsync();
         }
-        public async Task CancelOrder(Guid orderId)
+        public async Task CancelOrder(Guid orderId, OrderRequest.UpdateOrderModel model)
         {
             var order = await _orderRepository.GetById(orderId);
             if (order == null)

@@ -50,18 +50,18 @@ namespace HEALTH_SUPPORT.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{orderId}/cancel", Name = "CancelOrder")]
+        [HttpPut("{orderId}/cancel", Name = "UpdateOrder")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CancelOrder(Guid orderId)
+        public async Task<ActionResult> CancelOrder(Guid orderId, [FromBody] OrderRequest.UpdateOrderModel model )
         {
-            var existingOrder = await _orderService.GetOrderDetails(orderId);
+            var existingOrder = await _orderService.GetOrderDetailsDeleted(orderId);
             if (existingOrder == null)
             {
                 return NotFound(new { message = "Order not found" });
             }
 
-            await _orderService.CancelOrder(orderId);
+            await _orderService.CancelOrder(orderId, model);
             return Ok(new { message = "Order canceled successfully" });
         }
     }
