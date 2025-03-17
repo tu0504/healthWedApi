@@ -22,6 +22,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public Guid PsychologistId { get; set; }
             [ForeignKey("PsychologistId")]
             public PsychologistResponse.GetPsychologistModel Psychologist { get; set; }
+            public string Content { get; set; }
             public bool IsDelete { get; set; }
             public int Status { get; set; }
         }
