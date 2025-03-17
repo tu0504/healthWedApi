@@ -64,11 +64,5 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string? FocusGroup { get; set; }
             public string? AssessmentTool { get; set; }
         }
-        public class RegisterSubscriptionModel
-        {
-            public Guid AccountId { get; set; }
-            public Guid SubscriptionId { get; set; }
-            public int Quantity { get; set; }
-        }
     }
 }
