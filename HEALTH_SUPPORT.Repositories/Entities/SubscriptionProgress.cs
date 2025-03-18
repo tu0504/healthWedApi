@@ -13,10 +13,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
     {
         public string? Description { get; set; }
 
-        [Required]
-        public DateTimeOffset StartDate { get; set; }
-
-        public DateTimeOffset? EndDate { get; set; }
+        public int? Date { get; set; }
 
         [Required]
         public Guid SubscriptionId { get; set; }
