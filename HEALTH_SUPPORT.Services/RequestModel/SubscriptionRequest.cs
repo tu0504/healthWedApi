@@ -26,10 +26,10 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public int Duration { get; set; }
 
             [Required(ErrorMessage = "Thiếu loại chương trình!")]
-            public string CategoryName { get; set; }
+            public Guid CategoryId { get; set; }
 
-            [Required(ErrorMessage = "Thiếu tên chuyên gia!")]
-            public string PsychologistName { get; set; }
+            [Required(ErrorMessage = "Thiếu Id chuyên gia!")]
+            public Guid PsychologistId { get; set; }
 
             [Required(ErrorMessage = "Thiếu mục đích chương trình!")]
             public string Purpose { get; set; }
@@ -45,24 +45,16 @@ namespace HEALTH_SUPPORT.Services.RequestModel
         }
         public class UpdateSubscriptionModel
         {
-            [Required]
             public string Description { get; set; }
-
-            [Required]
-            [Range(0.01, float.MaxValue, ErrorMessage = "Mệnh giá chương trình phải lớn hơn 0!")]
             public float Price { get; set; }
-
-            [Required]
-            [Range(1, int.MaxValue, ErrorMessage = "Thời hạn cần phải nhiều hơn 1 ngày")]
             public int Duration { get; set; }
-
-            [Required(ErrorMessage = "Vui lòng chọn một chuyên gia tâm lý.")]
             public Guid PsychologistId { get; set; }
 
             public string? Purpose { get; set; }
             public string? Criteria { get; set; }
             public string? FocusGroup { get; set; }
             public string? AssessmentTool { get; set; }
+            public bool IsDelete { get; set; }
         }
     }
 }
