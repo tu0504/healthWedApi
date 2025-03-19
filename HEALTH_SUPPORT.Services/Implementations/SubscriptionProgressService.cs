@@ -111,11 +111,13 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task RemoveSubscriptionProgress(Guid id)
         {
             var progress = await _subscriptionProgressRepository.GetById(id);
-            if (progress is null || progress.IsDeleted)
+            if (progress == null)
             {
-                return;
+                throw new InvalidOperationException("Progress not found.");
             }
             progress.IsDeleted = true;
+            progress.ModifiedAt = DateTimeOffset.UtcNow;
+
             await _subscriptionProgressRepository.Update(progress);
             await _subscriptionProgressRepository.SaveChangesAsync();
         }
