@@ -20,7 +20,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
 
         [ForeignKey("SubscriptionId")]
         public SubscriptionData SubscriptionDatas { get; set; }
-
+        public bool IsCompleted { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
     }

@@ -15,6 +15,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public string Description { get; set; }
             public int Date { get; set; }
             public string SubscriptionName { get; set; }
+            public bool IsCompleted { get; set; }
             public DateTimeOffset CreateAt { get; set; }
             public DateTimeOffset? ModifiedAt { get; set; }
         }

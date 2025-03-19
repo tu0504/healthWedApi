@@ -38,6 +38,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Description = model.Description,
                     Date = model.Date,
                     SubscriptionId = model.SubscriptionId,
+                    IsCompleted = model.IsCompleted,
                     CreateAt = DateTimeOffset.UtcNow
                 };
                 await _subscriptionProgressRepository.Add(newProgress);
@@ -60,6 +61,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Description = p.Description,
                     Date = (int)p.Date,
                     SubscriptionName = p.SubscriptionDatas.SubscriptionName,
+                    IsCompleted = p.IsCompleted,
                     CreateAt = p.CreateAt,
                     ModifiedAt = p.ModifiedAt
                 })
@@ -80,6 +82,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Description = progress.Description,
                 Date = (int)progress.Date,
                 SubscriptionName = progress.SubscriptionDatas.SubscriptionName,
+                IsCompleted = progress.IsCompleted,
                 CreateAt = progress.CreateAt,
                 ModifiedAt = progress.ModifiedAt
             };
@@ -99,6 +102,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Description = progress.Description,
                 Date = (int)progress.Date,
                 SubscriptionName = progress.SubscriptionDatas.SubscriptionName,
+                IsCompleted = progress.IsCompleted,
                 CreateAt = progress.CreateAt,
                 ModifiedAt = progress.ModifiedAt
             };
@@ -127,6 +131,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             existedProgress.Description = string.IsNullOrWhiteSpace(model.Description) ? existedProgress.Description : model.Description;
             existedProgress.Date = model.Date > 0 ? model.Date : existedProgress.Date;
             existedProgress.SubscriptionId = model.SubscriptionId != Guid.Empty ? model.SubscriptionId : existedProgress.SubscriptionId;
+            existedProgress.IsCompleted = model.IsCompleted;
             existedProgress.IsDeleted = model.IsDeleted;
 
             existedProgress.ModifiedAt = DateTimeOffset.UtcNow;
