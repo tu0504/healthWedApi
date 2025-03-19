@@ -70,11 +70,15 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task<SubscriptionProgressResponse.GetProgressModel?> GetSubscriptionProgressById(Guid id)
         {
-            var progress = await _subscriptionProgressRepository.GetById(id);
-            if (progress is null || progress.IsDeleted)
+            var progress = await _subscriptionProgressRepository.GetAll()
+                .Include(p => p.SubscriptionDatas)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (progress == null || progress.IsDeleted)
             {
                 return null;
             }
+
             return new SubscriptionProgressResponse.GetProgressModel
             {
                 Id = progress.Id,
@@ -90,11 +94,15 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task<SubscriptionProgressResponse.GetProgressModel?> GetSubscriptionProgressByIdDeleted(Guid id)
         {
-            var progress = await _subscriptionProgressRepository.GetById(id);
+            var progress = await _subscriptionProgressRepository.GetAll()
+                .Include(p => p.SubscriptionDatas)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
             if (progress is null)
             {
                 return null;
             }
+
             return new SubscriptionProgressResponse.GetProgressModel
             {
                 Id = progress.Id,
