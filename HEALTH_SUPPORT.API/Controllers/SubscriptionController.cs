@@ -55,7 +55,7 @@ namespace HEALTH_SUPPORT.API.Controllers
                 return BadRequest(new { message = "Invalid update data" });
             }
             // Kiểm tra xem subscription có tồn tại không
-            var existingSubscription = await _subscriptionService.GetSubscriptionById(subscriptionId);
+            var existingSubscription = await _subscriptionService.GetSubscriptionByIdDeleted(subscriptionId);
             if (existingSubscription == null)
             {
                 return NotFound(new { message = "Subscription not found" });

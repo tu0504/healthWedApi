@@ -16,6 +16,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public DateTimeOffset CreateAt { get; set; }
             public DateTimeOffset? ModifiedAt { get; set; }
             public bool IsDelete { get; set; }
+            public List<Guid> QuestionIds { get; set; }
         }
     }
 }
