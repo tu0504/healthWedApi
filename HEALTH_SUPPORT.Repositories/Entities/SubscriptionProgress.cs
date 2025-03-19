@@ -11,8 +11,8 @@ namespace HEALTH_SUPPORT.Repositories.Entities
 {
     public class SubscriptionProgress : Entity<Guid>, IAuditable
     {
+        public int? Section { get; set; }
         public string? Description { get; set; }
-
         public int? Date { get; set; }
 
         [Required]

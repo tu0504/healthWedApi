@@ -11,20 +11,21 @@ namespace HEALTH_SUPPORT.Services.RequestModel
     {
         public class CreateProgressModel
         {
+            public int Section { get; set; }
             public string Description { get; set; }
             public int Date { get; set; }
 
             [Required(ErrorMessage = "SubscriptionId is required.")]
             public Guid SubscriptionId { get; set; }
-            public bool IsDelete { get; set; }
         }
 
         public class UpdateProgressModel
         {
+            public int Section { get; set; }
             public string Description { get; set; }
             public int Date { get; set; }
             public Guid SubscriptionId { get; set; }
-            public bool IsDelete { get; set; }
+            public bool IsDeleted { get; set; }
         }
     }
 }
