@@ -21,5 +21,16 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             string FocusGroup,
             string AssessmentTool
         );
+        // Model to represent a Category (Id + Name)
+        public record CategoryModel(Guid Id, string CategoryName);
+
+        // Model to represent a Psychologist (Id + Name)
+        public record PsychologistModel(Guid Id, string Name, string Specialization);
+
+        // Response model for fetching category and psychologist lists
+        public record GetSubscriptionFormData(
+            List<CategoryModel> Categories,
+            List<PsychologistModel> Psychologists
+        );
     }
 }

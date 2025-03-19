@@ -25,7 +25,18 @@ namespace HEALTH_SUPPORT.Services.Implementations
             _categoryRepository = categoryRepository;
             _psychologistRepository = psychologistRepository;
         }
+        public async Task<SubscriptionResponse.GetSubscriptionFormData> GetSubscriptionFormData()
+        {
+            var categories = await _categoryRepository.GetAll()
+                .Select(c => new SubscriptionResponse.CategoryModel(c.Id, c.CategoryName))
+                .ToListAsync();
 
+            var psychologists = await _psychologistRepository.GetAll()
+                .Select(p => new SubscriptionResponse.PsychologistModel(p.Id, p.Name, p.Specialization))
+                .ToListAsync();
+
+            return new SubscriptionResponse.GetSubscriptionFormData(categories, psychologists);
+        }
         public async Task AddSubscription(SubscriptionRequest.CreateSubscriptionModel model)
         {
             //Kiểm tra xem subscription đã tồn tại chưa
@@ -37,9 +48,14 @@ namespace HEALTH_SUPPORT.Services.Implementations
             var category = await _categoryRepository.GetAll().FirstOrDefaultAsync(s => s.Id == model.CategoryId);
             var psychologist = await _psychologistRepository.GetAll().FirstOrDefaultAsync(a => a.Id == model.PsychologistId);
 
-            if (category == null || psychologist == null)
+            if (category == null)
             {
-                throw new Exception("Subscription or Account not found.");
+                throw new Exception("The selected Category does not exist.");
+            }
+
+            if (psychologist == null)
+            {
+                throw new Exception("The selected Psychologist does not exist.");
             }
             try
             {
