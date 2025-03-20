@@ -14,6 +14,13 @@ namespace HEALTH_SUPPORT.API.Controllers
         {
             _subscriptionService = subscriptionService;
         }
+        [HttpGet("PreCreateData")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetSubscriptionFormData()
+        {
+            var formData = await _subscriptionService.GetSubscriptionFormData();
+            return Ok(formData);
+        }
 
         [HttpPost("Create")]
         public async Task<IActionResult> CreateSubscription([FromBody] SubscriptionRequest.CreateSubscriptionModel model)

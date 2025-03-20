@@ -144,5 +144,16 @@ namespace HEALTH_SUPPORT.Services.Implementations
             await _orderRepository.SaveChangesAsync();
         }
 
+        public async Task RemoveOrder(Guid Id)
+        {
+            var order = await _orderRepository.GetById(Id);
+            if (order is null || order.IsDeleted)
+            {
+                return;
+            }
+            order.IsDeleted = true;
+            await _orderRepository.Update(order);
+            await _orderRepository.SaveChangesAsync();
+        }
     }
 }

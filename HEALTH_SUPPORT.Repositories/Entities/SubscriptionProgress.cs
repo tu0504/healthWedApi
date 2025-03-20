@@ -11,19 +11,16 @@ namespace HEALTH_SUPPORT.Repositories.Entities
 {
     public class SubscriptionProgress : Entity<Guid>, IAuditable
     {
+        public int? Section { get; set; }
         public string? Description { get; set; }
-
-        [Required]
-        public DateTimeOffset StartDate { get; set; }
-
-        public DateTimeOffset? EndDate { get; set; }
+        public int? Date { get; set; }
 
         [Required]
         public Guid SubscriptionId { get; set; }
 
         [ForeignKey("SubscriptionId")]
         public SubscriptionData SubscriptionDatas { get; set; }
-
+        public bool IsCompleted { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
     }

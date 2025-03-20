@@ -13,6 +13,7 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task<List<SubscriptionResponse.GetSubscriptionsModel>> GetSubscriptions();
         Task<SubscriptionResponse.GetSubscriptionsModel?> GetSubscriptionById(Guid id);
         Task<SubscriptionResponse.GetSubscriptionsModel?> GetSubscriptionByIdDeleted(Guid id);
+        Task<SubscriptionResponse.GetSubscriptionFormData> GetSubscriptionFormData();
         Task AddSubscription(SubscriptionRequest.CreateSubscriptionModel model);
         Task UpdateSubscription(Guid id, SubscriptionRequest.UpdateSubscriptionModel model);
         Task RemoveSubscription(Guid id);
