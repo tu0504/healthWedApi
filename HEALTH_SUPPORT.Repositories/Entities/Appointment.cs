@@ -20,6 +20,6 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Guid PsychologistId { get; set; }
         [ForeignKey("PsychologistId")]
         public Psychologist Psychologist { get; set; }
-        public int Status { get; set; }
+        public string Status { get; set; }
     }
 }

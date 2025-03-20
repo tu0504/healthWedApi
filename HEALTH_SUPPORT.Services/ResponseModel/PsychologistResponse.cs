@@ -17,6 +17,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public string PhoneNumber { get; set; }
             public string Specialization { get; set; }
             public string Description { get; set; }
+            public string Achievements { get; set; }
             public string? ImgUrl { get; set; }
             public bool IsDeleted { get; set; }
         }
@@ -35,6 +36,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public string PhoneNumber { get; set; }
             public string Specialization { get; set; }
             public string Description { get; set; }
+            public string Achievements { get; set; }
             public string? ImgUrl { get; set; }
             public bool IsDeleted { get; set; }
 

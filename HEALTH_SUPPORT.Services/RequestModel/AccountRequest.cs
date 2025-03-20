@@ -71,6 +71,8 @@ namespace HEALTH_SUPPORT.Services.RequestModel
 
             public string Specialization { get; set; }
             public string Description { get; set; }
+            [Required(ErrorMessage = "Thiếu thành tựu!")]
+            public string Achievements { get; set; }
 
         }
         public class UpdateAccountModel

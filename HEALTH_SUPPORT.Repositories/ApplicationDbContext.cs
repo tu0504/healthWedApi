@@ -343,6 +343,71 @@ namespace HEALTH_SUPPORT.Repositories
                 }
 
             );
+
+            modelBuilder.Entity<Category>().HasData(
+                new Category
+                {
+                    Id = Guid.Parse("cea27467-163a-4248-8bdf-aec1429a4e6c"),
+                    CategoryName = "Cảm xúc",
+                    Description = "Giúp học sinh nhận diện, kiểm soát cảm xúc và tự điều chỉnh.."
+                },
+                new Category
+                {
+                    Id = Guid.Parse("3057a024-6931-440e-9ad0-c3e8fdbcaa92"),
+                    CategoryName = "Tư duy",
+                    Description = "Rèn luyện tư duy lạc quan, tạo động lực, tự tin và giao tiếp hiệu quả."
+                }
+            );
+
+            modelBuilder.Entity<SubscriptionData>().HasData(
+                new SubscriptionData
+                {
+                    Id = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    SubscriptionName = "Kiểm soát cảm xúc",
+                    Description = "Giúp học sinh nhận diện cảm xúc, kiểm soát tiêu cực, và phát triển khả năng tự điều chỉnh.",
+                    Price = 1000000,
+                    Duration = 30,
+                    Purpose = "",
+                    Criteria = "",
+                    FocusGroup = "",
+                    AssessmentTool = "",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    CategoryId = Guid.Parse("cea27467-163a-4248-8bdf-aec1429a4e6c"),
+                    PsychologistId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                },
+                new SubscriptionData
+                {
+                    Id = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    SubscriptionName = "Xây dựng tư duy tích cực",
+                    Description = "Hướng dẫn học sinh rèn luyện suy nghĩ lạc quan, gia tăng động lực và sự tự tin.",
+                    Price = 1500000,
+                    Duration = 30,
+                    Purpose = "",
+                    Criteria = "",
+                    FocusGroup = "",
+                    AssessmentTool = "",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    CategoryId = Guid.Parse("3057a024-6931-440e-9ad0-c3e8fdbcaa92"),
+                    PsychologistId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                },
+                new SubscriptionData
+                {
+                    Id = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    SubscriptionName = "Kỹ năng giao tiếp",
+                    Description = "Nâng cao khả năng giao tiếp, cải thiện mối quan hệ và giải quyết mâu thuẫn.",
+                    Price = 1700000,
+                    Duration = 30,
+                    Purpose = "",
+                    Criteria = "",
+                    FocusGroup = "",
+                    AssessmentTool = "",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    CategoryId = Guid.Parse("3057a024-6931-440e-9ad0-c3e8fdbcaa92"),
+                    PsychologistId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                }
+            );
+
+
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Psychologist>()
            .HasOne(p => p.Account)

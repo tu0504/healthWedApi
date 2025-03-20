@@ -17,6 +17,14 @@ namespace HEALTH_SUPPORT.API.Controllers
             _appointmentService = AppointmentService;
         }
 
+        [HttpGet(Name = "GetAppointment")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAppointment()
+        {
+            var result = await _appointmentService.GetAppointment();
+            return Ok(result);
+        }
+
         [HttpGet("{accountId}/Account", Name = "GetAppointmentByAccountId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

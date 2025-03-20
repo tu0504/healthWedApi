@@ -51,6 +51,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 PhoneNumber = model.PhoneNumber,
                 Specialization = model.Specialization,
                 Description = model.Description,
+                Achievements = model.Achievements,
                 CreateAt = DateTimeOffset.UtcNow
             };
 
@@ -75,6 +76,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 PhoneNumber = psychologist.PhoneNumber,
                 Specialization = psychologist.Specialization,
                 Description = psychologist.Description,
+                Achievements = psychologist.Achievements,
                 IsDeleted = psychologist.IsDeleted
             };
         }
@@ -91,6 +93,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 PhoneNumber = p.PhoneNumber,
                 Specialization = p.Specialization,
                 Description = p.Description,
+                Achievements = p.Achievements,
                 IsDeleted = p.IsDeleted
             })
     .ToListAsync();
@@ -109,6 +112,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             psychologist.PhoneNumber = model.PhoneNumber ?? psychologist.PhoneNumber;
             psychologist.Specialization = model.Specialization ?? psychologist.Specialization;
             psychologist.Description = model.Description ?? psychologist.Description;
+            psychologist.Achievements = model.Achievements ?? psychologist.Achievements;
             psychologist.ModifiedAt = DateTimeOffset.UtcNow;
 
             await _psychologistRepository.Update(psychologist);
@@ -192,6 +196,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     PhoneNumber = p.PhoneNumber,
                     Specialization = p.Specialization,
                     Description = p.Description,
+                    Achievements = p.Achievements,
+                    ImgUrl = p.ImgUrl,
                     IsDeleted = p.IsDeleted
                 })
                 .ToListAsync();
@@ -211,6 +217,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     PhoneNumber = p.PhoneNumber,
                     Specialization = p.Specialization,
                     Description = p.Description,
+                    Achievements = p.Achievements,
                     ImgUrl = p.ImgUrl,
                     IsDeleted = p.IsDeleted,
 
@@ -277,6 +284,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 PhoneNumber = account.Phone,
                 Specialization = model.Specialization,
                 Description = model.Description,
+                Achievements = model.Achievements,
                 CreateAt = DateTimeOffset.UtcNow,
                 AccountId = account.Id, 
             };
@@ -328,6 +336,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
            
             psychologist.Specialization = model.Specialization ?? psychologist.Specialization;
             psychologist.Description = model.Description ?? psychologist.Description;
+            psychologist.Achievements = model.Achievements ?? psychologist.Achievements;
             psychologist.ModifiedAt = DateTimeOffset.UtcNow;
 
             if (account != null)
