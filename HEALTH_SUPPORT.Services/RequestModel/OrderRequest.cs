@@ -20,6 +20,18 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             [Required]
             [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1.")]
             public int Quantity { get; set; }
+            public DateTimeOffset CreateAt { get; set; }
+            public bool IsDelete { get; set; }
         }
+
+        public class UpdateOrderModel
+        {
+            public Guid SubscriptionDataId { get; set; }
+            public int Quantity { get; set; }
+            public bool IsActive { get; set; }
+            public bool IsDeleted { get; set; }
+            public DateTimeOffset? ModifiedAt { get; set; }
+        }
+
     }
 }

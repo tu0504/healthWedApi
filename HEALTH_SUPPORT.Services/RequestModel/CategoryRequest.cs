@@ -25,6 +25,8 @@ namespace HEALTH_SUPPORT.Services.RequestModel
 
             [Required]
             public string Description { get; set; }
+
+            public bool IsDeleted { get; set; }
         }
     }
 }

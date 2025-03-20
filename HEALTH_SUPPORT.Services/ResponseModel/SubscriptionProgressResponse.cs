@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Services.ResponseModel
 {
-    public class SurveyAnswerResponse
+    public static class SubscriptionProgressResponse
     {
-        public class GetSurveyAnswerModel
+        public class GetProgressModel
         {
             public Guid Id { get; set; }
-            public string Content { get; set; }
-            public int Point { get; set; }
+            public int Section { get; set; }
+            public string Description { get; set; }
+            public int Date { get; set; }
+            public string SubscriptionName { get; set; }
+            public bool IsCompleted { get; set; }
             public DateTimeOffset CreateAt { get; set; }
             public DateTimeOffset? ModifiedAt { get; set; }
-            public bool IsDelete { get; set; }
-            public List<Guid> QuestionIds { get; set; }
         }
     }
 }

@@ -54,7 +54,7 @@ namespace HEALTH_SUPPORT.API.Controllers
                 return BadRequest(new { message = "Invalid update data" });
             }
 
-            var existingCategory = await _categoryService.GetCategoryById(categoryId);
+            var existingCategory = await _categoryService.GetCategoryByIdDelete(categoryId);
             if (existingCategory == null)
             {
                 return NotFound(new { message = "Category not found" });
