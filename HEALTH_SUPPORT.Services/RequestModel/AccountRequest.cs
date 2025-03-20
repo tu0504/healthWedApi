@@ -40,7 +40,41 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string RoleName { get; set; }
 
         }
+        public class CreateAccountAndPsychologistModel
+        {
+            [Required(ErrorMessage = "Thiếu tên tài khoản!")]
+            public string UserName { get; set; }
 
+            [Required(ErrorMessage = "Thiếu họ và tên!")]
+            public string Fullname { get; set; }
+
+            [Required(ErrorMessage = "Thiếu Email!")]
+            [EmailAddress(ErrorMessage = "Định dạng Email không hợp lệ!")]
+            public string Email { get; set; }
+
+            [Required(ErrorMessage = "Thiếu số điện thoại!")]
+            [Phone(ErrorMessage = "Định dạng số điện thoại không hợp lệ!")]
+            public string Phone { get; set; }
+
+            [Required(ErrorMessage = "Thiếu địa chỉ!")]
+            public string Address { get; set; }
+
+            [Required]
+            [MinLength(6, ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự!")]
+            public string PasswordHash { get; set; }
+            [Required]
+            [Compare("PasswordHash", ErrorMessage = "Mật khẩu nhập lại không khớp!")]
+            public string ConfirmPassword { get; set; }
+
+            [Required(ErrorMessage = "Thiếu vai trò!")]
+            public string RoleName { get; set; }
+
+            public string Specialization { get; set; }
+            public string Description { get; set; }
+            [Required(ErrorMessage = "Thiếu thành tựu!")]
+            public string Achievements { get; set; }
+
+        }
         public class UpdateAccountModel
         {
             [Required]

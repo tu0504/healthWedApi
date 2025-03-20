@@ -34,5 +34,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Guid RoleId { get; set; }
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
+
+        public Psychologist Psychologist { get; set; }
     }
 }
