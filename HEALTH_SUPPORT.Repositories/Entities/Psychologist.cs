@@ -32,6 +32,10 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public ICollection<HealthData> HealthDatas { get; set; }
         public ICollection<SubscriptionData> SubscriptionDatas { get; set; }
         public ICollection<Appointment> Appointments { get; set; }
+        [Required] 
+        public Guid AccountId { get; set; }
 
+        [ForeignKey("AccountId")]
+        public Account Account { get; set; }
     }
 }

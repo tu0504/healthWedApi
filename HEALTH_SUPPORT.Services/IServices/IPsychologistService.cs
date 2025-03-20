@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static HEALTH_SUPPORT.Services.RequestModel.AccountRequest;
 
 namespace HEALTH_SUPPORT.Services.IServices
 {
@@ -18,6 +19,11 @@ namespace HEALTH_SUPPORT.Services.IServices
 
         Task<PsychologistResponse.AvatarResponseModel> UploadAvatarAsync(Guid id, PsychologistRequest.UploadAvatarModel model);
         Task<PsychologistResponse.AvatarResponseModel> UpdateAvatarAsync(Guid id, PsychologistRequest.UploadAvatarModel model);
+        Task<List<PsychologistResponse.GetPsychologistModel>> GetPsychologistDetailByManager();
+        Task<List<PsychologistResponse.GetPsychologistWithAccountModel>> GetPsychologistProfileByManager();
+        Task AddPsychologistToManager(CreateAccountAndPsychologistModel model);
+        Task UpdatePsychologistToManager(Guid id, PsychologistRequest.UpdatePsychologistModel model);
+        Task DeletePsychologistById(Guid id);
         Task RemoveAvatarAsync(Guid id);
     }
 }

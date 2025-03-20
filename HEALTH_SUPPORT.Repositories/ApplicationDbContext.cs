@@ -344,6 +344,11 @@ namespace HEALTH_SUPPORT.Repositories
 
             );
             //Account-survey(m-m: AccountSurvey)
+            modelBuilder.Entity<Psychologist>()
+           .HasOne(p => p.Account)
+           .WithOne(a => a.Psychologist)
+           .HasForeignKey<Psychologist>(p => p.AccountId)
+           .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Account>().HasMany(s => s.AccountSurveys).WithOne(a => a.Account).HasForeignKey(s => s.AccountId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Survey>().HasMany(s => s.AccountSurveys).WithOne(a => a.Survey).HasForeignKey(s => s.SurveyId).OnDelete(DeleteBehavior.Restrict);
 

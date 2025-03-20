@@ -28,6 +28,10 @@ namespace HEALTH_SUPPORT.Services.RequestModel
 
             [Required(ErrorMessage = "Thiếu mô tả!")]
             public string Description { get; set; }
+
+            [Required]
+            [MinLength(6, ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự!")]
+            public string PasswordHash { get; set; }
         }
 
         public class UpdatePsychologistModel
