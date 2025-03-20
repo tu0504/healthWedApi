@@ -10,6 +10,7 @@ namespace HEALTH_SUPPORT.Services.IServices
 {
     public interface IAppointmentService
     {
+        Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointment();
         Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointmentsForAccount(Guid accountId);
         Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointmentsForPsychologist(Guid psychologistId);
         Task<AppointmentResponse.GetAppointmentModel?> GetAppointmentById(Guid id);

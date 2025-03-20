@@ -3,10 +3,12 @@ using HEALTH_SUPPORT.Repositories.Repository;
 using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using HEALTH_SUPPORT.Services.ResponseModel;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,6 +45,42 @@ namespace HEALTH_SUPPORT.Services.Implementations
             };
             await _appointmentRepository.Add(appointment);
             await _appointmentRepository.SaveChangesAsync();
+        }
+
+        public async Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointment()
+        {
+
+            return await _appointmentRepository.GetAll().Where(s => !s.IsDeleted).AsNoTracking().
+                    Select(s => new AppointmentResponse.GetAppointmentModel
+                    {
+                        Id = s.Id,
+                        AccountId = s.AccountId,
+                        Account = new AppointmentResponse.GetAccountsForAppointmentModel
+                        {
+                            Id = s.AccountId,
+                            Address = s.Account.Address,
+                            Email = s.Account.Email,
+                            Fullname = s.Account.Fullname,
+                            Phone = s.Account.Phone,
+                            UserName = s.Account.UserName
+                        },
+                        CreateAt = s.CreateAt,
+                        ModifiedAt = s.ModifiedAt,
+                        AppointmentDate = s.AppointmentDate,
+                        Content = s.Content,
+                        IsDelete = s.IsDeleted,
+                        PsychologistId = s.PsychologistId,
+                        Psychologist = new PsychologistResponse.GetPsychologistModel
+                        {
+                            IsDeleted = s.Psychologist.IsDeleted,
+                            Email = s.Psychologist.Email,
+                            Id = s.Psychologist.Id,
+                            Name = s.Psychologist.Name,
+                            PhoneNumber = s.Psychologist.PhoneNumber,
+                            Specialization = s.Psychologist.Specialization
+                        },
+                        Status = s.Status
+                    }).ToListAsync(); 
         }
 
         public async Task<AppointmentResponse.GetAppointmentModel?> GetAppointmentById(Guid id)

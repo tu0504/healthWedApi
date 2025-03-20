@@ -25,6 +25,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         [Required]
         public string Specialization { get; set; }
         public string Description { get; set; }
+        public string Achievements { get; set; }
         public string? ImgUrl { get; set; }
 
         public DateTimeOffset CreateAt { get; set; } = DateTimeOffset.UtcNow;
@@ -32,6 +33,10 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public ICollection<HealthData> HealthDatas { get; set; }
         public ICollection<SubscriptionData> SubscriptionDatas { get; set; }
         public ICollection<Appointment> Appointments { get; set; }
+        [Required] 
+        public Guid AccountId { get; set; }
 
+        [ForeignKey("AccountId")]
+        public Account Account { get; set; }
     }
 }

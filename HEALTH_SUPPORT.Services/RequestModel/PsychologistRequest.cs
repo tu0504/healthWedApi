@@ -28,6 +28,13 @@ namespace HEALTH_SUPPORT.Services.RequestModel
 
             [Required(ErrorMessage = "Thiếu mô tả!")]
             public string Description { get; set; }
+
+            [Required(ErrorMessage = "Thiếu thành tựu!")]
+            public string Achievements { get; set; }
+
+            [Required]
+            [MinLength(6, ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự!")]
+            public string PasswordHash { get; set; }
         }
 
         public class UpdatePsychologistModel
@@ -37,6 +44,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string? PhoneNumber { get; set; }
             public string? Specialization { get; set; }
             public string? Description { get; set; }
+            public string? Achievements { get; set; }
         }
 
         public class UploadAvatarModel

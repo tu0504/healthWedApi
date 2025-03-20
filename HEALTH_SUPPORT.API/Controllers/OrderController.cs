@@ -1,5 +1,4 @@
-﻿using HEALTH_SUPPORT.Services.Implementations;
-using HEALTH_SUPPORT.Services.IServices;
+﻿using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -64,20 +63,6 @@ namespace HEALTH_SUPPORT.API.Controllers
 
             await _orderService.CancelOrder(orderId, model);
             return Ok(new { message = "Order canceled successfully" });
-        }
-
-        [HttpDelete("{orderId}", Name = "DeleteOrder")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> DeleteOrder(Guid orderId)
-        {
-            var existingOrder = await _orderService.GetOrderDetails(orderId);
-            if (existingOrder == null)
-            {
-                return NotFound(new { message = "Order is not found" });
-            }
-            await _orderService.RemoveOrder(orderId);
-            return Ok(new { message = "Order deleted successfully" });
         }
     }
 }
