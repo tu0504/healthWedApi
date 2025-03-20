@@ -25,7 +25,18 @@ namespace HEALTH_SUPPORT.Services.Implementations
             _categoryRepository = categoryRepository;
             _psychologistRepository = psychologistRepository;
         }
+        public async Task<SubscriptionResponse.GetSubscriptionFormData> GetSubscriptionFormData()
+        {
+            var categories = await _categoryRepository.GetAll()
+                .Select(c => new SubscriptionResponse.CategoryModel(c.Id, c.CategoryName))
+                .ToListAsync();
 
+            var psychologists = await _psychologistRepository.GetAll()
+                .Select(p => new SubscriptionResponse.PsychologistModel(p.Id, p.Name, p.Specialization))
+                .ToListAsync();
+
+            return new SubscriptionResponse.GetSubscriptionFormData(categories, psychologists);
+        }
         public async Task AddSubscription(SubscriptionRequest.CreateSubscriptionModel model)
         {
             //Kiểm tra xem subscription đã tồn tại chưa
@@ -34,16 +45,17 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 throw new Exception("Tên chương trình đã tồn tại!");
             }
-            //Kiểm tra xem category có tồn tại không
-            var category = await _categoryRepository.GetAll().FirstOrDefaultAsync(c => c.CategoryName.ToLower() == model.CategoryName.ToLower());
+            var category = await _categoryRepository.GetAll().FirstOrDefaultAsync(s => s.Id == model.CategoryId);
+            var psychologist = await _psychologistRepository.GetAll().FirstOrDefaultAsync(a => a.Id == model.PsychologistId);
+
             if (category == null)
             {
-                throw new Exception("Vui lòng chọn loại chương trình!");
+                throw new Exception("The selected Category does not exist.");
             }
-            var psychologist = await _psychologistRepository.GetAll().FirstOrDefaultAsync(p => p.Name == model.PsychologistName);
+
             if (psychologist == null)
             {
-                throw new Exception("Vui lòng chọn tên chuyên gia");
+                throw new Exception("The selected Psychologist does not exist.");
             }
             try
             {
@@ -98,7 +110,32 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 subscription.AssessmentTool
             );
         }
+        public async Task<SubscriptionResponse.GetSubscriptionsModel?> GetSubscriptionByIdDeleted(Guid id)
+        {
+            var subscription = await _subscriptionRepository.GetAll()
+                .Include(s => s.Category)
+                .Include(s => s.Psychologists)
+                .FirstOrDefaultAsync(s => s.Id == id);
 
+            if (subscription == null)
+            {
+                return null;
+            }
+
+            return new SubscriptionResponse.GetSubscriptionsModel(
+                subscription.Id,
+                subscription.SubscriptionName,
+                subscription.Description,
+                (float)subscription.Price,
+                subscription.Duration,
+                subscription.Category?.CategoryName ?? "Unknown",
+                subscription.Psychologists?.Name ?? "Unknown",
+                subscription.Purpose,
+                subscription.Criteria,
+                subscription.FocusGroup,
+                subscription.AssessmentTool
+            );
+        }
         public async Task<List<SubscriptionResponse.GetSubscriptionsModel>> GetSubscriptions()
         {
             return await _subscriptionRepository.GetAll()
@@ -156,6 +193,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 existedSubscription.Criteria = string.IsNullOrWhiteSpace(model.Criteria) ? existedSubscription.Criteria : model.Criteria;
                 existedSubscription.FocusGroup = string.IsNullOrWhiteSpace(model.FocusGroup) ? existedSubscription.FocusGroup : model.FocusGroup;
                 existedSubscription.AssessmentTool = string.IsNullOrWhiteSpace(model.AssessmentTool) ? existedSubscription.AssessmentTool : model.AssessmentTool;
+                existedSubscription.IsDeleted = model.IsDelete;
+
 
                 existedSubscription.ModifiedAt = DateTimeOffset.UtcNow;
 
