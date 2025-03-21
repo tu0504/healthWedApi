@@ -85,6 +85,34 @@ namespace HEALTH_SUPPORT.Repositories
                     CreateAt = DateTimeOffset.UtcNow,
                     LoginDate = DateTimeOffset.UtcNow,
                     RoleId = Guid.Parse("2a5f5c96-cb79-40d4-a604-d484b7041e7f")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("05e5e6d4-f866-447c-b610-46fc721e09cd"),
+                    UserName = "johndoe",
+                    Fullname = "John Doe",
+                    Email = "johndoe@example.com",
+                    Phone = "1234567890",
+                    Address = "123 Main St",
+                    PasswordHash = "123456",
+                    IsEmailVerified = true,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("880f0367-847a-4406-8146-7bff47cd36ec"),
+                    UserName = "janesmith",
+                    Fullname = "Jane Smith",
+                    Email = "janesmith@example.com",
+                    Phone = "0987654321",
+                    Address = "456 Elm St",
+                    PasswordHash = "123456",
+                    IsEmailVerified = true,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
                 }
             );
             modelBuilder.Entity<Account>().HasIndex(a => a.UserName).IsUnique();
@@ -359,6 +387,35 @@ namespace HEALTH_SUPPORT.Repositories
                 }
             );
 
+            modelBuilder.Entity<Psychologist>().HasData(
+                new Psychologist
+                {
+                    Id = Guid.Parse("316d922e-5cdd-4df0-bc2e-744b2aa6b42e"),
+                    Name = "Dr. John Doe",
+                    Email = "johndoe@example.com",
+                    PhoneNumber = "1234567890",
+                    Specialization = "Clinical Psychology",
+                    Description = "Expert in cognitive behavioral therapy.",
+                    Achievements = "Published 10 research papers.",
+                    ImgUrl = "https://example.com/johndoe.jpg",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    AccountId = Guid.Parse("05e5e6d4-f866-447c-b610-46fc721e09cd")
+                },
+                new Psychologist
+                {
+                    Id = Guid.Parse("257b73a3-d691-40d3-b65d-a56a0ad7fb91"),
+                    Name = "Dr. Jane Smith",
+                    Email = "janesmith@example.com",
+                    PhoneNumber = "0987654321",
+                    Specialization = "Child Psychology",
+                    Description = "Specialist in adolescent mental health.",
+                    Achievements = "Winner of National Psychology Award.",
+                    ImgUrl = "https://example.com/janesmith.jpg",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    AccountId = Guid.Parse("880f0367-847a-4406-8146-7bff47cd36ec")
+                }
+            );
+
             modelBuilder.Entity<SubscriptionData>().HasData(
                 new SubscriptionData
                 {
@@ -373,7 +430,7 @@ namespace HEALTH_SUPPORT.Repositories
                     AssessmentTool = "",
                     CreateAt = DateTimeOffset.UtcNow,
                     CategoryId = Guid.Parse("cea27467-163a-4248-8bdf-aec1429a4e6c"),
-                    PsychologistId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                    PsychologistId = Guid.Parse("316d922e-5cdd-4df0-bc2e-744b2aa6b42e")
                 },
                 new SubscriptionData
                 {
@@ -388,7 +445,7 @@ namespace HEALTH_SUPPORT.Repositories
                     AssessmentTool = "",
                     CreateAt = DateTimeOffset.UtcNow,
                     CategoryId = Guid.Parse("3057a024-6931-440e-9ad0-c3e8fdbcaa92"),
-                    PsychologistId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                    PsychologistId = Guid.Parse("316d922e-5cdd-4df0-bc2e-744b2aa6b42e")
                 },
                 new SubscriptionData
                 {
@@ -403,10 +460,11 @@ namespace HEALTH_SUPPORT.Repositories
                     AssessmentTool = "",
                     CreateAt = DateTimeOffset.UtcNow,
                     CategoryId = Guid.Parse("3057a024-6931-440e-9ad0-c3e8fdbcaa92"),
-                    PsychologistId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                    PsychologistId = Guid.Parse("257b73a3-d691-40d3-b65d-a56a0ad7fb91")
                 }
             );
 
+            
 
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Psychologist>()
