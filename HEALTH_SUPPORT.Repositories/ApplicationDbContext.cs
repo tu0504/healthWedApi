@@ -464,7 +464,163 @@ namespace HEALTH_SUPPORT.Repositories
                 }
             );
 
-            
+            modelBuilder.Entity<SubscriptionProgress>().HasData(
+                // Progress for "Kiểm soát cảm xúc"
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("1354b694-834d-4d69-ba21-c60b94dc6daf"),
+                    Section = 1,
+                    Description = "Nhận diện và phân loại cảm xúc",
+                    Date = 1,
+                    SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("344ad3c0-ab74-4ed7-9c14-996caeba2af6"),
+                    Section = 2,
+                    Description = "Hiểu rõ nguyên nhân gây ra cảm xúc",
+                    Date = 3,
+                    SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("88ecef38-121a-4faa-ba7a-638e3f73a1ed"),
+                    Section = 3,
+                    Description = "Chiến lược kiểm soát cảm xúc tiêu cực",
+                    Date = 6,
+                    SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("73eb18fb-796a-4474-b35f-a85315636bfb"),
+                    Section = 4,
+                    Description = "Thực hành kỹ thuật thư giãn và thiền",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("2c04483d-a1b7-4771-ab49-330e46236529"),
+                    Section = 5,
+                    Description = "Áp dụng vào thực tế: Tự kiểm soát cảm xúc",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+
+                // Progress for "Xây dựng tư duy tích cực"
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("b18108d5-6480-4ad0-9d72-7b4c34ec45d0"),
+                    Section = 1,
+                    Description = "Nhận diện suy nghĩ tiêu cực",
+                    Date = 1,
+                    SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("5ae9b457-a18d-4a67-8397-04e54bb7c8f1"),
+                    Section = 2,
+                    Description = "Thay đổi góc nhìn về bản thân",
+                    Date = 3,
+                    SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("e6302674-cd73-49c1-9a3c-7fa35600425b"),
+                    Section = 3,
+                    Description = "Thực hành khẳng định tích cực",
+                    Date = 6,
+                    SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("85bbf6f4-7339-4f30-b347-8b3f2371086c"),
+                    Section = 4,
+                    Description = "Phát triển tư duy phát triển",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("96b78cef-838a-4177-b5dd-d41293f1d7a8"),
+                    Section = 5,
+                    Description = "Ứng dụng tư duy tích cực vào cuộc sống",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+
+                // Progress for "Kỹ năng giao tiếp"
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("ebcebd5b-e6e0-40f6-9939-cd5aa91727e0"),
+                    Section = 1,
+                    Description = "Tầm quan trọng của giao tiếp hiệu quả",
+                    Date = 1,
+                    SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("62b29aae-e0f5-49b8-98d0-aa46bb34c08a"),
+                    Section = 2,
+                    Description = "Lắng nghe tích cực",
+                    Date = 3,
+                    SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("96f10dbc-3931-40d8-826a-b7da64d17c1c"),
+                    Section = 3,
+                    Description = "Ngôn ngữ cơ thể và giao tiếp phi ngôn ngữ",
+                    Date = 6,
+                    SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("5d871899-8713-42fe-9c05-ef88ebdd5cdb"),
+                    Section = 4,
+                    Description = "Xây dựng sự tự tin trong giao tiếp",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("bd11496c-7cce-40f3-aa52-3e01ed58c752"),
+                    Section = 5,
+                    Description = "Ứng dụng kỹ năng giao tiếp vào thực tế",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                }
+            );
 
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Psychologist>()
