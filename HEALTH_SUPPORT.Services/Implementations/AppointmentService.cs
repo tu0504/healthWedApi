@@ -30,7 +30,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task AddAppointment(AppointmentRequest.AddAppointmentRequestRequest model)
         {
             var psychologist = await _psychologistRepository.GetById(model.PsychologistId);
-            if (psychologist is null)
+            if (psychologist is null || psychologist.IsDeleted)
             {
                 throw new Exception("Không tìm thấy bác sĩ tâm lý.");
             }
@@ -86,17 +86,17 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<AppointmentResponse.GetAppointmentModel?> GetAppointmentById(Guid id)
         {
             var appointment = await _appointmentRepository.GetById(id);
-            if (appointment is null)
+            if (appointment is null || appointment.IsDeleted)
             {
                 throw new Exception("Không tìm thấy lịch hẹn.");
             }
             var psychologist = await _psychologistRepository.GetById(appointment.PsychologistId);
-            if (psychologist is null)
+            if (psychologist is null || psychologist.IsDeleted)
             {
                 throw new Exception("Không tìm thấy bác sĩ tâm lý.");
             }
             var account = await _accountRepository.GetById(appointment.AccountId);
-            if (account is null)
+            if (account is null || account.IsDeleted)
             {
                 throw new Exception("Không tìm thấy người dùng.");
             }
@@ -134,7 +134,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointmentsForAccount(Guid accountId)
         {
-            var appointment = _appointmentRepository.GetAll().Where(s => s.AccountId == accountId).Select(s => new AppointmentResponse.GetAppointmentModel
+            var appointment = _appointmentRepository.GetAll().Where(s => s.AccountId == accountId && s.IsDeleted == false).Select(s => new AppointmentResponse.GetAppointmentModel
             {
                 Id = s.Id,
                 AccountId = s.AccountId,
@@ -173,7 +173,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
         public async Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointmentsForPsychologist(Guid psychologistId)
         {
-            var appointment = _appointmentRepository.GetAll().Where(s => s.PsychologistId == psychologistId).Select(s => new AppointmentResponse.GetAppointmentModel
+            var appointment = _appointmentRepository.GetAll().Where(s => s.PsychologistId == psychologistId && s.IsDeleted==false).Select(s => new AppointmentResponse.GetAppointmentModel
             {
                 Id = s.Id,
                 AccountId = s.AccountId,
