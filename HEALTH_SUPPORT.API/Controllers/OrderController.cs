@@ -1,4 +1,5 @@
-﻿using HEALTH_SUPPORT.Services.IServices;
+﻿using HEALTH_SUPPORT.Services.Implementations;
+using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,19 +51,39 @@ namespace HEALTH_SUPPORT.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{orderId}/cancel", Name = "UpdateOrder")]
+        [HttpPut("{orderId}", Name = "UpdateOrder")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CancelOrder(Guid orderId, [FromBody] OrderRequest.UpdateOrderModel model )
+        public async Task<ActionResult> UpdateOrder(Guid orderId, [FromBody] OrderRequest.UpdateOrderModel model)
         {
+            if (model == null)
+            {
+                return BadRequest(new { message = "Invalid update data" });
+            }
+            // Kiểm tra xem order có tồn tại không
             var existingOrder = await _orderService.GetOrderDetailsDeleted(orderId);
             if (existingOrder == null)
             {
                 return NotFound(new { message = "Order not found" });
             }
 
-            await _orderService.CancelOrder(orderId, model);
-            return Ok(new { message = "Order canceled successfully" });
+            await _orderService.UpdateOrder(orderId, model);
+            return Ok(new { message = "Order updated successfully" });
+        }
+
+        [HttpDelete("{orderId}", Name = "DeleteOrder")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteOrder(Guid orderId)
+        {
+            var existingOrder = await _orderService.GetOrderDetails(orderId);
+            if (existingOrder == null)
+            {
+                return NotFound(new { message = "Order not found" });
+            }
+            await _orderService.RemoveOrder(orderId);
+            return Ok(new { message = "Order deleted successfully" });
         }
     }
 }

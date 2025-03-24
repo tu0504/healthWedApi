@@ -18,8 +18,8 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             string AccountEmail,
             DateTimeOffset CreateAt,
             DateTimeOffset? ModifiedAt,
-            bool IsActive
-
+            bool IsJoined,
+            bool IsSuccessful
         );
     }
 }

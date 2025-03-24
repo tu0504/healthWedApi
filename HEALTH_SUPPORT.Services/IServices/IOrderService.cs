@@ -10,12 +10,11 @@ namespace HEALTH_SUPPORT.Services.IServices
 {
     public interface IOrderService
     {
-        Task CreateOrder(OrderRequest.CreateOrderModel model);
         Task<OrderResponse.GetOrderDetailsModel?> GetOrderDetails(Guid orderId);
         Task<OrderResponse.GetOrderDetailsModel?> GetOrderDetailsDeleted(Guid orderId);
         Task<List<OrderResponse.GetOrderDetailsModel>> GetOrders();
-        Task CancelOrder(Guid Id, OrderRequest.UpdateOrderModel model);
-        Task<string> CreateOrderWithVnpayPayment(OrderRequest.CreateOrderModel model);
-        Task UpdatePaymentStatus(Guid orderId, bool isSuccessful);
+        Task CreateOrder(OrderRequest.CreateOrderModel model);
+        Task UpdateOrder(Guid id, OrderRequest.UpdateOrderModel model);
+        Task RemoveOrder(Guid id);
     }
 }
