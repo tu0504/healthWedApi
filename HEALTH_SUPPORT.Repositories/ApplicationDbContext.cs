@@ -665,9 +665,6 @@ namespace HEALTH_SUPPORT.Repositories
             //Category - SubscriptionData(1-m)
             modelBuilder.Entity<Category>().HasMany(d => d.SubscriptionDatas).WithOne(c => c.Category).HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Restrict);
 
-            // SubscriptionProgress - Order (m-1)
-            //modelBuilder.Entity<Order>().HasMany(p => p.SubscriptionProgresses).WithOne(o => o.Order).HasForeignKey(p => p.OrderId).OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<SurveyQuestionSurvey>()
                         .Ignore(e => e.Id) // Ignore Id property during insert
                         .Ignore(e => e.IsDeleted); // Ignore IsDeleted property during insert

@@ -25,6 +25,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Account Accounts { get; set; }
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
+        public bool IsSuccessful { get; set; } = false;
         public bool IsActive { get; set; } = true;
         public ICollection<Transaction> Transaction { get; set; }
     }

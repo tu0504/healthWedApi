@@ -15,5 +15,7 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task<OrderResponse.GetOrderDetailsModel?> GetOrderDetailsDeleted(Guid orderId);
         Task<List<OrderResponse.GetOrderDetailsModel>> GetOrders();
         Task CancelOrder(Guid Id, OrderRequest.UpdateOrderModel model);
+        Task<string> CreateOrderWithVnpayPayment(OrderRequest.CreateOrderModel model);
+        Task UpdatePaymentStatus(Guid orderId, bool isSuccessful);
     }
 }
