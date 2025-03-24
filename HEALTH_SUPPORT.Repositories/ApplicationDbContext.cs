@@ -89,9 +89,9 @@ namespace HEALTH_SUPPORT.Repositories
                 new Account
                 {
                     Id = Guid.Parse("05e5e6d4-f866-447c-b610-46fc721e09cd"),
-                    UserName = "johndoe",
-                    Fullname = "John Doe",
-                    Email = "johndoe@example.com",
+                    UserName = "Hanh",
+                    Fullname = "LÊ THẾ HANH",
+                    Email = "thehanh@gmail.com",
                     Phone = "1234567890",
                     Address = "123 Main St",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"),
@@ -103,9 +103,51 @@ namespace HEALTH_SUPPORT.Repositories
                 new Account
                 {
                     Id = Guid.Parse("880f0367-847a-4406-8146-7bff47cd36ec"),
-                    UserName = "janesmith",
-                    Fullname = "Jane Smith",
+                    UserName = "TƯ",
+                    Fullname = "PHẠM VĂN TƯ",
                     Email = "janesmith@example.com",
+                    Phone = "0987654321",
+                    Address = "456 Elm St",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"),
+                    IsEmailVerified = true,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("aa36fb5b-a181-4a64-88b2-a9c1c698801c"),
+                    UserName = "Thắm",
+                    Fullname = "Nguyễn Thị Thắm",
+                    Email = "psy3@gmail.com",
+                    Phone = "0987654321",
+                    Address = "456 Elm St",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"),
+                    IsEmailVerified = true,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("6f95ed65-e4b3-491d-849b-7491101e2264"),
+                    UserName = "Phượng",
+                    Fullname = "Nguyễn Minh Phượng",
+                    Email = "psy4@gmail.com",
+                    Phone = "0987654321",
+                    Address = "456 Elm St",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"),
+                    IsEmailVerified = true,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("078afb32-4351-44f7-bc0c-742e0e3b5c9f"),
+                    UserName = "Oanh",
+                    Fullname = "Vũ Thị Oanh",
+                    Email = "psy5@gmail.com",
                     Phone = "0987654321",
                     Address = "456 Elm St",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"),
@@ -391,30 +433,69 @@ namespace HEALTH_SUPPORT.Repositories
                 new Psychologist
                 {
                     Id = Guid.Parse("316d922e-5cdd-4df0-bc2e-744b2aa6b42e"),
-                    Name = "Dr. John Doe",
-                    Email = "johndoe@example.com",
+                    Name = "Lê Thế Hanh",
+                    Email = "thehanh@gmail.com",
                     PhoneNumber = "1234567890",
-                    Specialization = "Clinical Psychology",
-                    Description = "Expert in cognitive behavioral therapy.",
-                    Achievements = "Published 10 research papers.",
-                    ImgUrl = "https://example.com/johndoe.jpg",
+                    Specialization = "Thạc sĩ Tâm lý học Lâm sàng",
+                    Description = "Chuyên gia tham vấn trị liệu tâm lý cho thanh thiếu niên. Chuyên gia tâm lý trong lĩnh vực hàn gắn các mối quan hệ, trị liệu các rối loạn tâm thần. Chuyên gia đào tạo tập huấn chương trình dự phòng sang chấn tâm lý tại trường học, tổ chức. Chuyên viên điều trị chứng nghiện, đặc biệt là nghiện Game/Internet",
+                    Achievements = "Rối loạn chức năng gia đình, chữa lành mối quan hệ cặp đôi, mối quan hệ cha mẹ con cái, can thiệp hệ thống gia đình. Rối loạn hành vi lứa tuổi trẻ em và vị thành niên (hành vi chống đối, hành vi lạm dụng chất và lạm dụng công nghệ).",
+                    ImgUrl = "/uploads/1.jpg",
                     CreateAt = DateTimeOffset.UtcNow,
                     AccountId = Guid.Parse("05e5e6d4-f866-447c-b610-46fc721e09cd")
                 },
                 new Psychologist
                 {
                     Id = Guid.Parse("257b73a3-d691-40d3-b65d-a56a0ad7fb91"),
-                    Name = "Dr. Jane Smith",
+                    Name = "Phạm Văn Tư",
                     Email = "janesmith@example.com",
                     PhoneNumber = "0987654321",
-                    Specialization = "Child Psychology",
-                    Description = "Specialist in adolescent mental health.",
-                    Achievements = "Winner of National Psychology Award.",
-                    ImgUrl = "https://example.com/janesmith.jpg",
+                    Specialization = "Tiến sĩ  – Chuyên gia Tâm lý học.",
+                    Description = "Hơn 20 năm kinh nghiệm trong nghề, gồm đánh giá và trị liệu tâm lý cho thanh thiếu niên và người trưởng thành. Diễn giả, Chuyên viên huấn luyện cao cấp trong lĩnh vực chăm sóc sức khỏe tinh thần cho tổ chức, doanh nghiệp, trường học. Hiện tại Tiến sĩ đang công tác tại Trường Đại học Sư phạm Hà Nội.",
+                    Achievements = "Đánh giá tâm lý các vấn đề liên quan sức khỏe tâm thần (stress, lo âu, trầm cảm, nguy cơ tự tử…); tham vấn vị thành niên và gia đình; hỗ trợ giáo viên, phụ huynh về phương pháp dạy trẻ; giảm thiểu stress.",
+                    ImgUrl = "/uploads/2.jpg",
                     CreateAt = DateTimeOffset.UtcNow,
                     AccountId = Guid.Parse("880f0367-847a-4406-8146-7bff47cd36ec")
+                },
+                new Psychologist
+                {
+                    Id = Guid.Parse("c8f8f39b-87a6-4292-b9bf-bbc78ee57fc7"),
+                    Name = "Nguyễn Thị Thắm",
+                    Email = "psy3@gmail.com",
+                    PhoneNumber = "0987654321",
+                    Specialization = "Tiến sĩ giáo dục.",
+                    Description = "Đã có gần 20 năm kinh nghiệm nghiên cứu và thực hành về lĩnh vực tâm lý và giáo dục, thực hiện đánh giá, tham vấn, trị liệu tâm lý cho trẻ em, vị thành niên, thanh thiếu niên về các vấn đề liên quan đến rối loạn phát triển, lo âu, trầm cảm, rối loạn cảm xúc hành vi, hành vi gây hấn, chống đối, rối loạn ám ảnh cưỡng chế, tư vấn định hướng nghề, ám sợ trường học, lạm dụng game internet, …",
+                    Achievements = "Đánh giá, tư vấn và can thiệp, trị liệu tâm bệnh lý trẻ em, thanh thiếu niên, người trưởng thành về các lĩnh vực: \r\n– Tự kỷ \r\n– Rối loạn lo âu – Trầm cảm\r\n– Chậm phát triển trí tuệ\r\n – Tăng động giảm chú ý \r\n– Các rối loạn dạng cơ thể\r\n – Rối loạn hành vi trẻ em vị thành niên \r\n– Rối loạn sự thích ứng\r\n",
+                    ImgUrl = "/uploads/3.jpg",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    AccountId = Guid.Parse("aa36fb5b-a181-4a64-88b2-a9c1c698801c")
+                },
+                new Psychologist
+                {
+                    Id = Guid.Parse("35153fa7-8510-4813-8ba5-447c1398f455"),
+                    Name = "Nguyễn Minh Phượng",
+                    Email = "psy4@gmail.com",
+                    PhoneNumber = "0987654321",
+                    Specialization = "Tiến sĩ giáo dục – giáo dục đặc biệt",
+                    Description = "Hiện đang là giảng viên của Trường Đại học Sư phạm Hà Nội. Hơn 15 năm kinh nghiệm công tác trong lĩnh vực giáo dục và giáo dục đặc biệt, bao gồm: đánh giá, can thiệp, trị liệu và tư vấn giáo dục cho trẻ em và thanh thiếu niên. Giảng dạy, tập huấn, bồi dưỡng chuyên môn cho giáo viên ở các địa phương về đánh giá, xây dựng kế hoạch giáo dục cá nhân, các phương pháp can thiệp, giáo dục trẻ có nhu cầu đặc biệt.",
+                    Achievements = "Đánh giá xác định mức độ phát triển hiện tại của trẻ so với tuổi thực, từ đó xác định điểm mạnh và khó khăn, hạn chế của con để có phương pháp chăm sóc, giáo dục phù hợp, giúp con phát triển tối ưu.",
+                    ImgUrl = "/uploads/4.jpg",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    AccountId = Guid.Parse("6f95ed65-e4b3-491d-849b-7491101e2264")
+                },
+                new Psychologist
+                {
+                    Id = Guid.Parse("536fa24e-0ab4-4cf3-a563-424df74d638f"),
+                    Name = "Vũ Thị Oanh",
+                    Email = "psy5@gmail.com",
+                    PhoneNumber = "0987654321",
+                    Specialization = "Thạc sĩ chuyên ngành: Tâm lý học lâm sàng.",
+                    Description = "Trên 15 năm kinh nghiệm trong lĩnh vực tham vấn và trị liệu tâm lý cho trẻ em, học sinh và người lớn.",
+                    Achievements = "Thiết kế, thực hiện các hoạt động đào tạo, tư vấn, tham vấn, trị liệu trực tiếp đối với một số rối loạn về tâm lý như: Rối loạn hành vi, cảm xúc, lo âu, trầm cảm, OCD, rối loạn chống đối và tăng động giảm tập trung (ADHD), Stress, PTSD, rối loạn nhân cách,…",
+                    ImgUrl = "/uploads/5.jpg",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    AccountId = Guid.Parse("078afb32-4351-44f7-bc0c-742e0e3b5c9f")
                 }
-            );
+                );
 
             modelBuilder.Entity<SubscriptionData>().HasData(
                 new SubscriptionData
@@ -621,6 +702,8 @@ namespace HEALTH_SUPPORT.Repositories
                     CreateAt = DateTimeOffset.UtcNow
                 }
             );
+
+            
 
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Psychologist>()
