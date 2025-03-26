@@ -26,7 +26,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
 
         [ForeignKey("AccountId")]
         public Account Accounts { get; set; }
-        public bool IsCompleted { get; set; }
+        public bool IsCompleted { get; set; } = false;
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
     }

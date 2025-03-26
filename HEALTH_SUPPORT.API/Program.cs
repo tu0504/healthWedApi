@@ -92,6 +92,7 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
             builder.Services.AddScoped<ISubscriptionProgressService, SubscriptionProgressService>();
+            builder.Services.AddScoped<IUserProgressService, UserProgressService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<ISurveyService, SurveyService>();
             builder.Services.AddScoped<ISurveyTypeService, SurveyTypeService>();
