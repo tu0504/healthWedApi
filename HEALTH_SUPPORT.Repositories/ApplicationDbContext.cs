@@ -34,6 +34,7 @@ namespace HEALTH_SUPPORT.Repositories
         public DbSet<SurveyQuestionAnswer> SurveyQuestionAnswer { get; set; }
         public DbSet<SurveyQuestionSurvey> SurveyQuestionSurvey { get; set; }
         public DbSet<SurveyAnswerRecord> SurveyAnswerRecord { get; set; }
+        public DbSet<UserProgress> UserProgresses { get; set; }
 
         private readonly IConfiguration _configuration;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
@@ -1141,8 +1142,12 @@ namespace HEALTH_SUPPORT.Repositories
                     SurveyQuestionsId = Guid.Parse("A1CE2D59-88D4-463D-8AF2-F472B5771746")
                 }
             );
-            // SubscriptionProgress - SubscriptionProgress (1-m)
+            // SubscriptionData - SubscriptionProgress (1-m)
             modelBuilder.Entity<SubscriptionData>().HasMany(p => p.SubscriptionProgresses).WithOne(d => d.SubscriptionDatas).HasForeignKey(p => p.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
+            // SubscriptionData - UserProgress (1-m)
+            modelBuilder.Entity<SubscriptionData>().HasMany(up => up.UserProgresses).WithOne(d => d.SubscriptionData).HasForeignKey(up => up.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
+            //Account - UserProgress (1-m)
+            modelBuilder.Entity<Account>().HasMany(up => up.UserProgresses).WithOne(a => a.Accounts).HasForeignKey(up => up.AccountId).OnDelete(DeleteBehavior.Restrict);
         }
 
     }

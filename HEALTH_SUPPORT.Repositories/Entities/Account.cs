@@ -31,6 +31,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public ICollection<Order> Orders { get; set; }
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<HealthData> HealthDatas { get; set; }
+        public ICollection<UserProgress> UserProgresses { get; set; }
         public Guid RoleId { get; set; }
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
