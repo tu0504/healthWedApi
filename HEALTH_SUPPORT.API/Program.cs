@@ -44,6 +44,12 @@ namespace HEALTH_SUPPORT.API
                     ValidateLifetime = true, // kiểm tra token hết hạn
                     ClockSkew = TimeSpan.Zero
                 };
+            })
+            .AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = builder.Configuration["GoogleAuth:ClientId"];
+                googleOptions.ClientSecret = builder.Configuration["GoogleAuth:ClientSecret"];
+                googleOptions.CallbackPath = new PathString("/signin-google"); // Callback sau khi Google xác thực
             });
 
             // Thêm Authorization
@@ -105,11 +111,12 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddScoped<ISurveyQuestionAnswerService, SurveyQuestionAnswerService>();
             builder.Services.AddScoped<ISurveyAnswerRecordService, SurveyAnswerRecordService>();
 
+            // Đăng ký GoogleMeetService
+            builder.Services.AddScoped<IGoogleMeetService, GoogleMeetService>();
+
             var app = builder.Build();
 
             app.UseCors("AllowAll");
-            app.UseAuthorization();
-            app.MapControllers();
 
             // Lấy IWebHostEnvironment từ app.Services
             var env = app.Services.GetRequiredService<IWebHostEnvironment>();
@@ -124,6 +131,8 @@ namespace HEALTH_SUPPORT.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseRouting();
 
             app.UseHttpsRedirection();
 

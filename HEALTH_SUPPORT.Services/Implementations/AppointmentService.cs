@@ -132,6 +132,81 @@ namespace HEALTH_SUPPORT.Services.Implementations
             };
         }
 
+        public async Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointmentsByPsychologistName(string psychologistName)
+        {
+            // Lấy danh sách tất cả bác sĩ tâm lý
+            var allPsychologists = await _psychologistRepository.GetAll().ToListAsync();
+
+            // Lọc danh sách bác sĩ theo tên
+            var psychologists = allPsychologists
+                .Where(p => p.Name.ToLower().Contains(psychologistName.ToLower()) && !p.IsDeleted)
+                .ToList();
+
+            if (!psychologists.Any())
+            {
+                throw new Exception("Không tìm thấy bác sĩ tâm lý.");
+            }
+
+            // Lấy danh sách ID của các bác sĩ đã lọc
+            var psychologistIds = psychologists.Select(p => p.Id).ToList();
+
+            // Lấy tất cả lịch hẹn, sau đó lọc theo danh sách ID bác sĩ
+            var allAppointments = await _appointmentRepository.GetAll().ToListAsync();
+            var appointments = allAppointments
+                .Where(a => psychologistIds.Contains(a.PsychologistId) && !a.IsDeleted)
+                .ToList();
+
+            if (!appointments.Any())
+            {
+                throw new Exception("Không tìm thấy lịch hẹn.");
+            }
+
+            var response = new List<AppointmentResponse.GetAppointmentModel>();
+
+            foreach (var appointment in appointments)
+            {
+                var psychologist = psychologists.FirstOrDefault(p => p.Id == appointment.PsychologistId);
+                if (psychologist == null) continue;
+
+                var account = await _accountRepository.GetById(appointment.AccountId);
+                if (account == null || account.IsDeleted) continue;
+
+                response.Add(new AppointmentResponse.GetAppointmentModel
+                {
+                    Id = appointment.Id,
+                    AccountId = appointment.AccountId,
+                    Account = new AppointmentResponse.GetAccountsForAppointmentModel
+                    {
+                        Id = account.Id,
+                        Address = account.Address,
+                        Email = account.Email,
+                        Fullname = account.Fullname,
+                        Phone = account.Phone,
+                        UserName = account.UserName
+                    },
+                    CreateAt = appointment.CreateAt,
+                    ModifiedAt = appointment.ModifiedAt,
+                    AppointmentDate = appointment.AppointmentDate,
+                    Content = appointment.Content,
+                    IsDelete = appointment.IsDeleted,
+                    PsychologistId = appointment.PsychologistId,
+                    Status = appointment.Status,
+                    Psychologist = new PsychologistResponse.GetPsychologistModel
+                    {
+                        IsDeleted = psychologist.IsDeleted,
+                        Email = psychologist.Email,
+                        Id = psychologist.Id,
+                        Name = psychologist.Name,
+                        PhoneNumber = psychologist.PhoneNumber,
+                        Specialization = psychologist.Specialization
+                    }
+                });
+            }
+
+            return response;
+        }
+
+
         public async Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointmentsForAccount(Guid accountId)
         {
             var appointment = _appointmentRepository.GetAll().Where(s => s.AccountId == accountId && s.IsDeleted == false).Select(s => new AppointmentResponse.GetAppointmentModel
