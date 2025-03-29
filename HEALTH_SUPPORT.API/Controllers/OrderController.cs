@@ -1,6 +1,7 @@
 ﻿using HEALTH_SUPPORT.Services.Implementations;
 using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
+using HEALTH_SUPPORT.Services.ResponseModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HEALTH_SUPPORT.API.Controllers
@@ -85,5 +86,34 @@ namespace HEALTH_SUPPORT.API.Controllers
             await _orderService.RemoveOrder(orderId);
             return Ok(new { message = "Order deleted successfully" });
         }
+
+        // Create VNPay Payment Link
+        [HttpPost("CreateVnPay")]
+        public async Task<IActionResult> CreateOrderWithVnpay([FromBody] OrderRequest.CreateOrderModel model)
+        {
+            if (model == null)
+            {
+                return BadRequest(new { message = "Invalid order data" });
+            }
+
+            var paymentUrl = await _orderService.CreateOrderWithVnpayPayment(model);
+
+            return Ok(new { paymentUrl });
+        }
+
+        // VNPay Callback - Process Payment Response
+        [HttpGet("VnPayCallback")]
+        public IActionResult VnPayCallback([FromQuery] Dictionary<string, string> queryParams)
+        {
+            bool isValid = _orderService.VerifyVnpayResponse(queryParams);
+
+            if (!isValid)
+            {
+                return BadRequest(new { message = "Invalid VNPay signature." });
+            }
+
+            return Ok(new { message = "Payment verified successfully." });
+        }
+
     }
 }

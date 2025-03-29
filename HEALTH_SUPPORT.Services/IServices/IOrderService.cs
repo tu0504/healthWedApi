@@ -16,5 +16,8 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task CreateOrder(OrderRequest.CreateOrderModel model);
         Task UpdateOrder(Guid id, OrderRequest.UpdateOrderModel model);
         Task RemoveOrder(Guid id);
+        Task<string> CreateOrderWithVnpayPayment(OrderRequest.CreateOrderModel model);
+        Task UpdatePaymentStatus(Guid orderId, bool isSuccessful);
+        bool VerifyVnpayResponse(Dictionary<string, string> vnpResponse);
     }
 }

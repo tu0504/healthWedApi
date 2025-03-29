@@ -85,6 +85,9 @@ namespace HEALTH_SUPPORT.API
                                     .AllowAnyHeader());
             });
 
+            // Add IHttpContextAccessor
+            builder.Services.AddHttpContextAccessor();
+
             // Register IService and Service
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped(typeof(IAvatarRepository<,>), typeof(AvatarRepository<,>));
