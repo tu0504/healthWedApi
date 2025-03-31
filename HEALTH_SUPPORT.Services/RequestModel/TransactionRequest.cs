@@ -38,9 +38,6 @@ namespace HEALTH_SUPPORT.Services.RequestModel
         {
             [Required(ErrorMessage = "OrderId is required.")]
             public Guid OrderId { get; set; }
-
-            [Required(ErrorMessage = "ReturnUrl is required.")]
-            public string ReturnUrl { get; set; }
         }
     }
 }

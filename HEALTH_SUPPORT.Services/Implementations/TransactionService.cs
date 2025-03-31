@@ -511,6 +511,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
             // Get current timestamp
             var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
+            // Generate return URL
+            var returnUrl = $"http://healthsupportproject.com/payment-result?orderId={model.OrderId}";
+
             // Create payment parameters
             var vnpParams = new SortedDictionary<string, string>(StringComparer.Ordinal)
             {
@@ -523,7 +526,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 { "vnp_OrderInfo", $"Payment for order {model.OrderId}" },
                 { "vnp_OrderType", "other" },
                 { "vnp_Amount", totalAmount.ToString() },
-                { "vnp_ReturnUrl", model.ReturnUrl },
+                { "vnp_ReturnUrl", returnUrl },
                 { "vnp_IpAddr", GetIpAddress() },
                 { "vnp_CreateDate", timestamp.ToString() }
             };
