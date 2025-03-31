@@ -40,12 +40,12 @@ namespace HEALTH_SUPPORT.API.Controllers
             return Ok(new { message = "Survey Answer Record created successfully" });
         }
 
-        [HttpDelete("{SurveyId}", Name = "DeleteSurveyAnswerRecord")]
+        [HttpDelete("{surveyAnswerRecordId}", Name = "DeleteSurveyAnswerRecord")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> DeleteSurvey(Guid SurveyId)
+        public async Task<ActionResult> DeleteSurvey(Guid surveyAnswerRecordId)
         {
-            await _surveyAnswerService.RemoveSurveyAnswerRecord(SurveyId);
+            await _surveyAnswerService.RemoveSurveyAnswerRecord(surveyAnswerRecordId);
             return Ok(new { message = "Delete Survey Answer Record Successfully" });
         }
     }
