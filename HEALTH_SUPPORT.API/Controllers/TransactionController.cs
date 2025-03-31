@@ -1,25 +1,32 @@
 using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using HEALTH_SUPPORT.Services.ResponseModel;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using System.Linq;
+using System.Web;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace HEALTH_SUPPORT.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<TransactionController> _logger;
 
-        public TransactionController(ITransactionService transactionService)
+        public TransactionController(ITransactionService transactionService, IConfiguration configuration, ILogger<TransactionController> logger)
         {
             _transactionService = transactionService;
+            _configuration = configuration;
+            _logger = logger;
         }
 
         [HttpGet("{id}")]
@@ -55,10 +62,24 @@ namespace HEALTH_SUPPORT.API.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<TransactionResponse.GetTransactionModel>> CreateTransaction(TransactionRequest.CreateTransactionModel model)
         {
-            var transaction = await _transactionService.CreateTransaction(model);
-            return CreatedAtAction(nameof(GetTransactionById), new { id = transaction.Id }, transaction);
+            if (model == null)
+            {
+                return BadRequest(new { message = "Invalid transaction data" });
+            }
+
+            try 
+            {
+                var transaction = await _transactionService.CreateTransaction(model);
+                return CreatedAtAction(nameof(GetTransactionById), new { id = transaction.Id }, transaction);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpGet("status/{status}")]
@@ -112,7 +133,6 @@ namespace HEALTH_SUPPORT.API.Controllers
         }
 
         [HttpPost("vnpay/url")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -138,15 +158,43 @@ namespace HEALTH_SUPPORT.API.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Dictionary<string, object>>> ProcessVnPayCallback([FromQuery] Dictionary<string, string> vnpResponse)
+        public async Task<IActionResult> ProcessVnPayCallback([FromQuery] Dictionary<string, string> vnpResponse)
         {
+            _logger.LogInformation("Received VNPay callback with parameters: {Params}", 
+                string.Join(", ", vnpResponse.Select(kv => $"{kv.Key}={kv.Value}")));
+
             if (vnpResponse == null || vnpResponse.Count == 0)
             {
                 return BadRequest(new { message = "Invalid VNPay response" });
             }
 
             var result = await _transactionService.ProcessVnPayResponse(vnpResponse);
-            return Ok(result);
+            
+            // Check if this is a browser request (VNPay redirect) or an API call (Postman)
+            var isApiCall = Request.Headers["Accept"].Any(h => h.Contains("application/json"));
+            
+            if (isApiCall)
+            {
+                return Ok(result);
+            }
+
+            // For browser requests, redirect to frontend
+            var frontendUrl = _configuration["AppSettings:FrontendUrl"];
+            if (string.IsNullOrEmpty(frontendUrl))
+            {
+                frontendUrl = "https://localhost:7006";
+            }
+
+            // Build the redirect URL with all payment information
+            var redirectUrl = $"{frontendUrl}/payment-result" +
+                $"?status={Uri.EscapeDataString(result["paymentStatus"].ToString())}" +
+                $"&orderId={Uri.EscapeDataString(result["orderId"].ToString())}" +
+                $"&amount={Uri.EscapeDataString(result["amountPaid"].ToString())}" +
+                $"&transactionId={Uri.EscapeDataString(result["transactionId"].ToString())}" +
+                $"&paymentTime={Uri.EscapeDataString(result["paymentTime"].ToString())}";
+
+            _logger.LogInformation("Payment processed successfully. Redirecting to: {RedirectUrl}", redirectUrl);
+            return Redirect(redirectUrl);
         }
     }
 } 

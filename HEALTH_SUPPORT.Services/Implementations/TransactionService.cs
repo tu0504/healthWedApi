@@ -6,12 +6,15 @@ using HEALTH_SUPPORT.Services.ResponseModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Net;
 
 namespace HEALTH_SUPPORT.Services.Implementations
 {
@@ -24,6 +27,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         private readonly IBaseRepository<Order, Guid> _orderRepository;
         private readonly ILogger<TransactionService> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _configuration;
 
         // VNPay configuration constants
         private const string TmnCode = "DSZH2ESZ";                    // VNPay merchant code
@@ -34,12 +38,14 @@ namespace HEALTH_SUPPORT.Services.Implementations
             IBaseRepository<Transaction, Guid> transactionRepository,
             IBaseRepository<Order, Guid> orderRepository,
             IHttpContextAccessor httpContextAccessor,
-            ILogger<TransactionService> logger)
+            ILogger<TransactionService> logger,
+            IConfiguration configuration)
         {
             _transactionRepository = transactionRepository;
             _orderRepository = orderRepository;
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -160,7 +166,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 PaymentMethod = model.PaymentMethod,
                 PaymentStatus = "pending",
                 CreateAt = DateTimeOffset.UtcNow,
-                VnpayOrderInfo = model.VnpayOrderInfo
+                VnpayOrderInfo = model.VnpayOrderInfo,
+                VnpayTransactionId = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()
             };
 
             await _transactionRepository.Add(transaction);
@@ -303,108 +310,106 @@ namespace HEALTH_SUPPORT.Services.Implementations
             // First verify the signature to ensure the response is legitimate
             if (!VerifySignature(vnpResponse))
             {
+                _logger.LogWarning("Invalid VNPay signature");
                 response["paymentStatus"] = "failed";
                 response["message"] = "Invalid signature";
                 return response;
             }
 
-            // Extract and validate order ID from the response
-            if (!vnpResponse.TryGetValue("vnp_TxnRef", out string orderIdStr) || !Guid.TryParse(orderIdStr, out Guid orderId))
+            // Extract transaction reference from the response
+            if (!vnpResponse.TryGetValue("vnp_TxnRef", out string txnRef))
             {
-                _logger.LogWarning("Invalid or missing order ID in VNPay response.");
+                _logger.LogWarning("Missing transaction reference in VNPay response.");
                 response["paymentStatus"] = "failed";
-                response["message"] = "Invalid order ID";
+                response["message"] = "Missing transaction reference";
                 return response;
             }
 
-            // Update payment status and create transaction record
-            await UpdatePaymentStatus(orderId, vnpResponse);
+            _logger.LogInformation("Looking for transaction with VnpayTransactionId: {TxnRef}", txnRef);
 
-            // Get the latest transaction for this order
+            // Find the transaction by VNPay transaction ID
             var transaction = await _transactionRepository.GetAll()
-                .Where(t => t.OrderId == orderId)
-                .OrderByDescending(t => t.CreateAt)
-                .FirstOrDefaultAsync();
+                .Include(t => t.Order)
+                .FirstOrDefaultAsync(t => t.VnpayTransactionId == txnRef);
 
             if (transaction == null)
             {
+                _logger.LogWarning("Transaction not found for VnpayTransactionId: {TxnRef}", txnRef);
+                
+                // List all pending transactions for debugging
+                var pendingTransactions = await _transactionRepository.GetAll()
+                    .Where(t => t.PaymentStatus == "pending")
+                    .Select(t => new { t.Id, t.VnpayTransactionId, t.CreateAt })
+                    .ToListAsync();
+                
+                _logger.LogInformation("Pending transactions: {Transactions}", 
+                    string.Join(", ", pendingTransactions.Select(t => $"Id: {t.Id}, VnpayTxnRef: {t.VnpayTransactionId}, Created: {t.CreateAt}")));
+                
                 response["paymentStatus"] = "failed";
                 response["message"] = "Transaction not found";
-                response["redirectUrl"] = GenerateVnPayCallbackUrl(orderId);
                 return response;
             }
 
-            // Prepare response with transaction details
-            response["paymentStatus"] = transaction.PaymentStatus;
-            response["redirectUrl"] = transaction.RedirectUrl ?? GenerateVnPayCallbackUrl(orderId);
-            response["transactionId"] = transaction.VnpayTransactionId;
-            response["amountPaid"] = transaction.Amount;
-            response["paymentTime"] = transaction.PaymentTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            _logger.LogInformation("Found transaction: Id={Id}, OrderId={OrderId}, Amount={Amount}", 
+                transaction.Id, transaction.OrderId, transaction.Amount);
 
-            return response;
-        }
-
-        /// <summary>
-        /// Updates the payment status and creates a transaction record based on VNPay response
-        /// </summary>
-        private async Task UpdatePaymentStatus(Guid orderId, Dictionary<string, string> vnpResponse)
-        {
-            var order = await _orderRepository.GetById(orderId);
-            if (order == null)
-            {
-                throw new InvalidOperationException("Order not found.");
-            }
-
-            var transaction = new Transaction
-            {
-                Id = Guid.NewGuid(),
-                OrderId = orderId,
-                PaymentMethod = "VNPay",
-                CreateAt = DateTimeOffset.UtcNow,
-                PaymentTime = DateTimeOffset.UtcNow
-            };
-
-            // Set payment status based on VNPay response code
+            // Check for response code and update payment status
             if (vnpResponse.TryGetValue("vnp_ResponseCode", out string responseCode))
             {
+                _logger.LogInformation("VNPay response code: {ResponseCode}", responseCode);
                 transaction.PaymentStatus = responseCode switch
                 {
-                    "00" => "success",  // VNPay success code
-                    "pending" => "pending",
+                    "00" => "success",
                     _ => "failed"
                 };
                 transaction.VnpayResponseCode = responseCode;
                 
-                // Update order success status
-                order.IsSuccessful = responseCode == "00";
+                // Update order success status if payment was successful
+                if (responseCode == "00")
+                {
+                    var order = transaction.Order;
+                    if (order != null)
+                    {
+                        order.IsSuccessful = true;
+                        order.ModifiedAt = DateTimeOffset.UtcNow;
+                        await _orderRepository.Update(order);
+                        _logger.LogInformation("Updated order {OrderId} status to successful", order.Id);
+                    }
+                }
+                else 
+                {
+                    _logger.LogWarning("Payment failed with response code: {ResponseCode}", responseCode);
+                }
             }
-
-            // Update transaction details from VNPay response
-            if (vnpResponse.TryGetValue("vnp_TransactionNo", out string transactionId))
+            else
             {
-                transaction.VnpayTransactionId = transactionId;
+                _logger.LogWarning("No response code in VNPay callback");
+                transaction.PaymentStatus = "pending";
+                transaction.VnpayResponseCode = "pending";
             }
 
-            if (vnpResponse.TryGetValue("vnp_Amount", out string amountStr) && float.TryParse(amountStr, out float amount))
+            // Update transaction details
+            transaction.ModifiedAt = DateTimeOffset.UtcNow;
+            transaction.PaymentTime = DateTimeOffset.UtcNow;
+            
+            if (vnpResponse.TryGetValue("vnp_Amount", out string amountStr) && decimal.TryParse(amountStr, out decimal amount))
             {
-                transaction.Amount = amount / 100; // VNPay amount is in VND * 100
+                transaction.Amount = (float)(amount / 100); // VNPay amount is in VND * 100
+                _logger.LogInformation("Updated transaction amount to: {Amount}", transaction.Amount);
             }
 
-            if (vnpResponse.TryGetValue("vnp_OrderInfo", out string orderInfo))
-            {
-                transaction.VnpayOrderInfo = orderInfo;
-            }
+            await _transactionRepository.Update(transaction);
+            await _transactionRepository.SaveChangesAsync();
 
-            if (vnpResponse.TryGetValue("vnp_ReturnUrl", out string redirectUrl))
-            {
-                transaction.RedirectUrl = redirectUrl;
-            }
+            // Prepare response
+            response["paymentStatus"] = transaction.PaymentStatus;
+            response["transactionId"] = transaction.VnpayTransactionId;
+            response["orderId"] = transaction.OrderId;
+            response["amountPaid"] = transaction.Amount;
+            response["paymentTime"] = transaction.PaymentTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
 
-            // Save changes to database
-            await _transactionRepository.Add(transaction);
-            order.ModifiedAt = DateTimeOffset.UtcNow;
-            await _orderRepository.Update(order);
-            await _orderRepository.SaveChangesAsync();
+            _logger.LogInformation("Payment processing completed. Status: {Status}", transaction.PaymentStatus);
+            return response;
         }
 
         /// <summary>
@@ -419,42 +424,30 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
 
             string secureHash = vnpResponse["vnp_SecureHash"];
+            vnpResponse.Remove("vnp_SecureHash");
+            vnpResponse.Remove("vnp_SecureHashType");
 
-            // Create a new dictionary excluding hash-related fields
-            var signParams = new SortedDictionary<string, string>(StringComparer.Ordinal);
-            foreach (var (key, value) in vnpResponse.Where(x => x.Key != "vnp_SecureHash" && x.Key != "vnp_SecureHashType"))
-            {
-                // Skip vnp_ResponseCode for signature calculation
-                if (key == "vnp_ResponseCode")
-                    continue;
-
-                signParams[key] = value;
-            }
-
-            // Build signature string
+            var signParams = new SortedDictionary<string, string>(vnpResponse, StringComparer.Ordinal);
             var signData = new StringBuilder();
+
             foreach (var (key, value) in signParams)
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    signData.Append(key).Append("=").Append(value).Append("&");
+                    signData.Append(WebUtility.UrlEncode(key)).Append("=").Append(WebUtility.UrlEncode(value)).Append("&");
                 }
             }
 
-            // Remove last '&'
             if (signData.Length > 0)
             {
                 signData.Remove(signData.Length - 1, 1);
             }
 
-            string signDataStr = signData.ToString();
-            _logger.LogInformation("Verification Signature Data: {SignDataStr}", signDataStr);
+            string checkSignature = GenerateHmacSha512(SecretKey, signData.ToString());
 
-            // Generate signature and compare
-            string checkSignature = GenerateHmacSha512(SecretKey, signDataStr).ToUpper();
-
-            _logger.LogInformation("Generated Signature: {Signature}", checkSignature);
-            _logger.LogInformation("Received SecureHash: {SecureHash}", secureHash);
+            _logger.LogInformation($"String to sign: {signData}");
+            _logger.LogInformation($"Received Signature: {secureHash}");
+            _logger.LogInformation($"Generated Signature: {checkSignature}");
 
             return secureHash.Equals(checkSignature, StringComparison.OrdinalIgnoreCase);
         }
@@ -470,7 +463,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             using (var hmac = new HMACSHA512(keyBytes))
             {
                 var hashBytes = hmac.ComputeHash(dataBytes);
-                return BitConverter.ToString(hashBytes).Replace("-", "").ToUpper();
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
             }
         }
 
@@ -505,55 +498,104 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 throw new InvalidOperationException("Order not found.");
             }
 
-            // Calculate total amount in VND (VNPay uses VND * 100)
-            var totalAmount = (long)(order.SubscriptionData.Price * order.Quantity * 100);
-
-            // Get current timestamp
-            var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-            // Generate return URL
-            var returnUrl = $"http://healthsupportproject.com/payment-result?orderId={model.OrderId}";
-
-            // Create payment parameters
-            var vnpParams = new SortedDictionary<string, string>(StringComparer.Ordinal)
+            try
             {
-                { "vnp_Version", "2.1.0" },
-                { "vnp_Command", "pay" },
-                { "vnp_TmnCode", TmnCode },
-                { "vnp_Locale", "vn" },
-                { "vnp_CurrCode", "VND" },
-                { "vnp_TxnRef", model.OrderId.ToString() },
-                { "vnp_OrderInfo", $"Payment for order {model.OrderId}" },
-                { "vnp_OrderType", "other" },
-                { "vnp_Amount", totalAmount.ToString() },
-                { "vnp_ReturnUrl", returnUrl },
-                { "vnp_IpAddr", GetIpAddress() },
-                { "vnp_CreateDate", timestamp.ToString() }
-            };
+                // Calculate total price in VND
+                decimal totalPrice = (decimal)(order.SubscriptionData.Price * order.Quantity);
 
-            // Generate signature
-            var signData = new StringBuilder();
-            foreach (var (key, value) in vnpParams)
-            {
-                if (!string.IsNullOrEmpty(value))
+                // Create transaction record
+                var transaction = new Transaction
                 {
-                    signData.Append(key).Append("=").Append(value).Append("&");
+                    Id = Guid.NewGuid(),
+                    OrderId = order.Id,
+                    Amount = (float)totalPrice,
+                    PaymentMethod = "VNPay",
+                    PaymentStatus = "pending",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    PaymentTime = DateTimeOffset.UtcNow,
+                    VnpayOrderInfo = $"Thanh toan cho ma GD: {order.Id}",
+                    VnpayTransactionId = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()
+                };
+
+                await _transactionRepository.Add(transaction);
+                await _transactionRepository.SaveChangesAsync();
+
+                // Generate VNPay URL
+                string createDate = DateTime.Now.ToString("yyyyMMddHHmmss");
+                string txnRef = transaction.VnpayTransactionId;
+
+                // Get URL from configuration
+                var baseUrl = _configuration["AppSettings:FrontendUrl"];
+                if (string.IsNullOrEmpty(baseUrl))
+                {
+                    baseUrl = "https://localhost:7006";
                 }
-            }
 
-            // Remove last '&'
-            if (signData.Length > 0)
+                // Create VNPay parameters
+                var vnpParams = new SortedDictionary<string, string>(StringComparer.Ordinal)
+                {
+                    { "vnp_Version", "2.1.0" },
+                    { "vnp_Command", "pay" },
+                    { "vnp_TmnCode", TmnCode },
+                    { "vnp_Locale", "vn" },
+                    { "vnp_CurrCode", "VND" },
+                    { "vnp_TxnRef", txnRef },
+                    { "vnp_OrderInfo", $"Thanh toan cho ma GD: {order.Id}" },
+                    { "vnp_OrderType", "other" },
+                    { "vnp_Amount", ((int)totalPrice * 100).ToString() },
+                    { "vnp_ReturnUrl", $"{baseUrl}/api/Transaction/vnpay/callback" },
+                    { "vnp_CreateDate", createDate },
+                    { "vnp_IpAddr", GetIpAddress() }
+                };
+
+                // Build signature data
+                var signData = new StringBuilder();
+                foreach (var (key, value) in vnpParams)
+                {
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        signData.Append(WebUtility.UrlEncode(key))
+                               .Append("=")
+                               .Append(WebUtility.UrlEncode(value))
+                               .Append("&");
+                    }
+                }
+
+                // Remove last '&'
+                if (signData.Length > 0)
+                {
+                    signData.Remove(signData.Length - 1, 1);
+                }
+
+                // Generate signature
+                string signature = GenerateHmacSha512(SecretKey, signData.ToString());
+                vnpParams.Add("vnp_SecureHash", signature);
+
+                // Build final URL
+                var urlBuilder = new StringBuilder(VnpUrl).Append("?");
+                foreach (var (key, value) in vnpParams)
+                {
+                    urlBuilder.Append(WebUtility.UrlEncode(key))
+                             .Append("=")
+                             .Append(WebUtility.UrlEncode(value))
+                             .Append("&");
+                }
+
+                // Remove last '&'
+                urlBuilder.Remove(urlBuilder.Length - 1, 1);
+
+                // Store transaction reference and frontend return URL for later use
+                transaction.RedirectUrl = $"{baseUrl}/payment-result?orderId={model.OrderId}";
+                await _transactionRepository.Update(transaction);
+                await _transactionRepository.SaveChangesAsync();
+
+                return urlBuilder.ToString();
+            }
+            catch (Exception ex)
             {
-                signData.Remove(signData.Length - 1, 1);
+                _logger.LogError(ex, "Error generating VNPay URL for order {OrderId}", model.OrderId);
+                throw;
             }
-
-            // Add signature to parameters
-            vnpParams.Add("vnp_SecureHash", GenerateHmacSha512(SecretKey, signData.ToString()));
-            vnpParams.Add("vnp_SecureHashType", "SHA512");
-
-            // Build URL
-            var queryString = string.Join("&", vnpParams.Select(x => $"{x.Key}={Uri.EscapeDataString(x.Value)}"));
-            return $"{VnpUrl}?{queryString}";
         }
 
         /// <summary>
@@ -563,10 +605,12 @@ namespace HEALTH_SUPPORT.Services.Implementations
         /// <returns>Callback URL for VNPay</returns>
         public string GenerateVnPayCallbackUrl(Guid orderId)
         {
-            var baseUrl = _httpContextAccessor.HttpContext?.Request.Scheme + "://" + 
-                         _httpContextAccessor.HttpContext?.Request.Host;
-            
-            return $"{baseUrl}/api/transaction/vnpay/callback";
+            var baseUrl = _configuration["AppSettings:FrontendUrl"];
+            if (string.IsNullOrEmpty(baseUrl))
+            {
+                baseUrl = "https://localhost:7006";
+            }
+            return $"{baseUrl}/api/Transaction/vnpay/callback";
         }
     }
 } 
