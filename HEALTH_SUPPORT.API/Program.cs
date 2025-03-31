@@ -1,5 +1,4 @@
-﻿
-using HEALTH_SUPPORT.Repositories;
+﻿using HEALTH_SUPPORT.Repositories;
 using HEALTH_SUPPORT.Repositories.Repository;
 using HEALTH_SUPPORT.Services.Implementations;
 using HEALTH_SUPPORT.Services.IServices;
@@ -97,6 +96,7 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddScoped<ISubscriptionProgressService, SubscriptionProgressService>();
             builder.Services.AddScoped<IUserProgressService, UserProgressService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<ITransactionService, TransactionService>();
             builder.Services.AddScoped<ISurveyService, SurveyService>();
             builder.Services.AddScoped<ISurveyTypeService, SurveyTypeService>();
             builder.Services.AddScoped<ISurveyQuestionService, SurveyQuestionService>();

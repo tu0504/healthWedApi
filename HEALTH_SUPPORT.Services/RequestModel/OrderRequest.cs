@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Services.RequestModel
 {
@@ -32,6 +28,5 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public bool IsDeleted { get; set; }
             public DateTimeOffset? ModifiedAt { get; set; }
         }
-
     }
 }

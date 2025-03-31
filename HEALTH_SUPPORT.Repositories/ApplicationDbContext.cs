@@ -655,7 +655,7 @@ namespace HEALTH_SUPPORT.Repositories
             modelBuilder.Entity<Psychologist>().HasMany(s => s.SubscriptionDatas).WithOne(a => a.Psychologists).HasForeignKey(s => s.PsychologistId).OnDelete(DeleteBehavior.Restrict);
 
             //order - transaction(1-m)
-            modelBuilder.Entity<Order>().HasMany(o => o.Transaction).WithOne(t => t.Order).HasForeignKey(o => o.OrderId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Order>().HasMany(o => o.Transactions).WithOne(t => t.Order).HasForeignKey(o => o.OrderId).OnDelete(DeleteBehavior.Restrict);
 
             //order - subscription(m-1)
             modelBuilder.Entity<SubscriptionData>().HasMany(o => o.Orders).WithOne(d => d.SubscriptionData).HasForeignKey(o => o.SubscriptionDataId).OnDelete(DeleteBehavior.Restrict);

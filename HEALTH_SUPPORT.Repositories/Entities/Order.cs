@@ -23,10 +23,16 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Guid AccountId { get; set; }
         [ForeignKey("AccountId")]
         public Account Accounts { get; set; }
+
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
         public bool IsJoined { get; set; } = false;
         public bool IsSuccessful { get; set; } = false;
-        public ICollection<Transaction> Transaction { get; set; }
+        
+        // Navigation property for transactions
+        public ICollection<Transaction> Transactions { get; set; }
+
+        [NotMapped]
+        public Transaction? LatestTransaction => Transactions?.OrderByDescending(t => t.CreateAt).FirstOrDefault();
     }
 }
