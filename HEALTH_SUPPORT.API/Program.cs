@@ -108,6 +108,7 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddScoped<ISurveyQuestionSurveyService, SurveyQuestionSurveyService>();
             builder.Services.AddScoped<ISurveyQuestionAnswerService, SurveyQuestionAnswerService>();
             builder.Services.AddScoped<ISurveyAnswerRecordService, SurveyAnswerRecordService>();
+            builder.Services.AddScoped<IDashboardService, DashboardService>();
 
             var app = builder.Build();
 
