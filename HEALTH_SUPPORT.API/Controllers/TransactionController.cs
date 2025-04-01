@@ -166,5 +166,63 @@ namespace HEALTH_SUPPORT.API.Controllers
             var result = await _transactionService.ProcessVnPayResponse(vnpResponse);
             return Ok(result);
         }
+
+        [HttpGet("vnpay/callback/redirect")]
+        [ProducesResponseType(StatusCodes.Status302Found)]
+        public IActionResult VNPayCallbackRedirect([FromQuery] Dictionary<string, string> vnpResponse)
+        {
+            _logger.LogInformation("Processing VNPay redirect callback with parameters: {Params}", 
+                string.Join(", ", vnpResponse.Select(kv => $"{kv.Key}={kv.Value}")));
+
+            // Try to determine payment status from available parameters
+            var paymentStatus = "pending";  // default status
+            
+            if (vnpResponse.TryGetValue("vnp_ResponseCode", out string responseCode))
+            {
+                paymentStatus = responseCode == "00" ? "success" : "failed";
+            }
+            else if (vnpResponse.TryGetValue("vnp_TransactionStatus", out string transStatus))
+            {
+                paymentStatus = transStatus == "00" ? "success" : "failed";
+            }
+
+            // Get transaction reference
+            string transactionId = vnpResponse.GetValueOrDefault("vnp_TxnRef", "unknown");
+
+            // Dynamic frontend URL detection with logging
+            string frontendOrigin;
+            if (Request.Headers.TryGetValue("Referer", out var referer) && !string.IsNullOrEmpty(referer))
+            {
+                frontendOrigin = new Uri(referer).GetLeftPart(UriPartial.Authority);
+                _logger.LogInformation("Using Referer header for frontend URL: {FrontendUrl}", frontendOrigin);
+            }
+            else if (Request.Headers.TryGetValue("Origin", out var origin) && !string.IsNullOrEmpty(origin))
+            {
+                frontendOrigin = origin;
+                _logger.LogInformation("Using Origin header for frontend URL: {FrontendUrl}", frontendOrigin);
+            }
+            else
+            {
+                frontendOrigin = _configuration["FrontendSettings:BaseUrl"] ?? "http://localhost:5199";
+                _logger.LogInformation("Using fallback frontend URL: {FrontendUrl}", frontendOrigin);
+            }
+
+            try
+            {
+                // Construct and validate redirect URL
+                var redirectUrl = $"{frontendOrigin}/vnpay/callback?paymentStatus={paymentStatus}&transactionId={transactionId}";
+                var uri = new Uri(redirectUrl); // Validate URL format
+                
+                _logger.LogInformation("Redirecting to frontend: {RedirectUrl}", redirectUrl);
+                return Redirect(redirectUrl);
+            }
+            catch (UriFormatException ex)
+            {
+                _logger.LogError(ex, "Invalid redirect URL constructed. Using fallback URL");
+                // Fallback to default URL if something goes wrong
+                var fallbackUrl = "http://localhost:5199/vnpay/callback?paymentStatus={paymentStatus}&transactionId={transactionId}";
+                return Redirect(fallbackUrl);
+            }
+        }
     }
 } 
