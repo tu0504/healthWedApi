@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Web;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 
 namespace HEALTH_SUPPORT.API.Controllers
@@ -155,46 +154,17 @@ namespace HEALTH_SUPPORT.API.Controllers
         }
 
         [HttpGet("vnpay/callback")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ProcessVnPayCallback([FromQuery] Dictionary<string, string> vnpResponse)
+        public async Task<ActionResult<Dictionary<string, object>>> ProcessVnPayCallback([FromQuery] Dictionary<string, string> vnpResponse)
         {
-            _logger.LogInformation("Received VNPay callback with parameters: {Params}", 
-                string.Join(", ", vnpResponse.Select(kv => $"{kv.Key}={kv.Value}")));
-
             if (vnpResponse == null || vnpResponse.Count == 0)
             {
                 return BadRequest(new { message = "Invalid VNPay response" });
             }
 
             var result = await _transactionService.ProcessVnPayResponse(vnpResponse);
-            
-            // Check if this is a browser request (VNPay redirect) or an API call (Postman)
-            var isApiCall = Request.Headers["Accept"].Any(h => h.Contains("application/json"));
-            
-            if (isApiCall)
-            {
-                return Ok(result);
-            }
-
-            // For browser requests, redirect to frontend
-            var frontendUrl = _configuration["AppSettings:FrontendUrl"];
-            if (string.IsNullOrEmpty(frontendUrl))
-            {
-                frontendUrl = "https://localhost:7006";
-            }
-
-            // Build the redirect URL with all payment information
-            var redirectUrl = $"{frontendUrl}/payment-result" +
-                $"?status={Uri.EscapeDataString(result["paymentStatus"].ToString())}" +
-                $"&orderId={Uri.EscapeDataString(result["orderId"].ToString())}" +
-                $"&amount={Uri.EscapeDataString(result["amountPaid"].ToString())}" +
-                $"&transactionId={Uri.EscapeDataString(result["transactionId"].ToString())}" +
-                $"&paymentTime={Uri.EscapeDataString(result["paymentTime"].ToString())}";
-
-            _logger.LogInformation("Payment processed successfully. Redirecting to: {RedirectUrl}", redirectUrl);
-            return Redirect(redirectUrl);
+            return Ok(result);
         }
     }
 } 
