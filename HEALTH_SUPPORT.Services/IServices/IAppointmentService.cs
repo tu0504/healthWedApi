@@ -14,6 +14,7 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointmentsForAccount(Guid accountId);
         Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointmentsForPsychologist(Guid psychologistId);
         Task<AppointmentResponse.GetAppointmentModel?> GetAppointmentById(Guid id);
+        Task<List<AppointmentResponse.GetAppointmentModel>> GetAppointmentsByPsychologistName(string psychologistName);
         Task AddAppointment(AppointmentRequest.AddAppointmentRequestRequest model);
         Task UpdateAppointment(Guid id, AppointmentRequest.EditAppointmentRequestRequest model);
         Task RemoveAppointment(Guid id);

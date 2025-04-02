@@ -1,4 +1,5 @@
-﻿using HEALTH_SUPPORT.Services.IServices;
+﻿using HEALTH_SUPPORT.Services.Implementations;
+using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,20 +19,36 @@ namespace HEALTH_SUPPORT.API.Controllers
             _accountSurveyService = accountSurveyService;
         }
 
-        [HttpGet("{accountId}", Name = "GetAccountSurveys")]
+        [HttpGet(Name = "GetAccountSurvey")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAccountSurveys(Guid accountId)
+        public async Task<ActionResult> GetAccountSurvey()
         {
-            var result = await _accountSurveyService.GetAccountSurveys(accountId);
+            var result = await _accountSurveyService.GetAccountSurveys();
             return Ok(result);
         }
 
-        [HttpGet("{surveyID}/accountSurvey", Name = "GetAccountSurveyById")]
+        [HttpGet("{accountSurveyId}/byId", Name = "GetAccountSurveyById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAccountSurveyById(Guid accountSurveyId)
+        {
+            var result = await _accountSurveyService.GetAccountSurveyById(accountSurveyId);
+            return Ok(result);
+        }
+
+        [HttpGet("{accountId}/byAccountId", Name = "GetAccountSurveysByAccountId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAccountSurveysByAccountId(Guid accountId)
+        {
+            var result = await _accountSurveyService.GetAccountSurveysByAccountId(accountId);
+            return Ok(result);
+        }
+
+        [HttpGet("{surveyID}/bySurveyId", Name = "GetAccountSurveysBySurveyId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> GetAccountSurveyById(Guid surveyID)
+        public async Task<ActionResult> GetAccountSurveysBySurveyId(Guid surveyID)
         {
-            var result = await _accountSurveyService.GetAccountSurveyById(surveyID);
+            var result = await _accountSurveyService.GetAccountSurveysBySurveyId(surveyID);
             if (result == null)
             {
                 return NotFound(new { message = "AccountSurvey Not Found" });
@@ -43,13 +60,8 @@ namespace HEALTH_SUPPORT.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult> CreateAccountSurvey([FromBody] AccountSurveyRequest.CreateAccountSurveyModel model)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId is null)
-            {
-                throw new Exception("Không tìm thấy người dùng.");
-            }
             await _accountSurveyService.AddAccountSurvey(model);
-            return CreatedAtRoute("GetAccountSurveyById", new { AccountSurveyId = /* newly created id */ Guid.NewGuid() }, new { message = "AccountSurvey created successfully" });
+           return Ok(new {message = "AccountSurvey created successfully" });
         }
         //Update AccountSurvey Type
         //[HttpPut("{AccountSurveyId}", Name = "UpdateAccountSurvey")]
