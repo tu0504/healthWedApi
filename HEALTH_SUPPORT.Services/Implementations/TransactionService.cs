@@ -520,7 +520,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 { "vnp_OrderInfo", $"Thanh toan cho ma GD: {txnRef}" },
                 { "vnp_OrderType", "other" },
                 { "vnp_Amount", totalAmount.ToString() },
-                { "vnp_ReturnUrl", $"https://localhost:7006/api/Transaction/vnpay/callback" },
+                { "vnp_ReturnUrl", $"http://localhost:5199/api/Transaction/vnpay/callback" },
                 { "vnp_CreateDate", createDate },
                 { "vnp_IpAddr", GetIpAddress() }
             };
