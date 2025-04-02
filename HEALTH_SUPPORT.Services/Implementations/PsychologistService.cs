@@ -77,6 +77,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Specialization = psychologist.Specialization,
                 Description = psychologist.Description,
                 Achievements = psychologist.Achievements,
+                ImgUrl = psychologist.ImgUrl,
                 IsDeleted = psychologist.IsDeleted
             };
         }
@@ -94,6 +95,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Specialization = p.Specialization,
                 Description = p.Description,
                 Achievements = p.Achievements,
+                ImgUrl = p.ImgUrl,
                 IsDeleted = p.IsDeleted
             })
     .ToListAsync();

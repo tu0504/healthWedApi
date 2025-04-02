@@ -17,21 +17,6 @@ namespace HEALTH_SUPPORT.API.Controllers
             _psychologistService = psychologistService;
         }
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> CreatePsychologist([FromBody] PsychologistRequest.CreatePsychologistModel model)
-        {
-            await _psychologistService.AddPsychologist(model);
-            return Ok(new { message = "Psychologist created successfully!" });
-        }
-
-        [HttpGet(Name = "GetPsychologists")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetPsychologists()
-        {
-            var result = await _psychologistService.GetPsychologists();
-            return Ok(result);
-        }
-
         [HttpPost("create-psychologist")]
         public async Task<IActionResult> AddPsychologistToManager([FromBody] CreateAccountAndPsychologistModel model)
         {
@@ -70,7 +55,7 @@ namespace HEALTH_SUPPORT.API.Controllers
             }
             return Ok(result);
         }
-        [HttpGet("profile", Name = "GetPsychologistPròileByManager")]
+        [HttpGet("profile", Name = "GetPsychologistProfileByManager")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetPsychologistProfileByManager()

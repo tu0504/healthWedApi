@@ -40,5 +40,6 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public Psychologist Psychologists { get; set; }
         public ICollection<SubscriptionProgress> SubscriptionProgresses { get; set; }
         public ICollection<Order> Orders { get; set; }
+        public ICollection<UserProgress> UserProgresses { get; set; }
     }
 }

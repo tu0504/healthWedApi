@@ -35,6 +35,9 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             [Required]
             [MinLength(6, ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự!")]
             public string PasswordHash { get; set; }
+            [Required]
+            [Compare("PasswordHash", ErrorMessage = "Mật khẩu nhập lại không khớp!")]
+            public string ConfirmPassword { get; set; }
         }
 
         public class UpdatePsychologistModel

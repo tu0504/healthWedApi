@@ -34,6 +34,7 @@ namespace HEALTH_SUPPORT.Repositories
         public DbSet<SurveyQuestionAnswer> SurveyQuestionAnswer { get; set; }
         public DbSet<SurveyQuestionSurvey> SurveyQuestionSurvey { get; set; }
         public DbSet<SurveyAnswerRecord> SurveyAnswerRecord { get; set; }
+        public DbSet<UserProgress> UserProgresses { get; set; }
 
         private readonly IConfiguration _configuration;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
@@ -85,6 +86,76 @@ namespace HEALTH_SUPPORT.Repositories
                     CreateAt = DateTimeOffset.UtcNow,
                     LoginDate = DateTimeOffset.UtcNow,
                     RoleId = Guid.Parse("2a5f5c96-cb79-40d4-a604-d484b7041e7f")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("05e5e6d4-f866-447c-b610-46fc721e09cd"),
+                    UserName = "Hanh",
+                    Fullname = "LÊ THẾ HANH",
+                    Email = "thehanh@gmail.com",
+                    Phone = "1234567890",
+                    Address = "123 Main St",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"),
+                    IsEmailVerified = true,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("880f0367-847a-4406-8146-7bff47cd36ec"),
+                    UserName = "TƯ",
+                    Fullname = "PHẠM VĂN TƯ",
+                    Email = "janesmith@example.com",
+                    Phone = "0987654321",
+                    Address = "456 Elm St",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"),
+                    IsEmailVerified = true,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("aa36fb5b-a181-4a64-88b2-a9c1c698801c"),
+                    UserName = "Thắm",
+                    Fullname = "Nguyễn Thị Thắm",
+                    Email = "psy3@gmail.com",
+                    Phone = "0987654321",
+                    Address = "456 Elm St",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"),
+                    IsEmailVerified = true,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("6f95ed65-e4b3-491d-849b-7491101e2264"),
+                    UserName = "Phượng",
+                    Fullname = "Nguyễn Minh Phượng",
+                    Email = "psy4@gmail.com",
+                    Phone = "0987654321",
+                    Address = "456 Elm St",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"),
+                    IsEmailVerified = true,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                },
+                new Account
+                {
+                    Id = Guid.Parse("078afb32-4351-44f7-bc0c-742e0e3b5c9f"),
+                    UserName = "Oanh",
+                    Fullname = "Vũ Thị Oanh",
+                    Email = "psy5@gmail.com",
+                    Phone = "0987654321",
+                    Address = "456 Elm St",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"),
+                    IsEmailVerified = true,
+                    CreateAt = DateTimeOffset.UtcNow,
+                    LoginDate = DateTimeOffset.UtcNow,
+                    RoleId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
                 }
             );
             modelBuilder.Entity<Account>().HasIndex(a => a.UserName).IsUnique();
@@ -359,12 +430,80 @@ namespace HEALTH_SUPPORT.Repositories
                 }
             );
 
+            modelBuilder.Entity<Psychologist>().HasData(
+                new Psychologist
+                {
+                    Id = Guid.Parse("316d922e-5cdd-4df0-bc2e-744b2aa6b42e"),
+                    Name = "Lê Thế Hanh",
+                    Email = "thehanh@gmail.com",
+                    PhoneNumber = "1234567890",
+                    Specialization = "Thạc sĩ Tâm lý học Lâm sàng",
+                    Description = "Chuyên gia tham vấn trị liệu tâm lý cho thanh thiếu niên. Chuyên gia tâm lý trong lĩnh vực hàn gắn các mối quan hệ, trị liệu các rối loạn tâm thần. Chuyên gia đào tạo tập huấn chương trình dự phòng sang chấn tâm lý tại trường học, tổ chức. Chuyên viên điều trị chứng nghiện, đặc biệt là nghiện Game/Internet",
+                    Achievements = "Rối loạn chức năng gia đình, chữa lành mối quan hệ cặp đôi, mối quan hệ cha mẹ con cái, can thiệp hệ thống gia đình. Rối loạn hành vi lứa tuổi trẻ em và vị thành niên (hành vi chống đối, hành vi lạm dụng chất và lạm dụng công nghệ).",
+                    ImgUrl = "/uploads/1.jpg",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    AccountId = Guid.Parse("05e5e6d4-f866-447c-b610-46fc721e09cd")
+                },
+                new Psychologist
+                {
+                    Id = Guid.Parse("257b73a3-d691-40d3-b65d-a56a0ad7fb91"),
+                    Name = "Phạm Văn Tư",
+                    Email = "janesmith@example.com",
+                    PhoneNumber = "0987654321",
+                    Specialization = "Tiến sĩ  – Chuyên gia Tâm lý học.",
+                    Description = "Hơn 20 năm kinh nghiệm trong nghề, gồm đánh giá và trị liệu tâm lý cho thanh thiếu niên và người trưởng thành. Diễn giả, Chuyên viên huấn luyện cao cấp trong lĩnh vực chăm sóc sức khỏe tinh thần cho tổ chức, doanh nghiệp, trường học. Hiện tại Tiến sĩ đang công tác tại Trường Đại học Sư phạm Hà Nội.",
+                    Achievements = "Đánh giá tâm lý các vấn đề liên quan sức khỏe tâm thần (stress, lo âu, trầm cảm, nguy cơ tự tử…); tham vấn vị thành niên và gia đình; hỗ trợ giáo viên, phụ huynh về phương pháp dạy trẻ; giảm thiểu stress.",
+                    ImgUrl = "/uploads/2.jpg",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    AccountId = Guid.Parse("880f0367-847a-4406-8146-7bff47cd36ec")
+                },
+                new Psychologist
+                {
+                    Id = Guid.Parse("c8f8f39b-87a6-4292-b9bf-bbc78ee57fc7"),
+                    Name = "Nguyễn Thị Thắm",
+                    Email = "psy3@gmail.com",
+                    PhoneNumber = "0987654321",
+                    Specialization = "Tiến sĩ giáo dục.",
+                    Description = "Đã có gần 20 năm kinh nghiệm nghiên cứu và thực hành về lĩnh vực tâm lý và giáo dục, thực hiện đánh giá, tham vấn, trị liệu tâm lý cho trẻ em, vị thành niên, thanh thiếu niên về các vấn đề liên quan đến rối loạn phát triển, lo âu, trầm cảm, rối loạn cảm xúc hành vi, hành vi gây hấn, chống đối, rối loạn ám ảnh cưỡng chế, tư vấn định hướng nghề, ám sợ trường học, lạm dụng game internet, …",
+                    Achievements = "Đánh giá, tư vấn và can thiệp, trị liệu tâm bệnh lý trẻ em, thanh thiếu niên, người trưởng thành về các lĩnh vực: \r\n– Tự kỷ \r\n– Rối loạn lo âu – Trầm cảm\r\n– Chậm phát triển trí tuệ\r\n – Tăng động giảm chú ý \r\n– Các rối loạn dạng cơ thể\r\n – Rối loạn hành vi trẻ em vị thành niên \r\n– Rối loạn sự thích ứng\r\n",
+                    ImgUrl = "/uploads/3.jpg",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    AccountId = Guid.Parse("aa36fb5b-a181-4a64-88b2-a9c1c698801c")
+                },
+                new Psychologist
+                {
+                    Id = Guid.Parse("35153fa7-8510-4813-8ba5-447c1398f455"),
+                    Name = "Nguyễn Minh Phượng",
+                    Email = "psy4@gmail.com",
+                    PhoneNumber = "0987654321",
+                    Specialization = "Tiến sĩ giáo dục – giáo dục đặc biệt",
+                    Description = "Hiện đang là giảng viên của Trường Đại học Sư phạm Hà Nội. Hơn 15 năm kinh nghiệm công tác trong lĩnh vực giáo dục và giáo dục đặc biệt, bao gồm: đánh giá, can thiệp, trị liệu và tư vấn giáo dục cho trẻ em và thanh thiếu niên. Giảng dạy, tập huấn, bồi dưỡng chuyên môn cho giáo viên ở các địa phương về đánh giá, xây dựng kế hoạch giáo dục cá nhân, các phương pháp can thiệp, giáo dục trẻ có nhu cầu đặc biệt.",
+                    Achievements = "Đánh giá xác định mức độ phát triển hiện tại của trẻ so với tuổi thực, từ đó xác định điểm mạnh và khó khăn, hạn chế của con để có phương pháp chăm sóc, giáo dục phù hợp, giúp con phát triển tối ưu.",
+                    ImgUrl = "/uploads/4.jpg",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    AccountId = Guid.Parse("6f95ed65-e4b3-491d-849b-7491101e2264")
+                },
+                new Psychologist
+                {
+                    Id = Guid.Parse("536fa24e-0ab4-4cf3-a563-424df74d638f"),
+                    Name = "Vũ Thị Oanh",
+                    Email = "psy5@gmail.com",
+                    PhoneNumber = "0987654321",
+                    Specialization = "Thạc sĩ chuyên ngành: Tâm lý học lâm sàng.",
+                    Description = "Trên 15 năm kinh nghiệm trong lĩnh vực tham vấn và trị liệu tâm lý cho trẻ em, học sinh và người lớn.",
+                    Achievements = "Thiết kế, thực hiện các hoạt động đào tạo, tư vấn, tham vấn, trị liệu trực tiếp đối với một số rối loạn về tâm lý như: Rối loạn hành vi, cảm xúc, lo âu, trầm cảm, OCD, rối loạn chống đối và tăng động giảm tập trung (ADHD), Stress, PTSD, rối loạn nhân cách,…",
+                    ImgUrl = "/uploads/5.jpg",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    AccountId = Guid.Parse("078afb32-4351-44f7-bc0c-742e0e3b5c9f")
+                }
+                );
+
             modelBuilder.Entity<SubscriptionData>().HasData(
                 new SubscriptionData
                 {
                     Id = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     SubscriptionName = "Kiểm soát cảm xúc",
-                    Description = "Giúp học sinh nhận diện cảm xúc, kiểm soát tiêu cực, và phát triển khả năng tự điều chỉnh.",
+                    Description = "Chương trình này được thiết kế để giúp học sinh phát triển khả năng nhận diện và kiểm soát cảm xúc của mình, đặc biệt là những cảm xúc tiêu cực như căng thẳng, lo âu và tức giận. Học viên sẽ được hướng dẫn về các phương pháp quản lý cảm xúc, bao gồm kỹ thuật hít thở sâu, thiền định, tái cấu trúc suy nghĩ tiêu cực và rèn luyện khả năng kiểm soát hành vi trong các tình huống căng thẳng. Khóa học này đặc biệt phù hợp với học sinh thường xuyên gặp khó khăn trong việc kiểm soát cảm xúc hoặc dễ bị ảnh hưởng bởi áp lực học tập. Ngoài ra, các bài kiểm tra nhận diện cảm xúc, bảng theo dõi mức độ căng thẳng và báo cáo tiến trình hàng tuần sẽ giúp học viên theo dõi sự phát triển của bản thân một cách rõ ràng.",
                     Price = 1000000,
                     Duration = 30,
                     Purpose = "",
@@ -373,13 +512,13 @@ namespace HEALTH_SUPPORT.Repositories
                     AssessmentTool = "",
                     CreateAt = DateTimeOffset.UtcNow,
                     CategoryId = Guid.Parse("cea27467-163a-4248-8bdf-aec1429a4e6c"),
-                    PsychologistId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                    PsychologistId = Guid.Parse("316d922e-5cdd-4df0-bc2e-744b2aa6b42e")
                 },
                 new SubscriptionData
                 {
                     Id = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     SubscriptionName = "Xây dựng tư duy tích cực",
-                    Description = "Hướng dẫn học sinh rèn luyện suy nghĩ lạc quan, gia tăng động lực và sự tự tin.",
+                    Description = "Khóa học này tập trung vào việc hướng dẫn học sinh rèn luyện tư duy tích cực, giúp họ duy trì thái độ sống lạc quan và xây dựng động lực để đạt được thành công. Nội dung chương trình bao gồm phương pháp thay đổi suy nghĩ tiêu cực, thực hành lòng biết ơn, đặt mục tiêu hiệu quả và phát triển sự kiên trì. Học sinh thường xuyên cảm thấy mất động lực, hay nghi ngờ bản thân hoặc có xu hướng suy nghĩ tiêu cực sẽ được hưởng lợi nhiều nhất từ khóa học này. Các bài tập đo lường mức độ tư duy tích cực, phản hồi từ giảng viên và kế hoạch phát triển cá nhân sẽ giúp học viên theo dõi sự thay đổi của mình qua từng tuần.",
                     Price = 1500000,
                     Duration = 30,
                     Purpose = "",
@@ -388,13 +527,13 @@ namespace HEALTH_SUPPORT.Repositories
                     AssessmentTool = "",
                     CreateAt = DateTimeOffset.UtcNow,
                     CategoryId = Guid.Parse("3057a024-6931-440e-9ad0-c3e8fdbcaa92"),
-                    PsychologistId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                    PsychologistId = Guid.Parse("316d922e-5cdd-4df0-bc2e-744b2aa6b42e")
                 },
                 new SubscriptionData
                 {
                     Id = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     SubscriptionName = "Kỹ năng giao tiếp",
-                    Description = "Nâng cao khả năng giao tiếp, cải thiện mối quan hệ và giải quyết mâu thuẫn.",
+                    Description = "Chương trình này giúp học sinh cải thiện khả năng giao tiếp hiệu quả trong nhiều tình huống khác nhau, từ việc giao tiếp hàng ngày đến các tình huống quan trọng như làm việc nhóm, thuyết trình và phỏng vấn xin việc. Nội dung bao gồm cách diễn đạt ý tưởng rõ ràng, kỹ thuật lắng nghe chủ động, sử dụng ngôn ngữ cơ thể phù hợp và xử lý tình huống giao tiếp khó khăn. Khóa học đặc biệt hữu ích cho những học sinh gặp khó khăn khi nói chuyện trước đám đông hoặc thiếu tự tin trong giao tiếp xã hội. Ngoài ra, học viên sẽ tham gia vào các bài kiểm tra kỹ năng giao tiếp, thực hành đối thoại và nhận phản hồi từ chuyên gia để theo dõi sự tiến bộ của mình.",
                     Price = 1700000,
                     Duration = 30,
                     Purpose = "",
@@ -403,10 +542,170 @@ namespace HEALTH_SUPPORT.Repositories
                     AssessmentTool = "",
                     CreateAt = DateTimeOffset.UtcNow,
                     CategoryId = Guid.Parse("3057a024-6931-440e-9ad0-c3e8fdbcaa92"),
-                    PsychologistId = Guid.Parse("5fff93bf-2324-425b-8f04-6a80af3bb0d3")
+                    PsychologistId = Guid.Parse("257b73a3-d691-40d3-b65d-a56a0ad7fb91")
                 }
             );
 
+
+            modelBuilder.Entity<SubscriptionProgress>().HasData(
+                // Progress for "Kiểm soát cảm xúc"
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("1354b694-834d-4d69-ba21-c60b94dc6daf"),
+                    Section = 1,
+                    Description = "Nhận diện và phân loại cảm xúc",
+                    Date = 1,
+                    SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("344ad3c0-ab74-4ed7-9c14-996caeba2af6"),
+                    Section = 2,
+                    Description = "Hiểu rõ nguyên nhân gây ra cảm xúc",
+                    Date = 3,
+                    SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("88ecef38-121a-4faa-ba7a-638e3f73a1ed"),
+                    Section = 3,
+                    Description = "Chiến lược kiểm soát cảm xúc tiêu cực",
+                    Date = 6,
+                    SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("73eb18fb-796a-4474-b35f-a85315636bfb"),
+                    Section = 4,
+                    Description = "Thực hành kỹ thuật thư giãn và thiền",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("2c04483d-a1b7-4771-ab49-330e46236529"),
+                    Section = 5,
+                    Description = "Áp dụng vào thực tế: Tự kiểm soát cảm xúc",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+
+                // Progress for "Xây dựng tư duy tích cực"
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("b18108d5-6480-4ad0-9d72-7b4c34ec45d0"),
+                    Section = 1,
+                    Description = "Nhận diện suy nghĩ tiêu cực",
+                    Date = 1,
+                    SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("5ae9b457-a18d-4a67-8397-04e54bb7c8f1"),
+                    Section = 2,
+                    Description = "Thay đổi góc nhìn về bản thân",
+                    Date = 3,
+                    SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("e6302674-cd73-49c1-9a3c-7fa35600425b"),
+                    Section = 3,
+                    Description = "Thực hành khẳng định tích cực",
+                    Date = 6,
+                    SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("85bbf6f4-7339-4f30-b347-8b3f2371086c"),
+                    Section = 4,
+                    Description = "Phát triển tư duy phát triển",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("96b78cef-838a-4177-b5dd-d41293f1d7a8"),
+                    Section = 5,
+                    Description = "Ứng dụng tư duy tích cực vào cuộc sống",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+
+                // Progress for "Kỹ năng giao tiếp"
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("ebcebd5b-e6e0-40f6-9939-cd5aa91727e0"),
+                    Section = 1,
+                    Description = "Tầm quan trọng của giao tiếp hiệu quả",
+                    Date = 1,
+                    SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("62b29aae-e0f5-49b8-98d0-aa46bb34c08a"),
+                    Section = 2,
+                    Description = "Lắng nghe tích cực",
+                    Date = 3,
+                    SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("96f10dbc-3931-40d8-826a-b7da64d17c1c"),
+                    Section = 3,
+                    Description = "Ngôn ngữ cơ thể và giao tiếp phi ngôn ngữ",
+                    Date = 6,
+                    SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("5d871899-8713-42fe-9c05-ef88ebdd5cdb"),
+                    Section = 4,
+                    Description = "Xây dựng sự tự tin trong giao tiếp",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("bd11496c-7cce-40f3-aa52-3e01ed58c752"),
+                    Section = 5,
+                    Description = "Ứng dụng kỹ năng giao tiếp vào thực tế",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                }
+            );
+
+            
 
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Psychologist>()
@@ -440,7 +739,7 @@ namespace HEALTH_SUPPORT.Repositories
             modelBuilder.Entity<Psychologist>().HasMany(s => s.SubscriptionDatas).WithOne(a => a.Psychologists).HasForeignKey(s => s.PsychologistId).OnDelete(DeleteBehavior.Restrict);
 
             //order - transaction(1-m)
-            modelBuilder.Entity<Order>().HasMany(o => o.Transaction).WithOne(t => t.Order).HasForeignKey(o => o.OrderId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Order>().HasMany(o => o.Transactions).WithOne(t => t.Order).HasForeignKey(o => o.OrderId).OnDelete(DeleteBehavior.Restrict);
 
             //order - subscription(m-1)
             modelBuilder.Entity<SubscriptionData>().HasMany(o => o.Orders).WithOne(d => d.SubscriptionData).HasForeignKey(o => o.SubscriptionDataId).OnDelete(DeleteBehavior.Restrict);
@@ -450,9 +749,6 @@ namespace HEALTH_SUPPORT.Repositories
 
             //Category - SubscriptionData(1-m)
             modelBuilder.Entity<Category>().HasMany(d => d.SubscriptionDatas).WithOne(c => c.Category).HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Restrict);
-
-            // SubscriptionProgress - Order (m-1)
-            //modelBuilder.Entity<Order>().HasMany(p => p.SubscriptionProgresses).WithOne(o => o.Order).HasForeignKey(p => p.OrderId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<SurveyQuestionSurvey>()
                         .Ignore(e => e.Id) // Ignore Id property during insert
@@ -930,8 +1226,12 @@ namespace HEALTH_SUPPORT.Repositories
                     SurveyQuestionsId = Guid.Parse("A1CE2D59-88D4-463D-8AF2-F472B5771746")
                 }
             );
-            // SubscriptionProgress - SubscriptionProgress (1-m)
+            // SubscriptionData - SubscriptionProgress (1-m)
             modelBuilder.Entity<SubscriptionData>().HasMany(p => p.SubscriptionProgresses).WithOne(d => d.SubscriptionDatas).HasForeignKey(p => p.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
+            // SubscriptionData - UserProgress (1-m)
+            modelBuilder.Entity<SubscriptionData>().HasMany(up => up.UserProgresses).WithOne(d => d.SubscriptionData).HasForeignKey(up => up.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
+            //Account - UserProgress (1-m)
+            modelBuilder.Entity<Account>().HasMany(up => up.UserProgresses).WithOne(a => a.Accounts).HasForeignKey(up => up.AccountId).OnDelete(DeleteBehavior.Restrict);
         }
 
     }

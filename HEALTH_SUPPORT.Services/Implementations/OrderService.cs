@@ -4,27 +4,33 @@ using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.RequestModel;
 using HEALTH_SUPPORT.Services.ResponseModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Services.Implementations
 {
     public class OrderService : IOrderService
     {
-
         private readonly IBaseRepository<Order, Guid> _orderRepository;
         private readonly IBaseRepository<Account, Guid> _accountRepository;
         private readonly IBaseRepository<SubscriptionData, Guid> _subscriptionDataRepository;
+        private readonly ILogger<OrderService> _logger;
 
-        public OrderService(IBaseRepository<Order, Guid> orderRepository, IBaseRepository<Account, Guid> accountRepository, IBaseRepository<SubscriptionData, Guid> subscriptionDataRepository)
+        public OrderService(
+            IBaseRepository<Order, Guid> orderRepository,
+            IBaseRepository<Account, Guid> accountRepository,
+            IBaseRepository<SubscriptionData, Guid> subscriptionDataRepository,
+            ILogger<OrderService> logger)
         {
             _orderRepository = orderRepository;
             _accountRepository = accountRepository;
             _subscriptionDataRepository = subscriptionDataRepository;
+            _logger = logger;
         }
+
         public async Task CreateOrder(OrderRequest.CreateOrderModel model)
         {
             var subscription = await _subscriptionDataRepository.GetAll().FirstOrDefaultAsync(s => s.Id == model.SubscriptionId);
@@ -44,9 +50,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     SubscriptionDataId = subscription.Id,
                     AccountId = account.Id,
                     Quantity = model.Quantity,
-                    IsDeleted = model.IsDelete,
-                    CreateAt = DateTimeOffset.UtcNow,
-                    IsActive = true
+                    CreateAt = DateTimeOffset.UtcNow
                 };
 
                 // Save Order to database
@@ -55,7 +59,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _logger.LogError(ex, "Error creating order");
+                throw;
             }
         }
 
@@ -81,9 +86,11 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 order.Accounts.Email,
                 order.CreateAt,
                 order.ModifiedAt,
-                order.IsActive ? true : false
+                order.IsJoined? true : false,
+                order.IsSuccessful ? true : false
             );
         }
+
         public async Task<OrderResponse.GetOrderDetailsModel?> GetOrderDetailsDeleted(Guid orderId)
         {
             var order = await _orderRepository.GetAll()
@@ -106,7 +113,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 order.Accounts.Email,
                 order.CreateAt,
                 order.ModifiedAt,
-                order.IsActive ? true : false
+                order.IsJoined ? true : false,
+                order.IsSuccessful ? true : false
             );
         }
 
@@ -125,24 +133,43 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 o.Accounts.Email,
                 o.CreateAt,
                 o.ModifiedAt,
-                o.IsActive ? true : false
+                o.IsJoined ? true : false,
+                o.IsSuccessful ? true : false
             ))
             .ToListAsync();
         }
-        public async Task CancelOrder(Guid orderId, OrderRequest.UpdateOrderModel model)
+
+        public async Task UpdateOrder(Guid id, OrderRequest.UpdateOrderModel model)
         {
-            var order = await _orderRepository.GetById(orderId);
+            var existedOrder = await _orderRepository.GetById(id);
+            if (existedOrder is null)
+            {
+                return;
+            }
+            existedOrder.SubscriptionDataId = model.SubscriptionDataId != Guid.Empty ? model.SubscriptionDataId : existedOrder.SubscriptionDataId;
+            existedOrder.Quantity = model.Quantity > 0 ? model.Quantity : existedOrder.Quantity;
+            existedOrder.IsJoined = model.IsJoined;
+            existedOrder.IsSuccessful = model.IsSuccessful;
+            existedOrder.IsDeleted = model.IsDeleted;
+
+            existedOrder.ModifiedAt = DateTimeOffset.UtcNow;
+
+            await _orderRepository.Update(existedOrder);
+            await _orderRepository.SaveChangesAsync();
+        }
+
+        public async Task RemoveOrder(Guid id)
+        {
+            var order = await _orderRepository.GetById(id);
             if (order == null)
             {
                 throw new InvalidOperationException("Order not found.");
             }
-
-            order.IsActive = false; // Mark order as inactive (canceled)
-            order.ModifiedAt = DateTimeOffset.UtcNow; // Track modification time
+            order.IsDeleted = true;
+            order.ModifiedAt = DateTimeOffset.UtcNow;
 
             await _orderRepository.Update(order);
             await _orderRepository.SaveChangesAsync();
         }
-
     }
 }

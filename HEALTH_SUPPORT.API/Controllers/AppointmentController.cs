@@ -38,6 +38,25 @@ namespace HEALTH_SUPPORT.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("by-name/{psychologistName}/Psychologist", Name = "GetAppointmentsByPsychologistName")]
+        public async Task<IActionResult> GetAppointmentsByPsychologistName(string psychologistName)
+        {
+            if (string.IsNullOrWhiteSpace(psychologistName))
+            {
+                return BadRequest("Tên bác sĩ tâm lý không được để trống.");
+            }
+
+            try
+            {
+                var appointments = await _appointmentService.GetAppointmentsByPsychologistName(psychologistName);
+                return Ok(appointments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpGet("{psychologistId}/Psychologist", Name = "GetAppointmentByPsychologistId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

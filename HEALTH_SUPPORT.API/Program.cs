@@ -1,5 +1,4 @@
-﻿
-using HEALTH_SUPPORT.Repositories;
+﻿using HEALTH_SUPPORT.Repositories;
 using HEALTH_SUPPORT.Repositories.Repository;
 using HEALTH_SUPPORT.Services.Implementations;
 using HEALTH_SUPPORT.Services.IServices;
@@ -44,6 +43,12 @@ namespace HEALTH_SUPPORT.API
                     ValidateLifetime = true, // kiểm tra token hết hạn
                     ClockSkew = TimeSpan.Zero
                 };
+            })
+            .AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = builder.Configuration["GoogleAuth:ClientId"];
+                googleOptions.ClientSecret = builder.Configuration["GoogleAuth:ClientSecret"];
+                googleOptions.CallbackPath = new PathString("/signin-google"); // Callback sau khi Google xác thực
             });
 
             // Thêm Authorization
@@ -85,13 +90,19 @@ namespace HEALTH_SUPPORT.API
                                     .AllowAnyHeader());
             });
 
+            // Add IHttpContextAccessor
+            builder.Services.AddHttpContextAccessor();
+
             // Register IService and Service
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped(typeof(IAvatarRepository<,>), typeof(AvatarRepository<,>));
             builder.Services.AddScoped<IPsychologistService, PsychologistService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+            builder.Services.AddScoped<ISubscriptionProgressService, SubscriptionProgressService>();
+            builder.Services.AddScoped<IUserProgressService, UserProgressService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<ITransactionService, TransactionService>();
             builder.Services.AddScoped<ISurveyService, SurveyService>();
             builder.Services.AddScoped<ISurveyTypeService, SurveyTypeService>();
             builder.Services.AddScoped<ISurveyQuestionService, SurveyQuestionService>();
@@ -103,12 +114,14 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddScoped<ISurveyQuestionSurveyService, SurveyQuestionSurveyService>();
             builder.Services.AddScoped<ISurveyQuestionAnswerService, SurveyQuestionAnswerService>();
             builder.Services.AddScoped<ISurveyAnswerRecordService, SurveyAnswerRecordService>();
+            builder.Services.AddScoped<IDashboardService, DashboardService>();
+
+            // Đăng ký GoogleMeetService
+            builder.Services.AddScoped<IGoogleMeetService, GoogleMeetService>();
 
             var app = builder.Build();
 
             app.UseCors("AllowAll");
-            app.UseAuthorization();
-            app.MapControllers();
 
             // Lấy IWebHostEnvironment từ app.Services
             var env = app.Services.GetRequiredService<IWebHostEnvironment>();
@@ -123,6 +136,8 @@ namespace HEALTH_SUPPORT.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseRouting();
 
             app.UseHttpsRedirection();
 

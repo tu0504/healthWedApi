@@ -42,7 +42,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<List<SurveyAnswerRecordResponse.SurveyAnswerRecordResponseModel?>> GetSurveyAnswerRecordById(Guid accountSurveyId)
         {
             var userAnswers = await _surveyAnswerRecordRepository.GetAll()
-                         .Where(s=> s.AccountSurveyId == accountSurveyId)
+                         .Where(s=> s.AccountSurveyId == accountSurveyId && s.IsDeleted == false)
                          .Include(s => s.SurveyQuestion)
                          .Include(s => s.SurveyAnswer)
                          .Select(s => new SurveyAnswerRecordResponse.SurveyAnswerRecordResponseModel

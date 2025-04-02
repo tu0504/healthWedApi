@@ -26,6 +26,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         {
             var accountSurvey = new AccountSurvey
             {
+                Id = Guid.NewGuid(),
                 AccountId = model.AccountId,
                 SurveyId = model.SurveyId,
                 CreateAt = DateTime.Now,
@@ -37,7 +38,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
         public async Task<AccountSurveyResponse.GetAccountSurveysModel?> GetAccountSurveyById(Guid id)
         {
             var accountSurvey = await _accountSurveyRepository.GetById(id);
-            if (accountSurvey is null)
+            if (accountSurvey is null || accountSurvey.IsDeleted)
             {
                 throw new Exception("Không tìm thấy khảo sát.");
             }
@@ -52,9 +53,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
             };
         }
 
-        public async Task<List<AccountSurveyResponse.GetAccountSurveysModel>> GetAccountSurveys(Guid userId)
+        public async Task<List<AccountSurveyResponse.GetAccountSurveysModel>> GetAccountSurveys()
         {
-            var accountSurveys = _accountSurveyRepository.GetAll().Where(s => s.AccountId == userId)
+            var accountSurveys = _accountSurveyRepository.GetAll().Where(s => !s.IsDeleted)
                 .Select(s => new AccountSurveyResponse.GetAccountSurveysModel
                 {
                     Id = s.Id,
@@ -67,6 +68,44 @@ namespace HEALTH_SUPPORT.Services.Implementations
             return accountSurveys;
         }
 
+        public async Task<List<AccountSurveyResponse.GetAccountSurveysModel>> GetAccountSurveysByAccountId(Guid accountId)
+        {
+            var accountSurveys = _accountSurveyRepository.GetAll().Where(s => s.AccountId == accountId && s.IsDeleted == false)
+                 .Select(s => new AccountSurveyResponse.GetAccountSurveysModel
+                 {
+                     Id = s.Id,
+                     AccountId = s.AccountId,
+                     CreateAt = s.CreateAt,
+                     ModifiedAt = s.ModifiedAt,
+                     SurveyId = s.SurveyId,
+                     IsDelete = s.IsDeleted
+                 }).ToList();
+            if(!accountSurveys.Any())
+            {
+                throw new Exception("Không tìm thấy khảo sát.");
+            }
+            return accountSurveys;
+        }
+
+        public async Task<List<AccountSurveyResponse.GetAccountSurveysModel>> GetAccountSurveysBySurveyId(Guid surveyId)
+        {
+            var accountSurveys = _accountSurveyRepository.GetAll().Where(s => s.SurveyId == surveyId && s.IsDeleted == false)
+                 .Select(s => new AccountSurveyResponse.GetAccountSurveysModel
+                 {
+                     Id = s.Id,
+                     AccountId = s.AccountId,
+                     CreateAt = s.CreateAt,
+                     ModifiedAt = s.ModifiedAt,
+                     SurveyId = s.SurveyId,
+                     IsDelete = s.IsDeleted
+                 }).ToList();
+            if (!accountSurveys.Any())
+            {
+                throw new Exception("Không tìm thấy khảo sát.");
+            }
+            return accountSurveys;
+        }
+
         public async Task RemoveAccountSurvey(Guid id)
         {
             var accountSurvey = await _accountSurveyRepository.GetById(id);
@@ -76,6 +115,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
             accountSurvey.IsDeleted = true;
             accountSurvey.ModifiedAt = DateTime.Now;
+            await _accountSurveyRepository.Update(accountSurvey);
+            await _accountSurveyRepository.SaveChangesAsync();
         }
     }
 }
