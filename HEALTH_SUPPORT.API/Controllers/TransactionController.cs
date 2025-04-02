@@ -171,6 +171,7 @@ namespace HEALTH_SUPPORT.API.Controllers
         [ProducesResponseType(StatusCodes.Status302Found)]
         public IActionResult VNPayCallbackRedirect([FromQuery] Dictionary<string, string> vnpResponse)
         {
+            _logger.LogInformation("Starting VNPay redirect process...");
             _logger.LogInformation("Processing VNPay redirect callback with parameters: {Params}",
                 string.Join(", ", vnpResponse.Select(kv => $"{kv.Key}={kv.Value}")));
 
@@ -180,14 +181,17 @@ namespace HEALTH_SUPPORT.API.Controllers
             if (vnpResponse.TryGetValue("vnp_ResponseCode", out string responseCode))
             {
                 paymentStatus = responseCode == "00" ? "success" : "failed";
+                _logger.LogInformation("Payment status determined from ResponseCode: {Status}", paymentStatus);
             }
             else if (vnpResponse.TryGetValue("vnp_TransactionStatus", out string transStatus))
             {
                 paymentStatus = transStatus == "00" ? "success" : "failed";
+                _logger.LogInformation("Payment status determined from TransactionStatus: {Status}", paymentStatus);
             }
 
             // Get transaction reference
             string transactionId = vnpResponse.GetValueOrDefault("vnp_TxnRef", "unknown");
+            _logger.LogInformation("Transaction ID: {TransactionId}", transactionId);
 
             // Dynamic frontend URL detection with logging
             string frontendOrigin;
@@ -212,7 +216,6 @@ namespace HEALTH_SUPPORT.API.Controllers
                 // Construct and validate redirect URL
                 var redirectUrl = $"{frontendOrigin}/vnpay/callback?paymentStatus={paymentStatus}&transactionId={transactionId}";
                 var uri = new Uri(redirectUrl); // Validate URL format
-
                 _logger.LogInformation("Redirecting to frontend: {RedirectUrl}", redirectUrl);
                 return Redirect(redirectUrl);
             }
