@@ -169,11 +169,23 @@ namespace HEALTH_SUPPORT.API.Controllers
 
         [HttpGet("vnpay/callback/redirect")]
         [ProducesResponseType(StatusCodes.Status302Found)]
-        public IActionResult VNPayCallbackRedirect([FromQuery] Dictionary<string, string> vnpResponse)
+        public async Task<IActionResult> VNPayCallbackRedirect([FromQuery] Dictionary<string, string> vnpResponse)
         {
             _logger.LogInformation("Starting VNPay redirect process...");
             _logger.LogInformation("Processing VNPay redirect callback with parameters: {Params}",
                 string.Join(", ", vnpResponse.Select(kv => $"{kv.Key}={kv.Value}")));
+
+            // Process VNPay response first
+            try 
+            {
+                var result = await _transactionService.ProcessVnPayResponse(vnpResponse);
+                _logger.LogInformation("Successfully processed VNPay response: {Result}", result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing VNPay response");
+                // Continue with redirect even if processing fails
+            }
 
             // Try to determine payment status from available parameters
             var paymentStatus = "pending";  // default status
