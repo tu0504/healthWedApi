@@ -12,15 +12,29 @@ namespace HEALTH_SUPPORT.Repositories.Entities
     public class Transaction : Entity<Guid>, IAuditable
     {
         [Required]
-        [MaxLength(100)]
-        public string TransactionMethod { get; set; }
-        public DateTimeOffset CreateAt { get; set; }
-        public DateTimeOffset? ModifiedAt { get; set; }
-
-        [Required]
         public Guid OrderId { get; set; }
         [ForeignKey("OrderId")]
         public Order Order { get; set; }
+
+        [Required]
+        public float Amount { get; set; }
+
+        [Required]
+        public string PaymentMethod { get; set; } = "VNPay"; // Default to VNPay for now
+
+        [Required]
+        public string PaymentStatus { get; set; } = "pending";
+
+        public string? VnpayTransactionId { get; set; }
         
+        public DateTimeOffset PaymentTime { get; set; }
+        public DateTimeOffset CreateAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
+
+        // Additional VNPay specific fields
+        public string? VnpayOrderInfo { get; set; }
+        public string? VnpayResponseCode { get; set; }
+        public string? RedirectUrl { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

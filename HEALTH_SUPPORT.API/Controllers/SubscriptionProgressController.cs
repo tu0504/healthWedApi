@@ -38,7 +38,7 @@ namespace HEALTH_SUPPORT.API.Controllers
             var result = await _subscriptionProgressService.GetSubscriptionProgressById(progressId);
             if (result == null)
             {
-                return NotFound(new { message = "Subscription not found" });
+                return NotFound(new { message = "Progress not found" });
             }
             return Ok(result);
         }

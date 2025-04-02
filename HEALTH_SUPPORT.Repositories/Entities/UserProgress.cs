@@ -9,30 +9,25 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Repositories.Entities
 {
-    public class Order : Entity<Guid>, IAuditable
+    public class UserProgress : Entity<Guid>, IAuditable
     {
-        [Required]
-        public int Quantity { get; set; }
+        public int? Section { get; set; }
+        public string? Description { get; set; }
+        public int? Date { get; set; }
 
         [Required]
-        public Guid SubscriptionDataId { get; set; }
-        [ForeignKey("SubscriptionDataId")]
+        public Guid SubscriptionId { get; set; }
+
+        [ForeignKey("SubscriptionId")]
         public SubscriptionData SubscriptionData { get; set; }
 
         [Required]
         public Guid AccountId { get; set; }
+
         [ForeignKey("AccountId")]
         public Account Accounts { get; set; }
-
+        public bool IsCompleted { get; set; } = false;
         public DateTimeOffset CreateAt { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
-        public bool IsJoined { get; set; } = false;
-        public bool IsSuccessful { get; set; } = false;
-        
-        // Navigation property for transactions
-        public ICollection<Transaction> Transactions { get; set; }
-
-        [NotMapped]
-        public Transaction? LatestTransaction => Transactions?.OrderByDescending(t => t.CreateAt).FirstOrDefault();
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using HEALTH_SUPPORT.Repositories;
+﻿using HEALTH_SUPPORT.Repositories;
 using HEALTH_SUPPORT.Repositories.Repository;
 using HEALTH_SUPPORT.Services.Implementations;
 using HEALTH_SUPPORT.Services.IServices;
@@ -85,6 +84,9 @@ namespace HEALTH_SUPPORT.API
                                     .AllowAnyHeader());
             });
 
+            // Add IHttpContextAccessor
+            builder.Services.AddHttpContextAccessor();
+
             // Register IService and Service
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped(typeof(IAvatarRepository<,>), typeof(AvatarRepository<,>));
@@ -92,7 +94,9 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
             builder.Services.AddScoped<ISubscriptionProgressService, SubscriptionProgressService>();
+            builder.Services.AddScoped<IUserProgressService, UserProgressService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<ITransactionService, TransactionService>();
             builder.Services.AddScoped<ISurveyService, SurveyService>();
             builder.Services.AddScoped<ISurveyTypeService, SurveyTypeService>();
             builder.Services.AddScoped<ISurveyQuestionService, SurveyQuestionService>();
@@ -104,6 +108,7 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddScoped<ISurveyQuestionSurveyService, SurveyQuestionSurveyService>();
             builder.Services.AddScoped<ISurveyQuestionAnswerService, SurveyQuestionAnswerService>();
             builder.Services.AddScoped<ISurveyAnswerRecordService, SurveyAnswerRecordService>();
+            builder.Services.AddScoped<IDashboardService, DashboardService>();
 
             var app = builder.Build();
 

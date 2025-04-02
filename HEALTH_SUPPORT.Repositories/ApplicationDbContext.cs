@@ -34,6 +34,7 @@ namespace HEALTH_SUPPORT.Repositories
         public DbSet<SurveyQuestionAnswer> SurveyQuestionAnswer { get; set; }
         public DbSet<SurveyQuestionSurvey> SurveyQuestionSurvey { get; set; }
         public DbSet<SurveyAnswerRecord> SurveyAnswerRecord { get; set; }
+        public DbSet<UserProgress> UserProgresses { get; set; }
 
         private readonly IConfiguration _configuration;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
@@ -502,7 +503,7 @@ namespace HEALTH_SUPPORT.Repositories
                 {
                     Id = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     SubscriptionName = "Kiểm soát cảm xúc",
-                    Description = "Giúp học sinh nhận diện cảm xúc, kiểm soát tiêu cực, và phát triển khả năng tự điều chỉnh.",
+                    Description = "Chương trình này được thiết kế để giúp học sinh phát triển khả năng nhận diện và kiểm soát cảm xúc của mình, đặc biệt là những cảm xúc tiêu cực như căng thẳng, lo âu và tức giận. Học viên sẽ được hướng dẫn về các phương pháp quản lý cảm xúc, bao gồm kỹ thuật hít thở sâu, thiền định, tái cấu trúc suy nghĩ tiêu cực và rèn luyện khả năng kiểm soát hành vi trong các tình huống căng thẳng. Khóa học này đặc biệt phù hợp với học sinh thường xuyên gặp khó khăn trong việc kiểm soát cảm xúc hoặc dễ bị ảnh hưởng bởi áp lực học tập. Ngoài ra, các bài kiểm tra nhận diện cảm xúc, bảng theo dõi mức độ căng thẳng và báo cáo tiến trình hàng tuần sẽ giúp học viên theo dõi sự phát triển của bản thân một cách rõ ràng.",
                     Price = 1000000,
                     Duration = 30,
                     Purpose = "",
@@ -517,7 +518,7 @@ namespace HEALTH_SUPPORT.Repositories
                 {
                     Id = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     SubscriptionName = "Xây dựng tư duy tích cực",
-                    Description = "Hướng dẫn học sinh rèn luyện suy nghĩ lạc quan, gia tăng động lực và sự tự tin.",
+                    Description = "Khóa học này tập trung vào việc hướng dẫn học sinh rèn luyện tư duy tích cực, giúp họ duy trì thái độ sống lạc quan và xây dựng động lực để đạt được thành công. Nội dung chương trình bao gồm phương pháp thay đổi suy nghĩ tiêu cực, thực hành lòng biết ơn, đặt mục tiêu hiệu quả và phát triển sự kiên trì. Học sinh thường xuyên cảm thấy mất động lực, hay nghi ngờ bản thân hoặc có xu hướng suy nghĩ tiêu cực sẽ được hưởng lợi nhiều nhất từ khóa học này. Các bài tập đo lường mức độ tư duy tích cực, phản hồi từ giảng viên và kế hoạch phát triển cá nhân sẽ giúp học viên theo dõi sự thay đổi của mình qua từng tuần.",
                     Price = 1500000,
                     Duration = 30,
                     Purpose = "",
@@ -532,7 +533,7 @@ namespace HEALTH_SUPPORT.Repositories
                 {
                     Id = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     SubscriptionName = "Kỹ năng giao tiếp",
-                    Description = "Nâng cao khả năng giao tiếp, cải thiện mối quan hệ và giải quyết mâu thuẫn.",
+                    Description = "Chương trình này giúp học sinh cải thiện khả năng giao tiếp hiệu quả trong nhiều tình huống khác nhau, từ việc giao tiếp hàng ngày đến các tình huống quan trọng như làm việc nhóm, thuyết trình và phỏng vấn xin việc. Nội dung bao gồm cách diễn đạt ý tưởng rõ ràng, kỹ thuật lắng nghe chủ động, sử dụng ngôn ngữ cơ thể phù hợp và xử lý tình huống giao tiếp khó khăn. Khóa học đặc biệt hữu ích cho những học sinh gặp khó khăn khi nói chuyện trước đám đông hoặc thiếu tự tin trong giao tiếp xã hội. Ngoài ra, học viên sẽ tham gia vào các bài kiểm tra kỹ năng giao tiếp, thực hành đối thoại và nhận phản hồi từ chuyên gia để theo dõi sự tiến bộ của mình.",
                     Price = 1700000,
                     Duration = 30,
                     Purpose = "",
@@ -544,6 +545,7 @@ namespace HEALTH_SUPPORT.Repositories
                     PsychologistId = Guid.Parse("257b73a3-d691-40d3-b65d-a56a0ad7fb91")
                 }
             );
+
 
             modelBuilder.Entity<SubscriptionProgress>().HasData(
                 // Progress for "Kiểm soát cảm xúc"
@@ -737,7 +739,7 @@ namespace HEALTH_SUPPORT.Repositories
             modelBuilder.Entity<Psychologist>().HasMany(s => s.SubscriptionDatas).WithOne(a => a.Psychologists).HasForeignKey(s => s.PsychologistId).OnDelete(DeleteBehavior.Restrict);
 
             //order - transaction(1-m)
-            modelBuilder.Entity<Order>().HasMany(o => o.Transaction).WithOne(t => t.Order).HasForeignKey(o => o.OrderId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Order>().HasMany(o => o.Transactions).WithOne(t => t.Order).HasForeignKey(o => o.OrderId).OnDelete(DeleteBehavior.Restrict);
 
             //order - subscription(m-1)
             modelBuilder.Entity<SubscriptionData>().HasMany(o => o.Orders).WithOne(d => d.SubscriptionData).HasForeignKey(o => o.SubscriptionDataId).OnDelete(DeleteBehavior.Restrict);
@@ -747,9 +749,6 @@ namespace HEALTH_SUPPORT.Repositories
 
             //Category - SubscriptionData(1-m)
             modelBuilder.Entity<Category>().HasMany(d => d.SubscriptionDatas).WithOne(c => c.Category).HasForeignKey(d => d.CategoryId).OnDelete(DeleteBehavior.Restrict);
-
-            // SubscriptionProgress - Order (m-1)
-            //modelBuilder.Entity<Order>().HasMany(p => p.SubscriptionProgresses).WithOne(o => o.Order).HasForeignKey(p => p.OrderId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<SurveyQuestionSurvey>()
                         .Ignore(e => e.Id) // Ignore Id property during insert
@@ -1227,8 +1226,12 @@ namespace HEALTH_SUPPORT.Repositories
                     SurveyQuestionsId = Guid.Parse("A1CE2D59-88D4-463D-8AF2-F472B5771746")
                 }
             );
-            // SubscriptionProgress - SubscriptionProgress (1-m)
+            // SubscriptionData - SubscriptionProgress (1-m)
             modelBuilder.Entity<SubscriptionData>().HasMany(p => p.SubscriptionProgresses).WithOne(d => d.SubscriptionDatas).HasForeignKey(p => p.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
+            // SubscriptionData - UserProgress (1-m)
+            modelBuilder.Entity<SubscriptionData>().HasMany(up => up.UserProgresses).WithOne(d => d.SubscriptionData).HasForeignKey(up => up.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
+            //Account - UserProgress (1-m)
+            modelBuilder.Entity<Account>().HasMany(up => up.UserProgresses).WithOne(a => a.Accounts).HasForeignKey(up => up.AccountId).OnDelete(DeleteBehavior.Restrict);
         }
 
     }
