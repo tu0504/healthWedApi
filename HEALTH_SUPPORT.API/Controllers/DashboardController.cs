@@ -1,3 +1,4 @@
+using HEALTH_SUPPORT.Services.Implementations;
 using HEALTH_SUPPORT.Services.IServices;
 using HEALTH_SUPPORT.Services.ResponseModel;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +51,27 @@ namespace HEALTH_SUPPORT.API.Controllers
                 _logger.LogError(ex, "Error retrieving monthly revenue stats");
                 return StatusCode(500, "An error occurred while retrieving revenue statistics");
             }
+        }
+
+        [HttpGet("totalMonthly")]
+        public async Task<IActionResult> GetTotalMonthlyStats()
+        {
+            var stats = await _dashboardService.GetTotalMonthlyStats();
+            return Ok(stats);
+        }
+
+        [HttpGet("totalAccounts")]
+        public async Task<IActionResult> GetTotalStudentAndParentAccounts()
+        {
+            var total = await _dashboardService.GetTotalAccountsAsync();
+            return Ok(total);
+        }
+
+        [HttpGet("ordersToday")]
+        public async Task<IActionResult> GetTodayOrders()
+        {
+            var total = await _dashboardService.GetTodayOrderCountAsync();
+            return Ok(total);
         }
     }
 } 

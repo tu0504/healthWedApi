@@ -6,7 +6,7 @@ namespace HEALTH_SUPPORT.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MeetController : Controller
+    public class MeetController : ControllerBase
     {
         private readonly IGoogleMeetService _meetService;
 
