@@ -1,5 +1,5 @@
-using HEALTH_SUPPORT.Services.DTOs.Dashboard;
 using HEALTH_SUPPORT.Services.IServices;
+using HEALTH_SUPPORT.Services.ResponseModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace HEALTH_SUPPORT.API.Controllers
         }
 
         [HttpGet("subscriptions/monthly")]
-        public async Task<ActionResult<List<MonthlySubscriptionStats>>> GetMonthlySubscriptionStats()
+        public async Task<ActionResult<List<DashboardResponse.MonthlySubscriptionStats>>> GetMonthlySubscriptionStats()
         {
             try
             {
@@ -38,7 +38,7 @@ namespace HEALTH_SUPPORT.API.Controllers
         }
 
         [HttpGet("revenue/monthly")]
-        public async Task<ActionResult<List<MonthlyRevenueStats>>> GetMonthlyRevenueStats()
+        public async Task<ActionResult<List<DashboardResponse.MonthlyRevenueStats>>> GetMonthlyRevenueStats()
         {
             try
             {
