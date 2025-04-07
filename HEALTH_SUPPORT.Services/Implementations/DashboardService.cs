@@ -1,8 +1,8 @@
 using HEALTH_SUPPORT.Repositories;
 using HEALTH_SUPPORT.Repositories.Entities;
 using HEALTH_SUPPORT.Repositories.Repository;
-using HEALTH_SUPPORT.Services.DTOs.Dashboard;
 using HEALTH_SUPPORT.Services.IServices;
+using HEALTH_SUPPORT.Services.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -29,7 +29,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             _logger = logger;
         }
 
-        public async Task<List<MonthlySubscriptionStats>> GetMonthlySubscriptionStats()
+        public async Task<List<DashboardResponse.MonthlySubscriptionStats>> GetMonthlySubscriptionStats()
         {
             try
             {
@@ -37,7 +37,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 var stats = await _orderRepository.GetAll()
                     .Where(o => o.IsSuccessful && !o.IsDeleted && o.CreateAt.Year == currentYear)
                     .GroupBy(o => new { Month = o.CreateAt.Month })
-                    .Select(g => new MonthlySubscriptionStats
+                    .Select(g => new DashboardResponse.MonthlySubscriptionStats
                     {
                         Month = g.Key.Month,
                         MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month),
@@ -56,7 +56,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
         }
 
-        public async Task<List<MonthlyRevenueStats>> GetMonthlyRevenueStats()
+        public async Task<List<DashboardResponse.MonthlyRevenueStats>> GetMonthlyRevenueStats()
         {
             try
             {
@@ -64,7 +64,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 var stats = await _transactionRepository.GetAll()
                     .Where(t => t.PaymentStatus == "success" && !t.IsDeleted && t.CreateAt.Year == currentYear)
                     .GroupBy(t => new { Month = t.CreateAt.Month })
-                    .Select(g => new MonthlyRevenueStats
+                    .Select(g => new DashboardResponse.MonthlyRevenueStats
                     {
                         Month = g.Key.Month,
                         MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month),
