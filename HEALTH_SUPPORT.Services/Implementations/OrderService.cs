@@ -14,6 +14,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
 {
     public class OrderService : IOrderService
     {
+        private const int MAX_ORDERS_PER_SUBSCRIPTION = 35;
         private readonly IBaseRepository<Order, Guid> _orderRepository;
         private readonly IBaseRepository<Account, Guid> _accountRepository;
         private readonly IBaseRepository<SubscriptionData, Guid> _subscriptionDataRepository;
@@ -39,6 +40,18 @@ namespace HEALTH_SUPPORT.Services.Implementations
             if (subscription == null || account == null)
             {
                 throw new Exception("Subscription or Account not found.");
+            }
+
+            // Check the number of existing orders for this subscription
+            var existingOrderCount = await _orderRepository.GetAll()
+                .Where(o => o.SubscriptionDataId == model.SubscriptionId 
+                    && !o.IsDeleted 
+                    && o.IsSuccessful)
+                .CountAsync();
+
+            if (existingOrderCount >= MAX_ORDERS_PER_SUBSCRIPTION)
+            {
+                throw new Exception($"This subscription is full. Maximum {MAX_ORDERS_PER_SUBSCRIPTION} orders are allowed.");
             }
 
             try
