@@ -18,5 +18,6 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task AddAppointment(AppointmentRequest.AddAppointmentRequestRequest model);
         Task UpdateAppointment(Guid id, AppointmentRequest.EditAppointmentRequestRequest model);
         Task RemoveAppointment(Guid id);
+        Task<List<DashboardResponse.AppointmentMonthlyStats>> GetAppointmentStatsByYearAndMonth();
     }
 }
