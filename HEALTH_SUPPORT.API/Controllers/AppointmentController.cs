@@ -119,11 +119,6 @@ namespace HEALTH_SUPPORT.API.Controllers
             return Ok(new { message = "Delete Appointment Successfully" });
         }
 
-        [HttpGet("monthly-stats")]
-        public async Task<IActionResult> GetMonthlyStats()
-        {
-            var result = await _appointmentService.GetAppointmentStatsByYearAndMonth();
-            return Ok(result);
-        }
+        
     }
 }

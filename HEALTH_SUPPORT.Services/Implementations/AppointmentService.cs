@@ -325,40 +325,5 @@ namespace HEALTH_SUPPORT.Services.Implementations
             await _appointmentRepository.Update(appointment);
             await _appointmentRepository.SaveChangesAsync();
         }
-
-        public async Task<List<DashboardResponse.AppointmentMonthlyStats>> GetAppointmentStatsByYearAndMonth()
-        {
-            var appointments = await _appointmentRepository.GetAll().ToListAsync();
-
-            var groupedData = appointments
-                .GroupBy(a => new { a.AppointmentDate.Year, a.AppointmentDate.Month })
-                .GroupBy(g => g.Key.Year)
-                .Select(g => new DashboardResponse.AppointmentMonthlyStats
-                {
-                    Year = g.Key,
-                    MonthlyCounts = g.ToDictionary(
-                        m => m.Key.Month,
-                        m => m.Count()
-                    )
-                })
-                .ToList();
-
-            foreach (var item in groupedData)
-            {
-                for (int month = 1; month <= 12; month++)
-                {
-                    if (!item.MonthlyCounts.ContainsKey(month))
-                    {
-                        item.MonthlyCounts[month] = 0;
-                    }
-                }
-
-                item.MonthlyCounts = item.MonthlyCounts
-                    .OrderBy(kv => kv.Key)
-                    .ToDictionary(kv => kv.Key, kv => kv.Value);
-            }
-
-            return groupedData.OrderBy(x => x.Year).ToList();
-        }
     }
 }

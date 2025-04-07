@@ -8,10 +8,12 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
 {
     public class DashboardResponse
     {
-        public class AppointmentMonthlyStats
+        public class TotalMonthlyStats
         {
             public int Year { get; set; }
-            public Dictionary<int, int> MonthlyCounts { get; set; } = new();
+            public Dictionary<int, int> AppointmentMonthlyCounts { get; set; } = new();
+            public Dictionary<int, int> OrderMonthlyCounts { get; set; } = new();
+            public Dictionary<int, int> SurveyMonthlyCounts { get; set; } = new();
         }
 
         public class MonthlyRevenueStats
