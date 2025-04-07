@@ -32,6 +32,9 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             [Required(ErrorMessage = "Thiếu thành tựu!")]
             public string Achievements { get; set; }
 
+            [Required(ErrorMessage = "Thiếu chuyên môn!")]
+            public string Expertise { get; set; }
+
             [Required]
             [MinLength(6, ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự!")]
             public string PasswordHash { get; set; }
@@ -48,6 +51,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string? Specialization { get; set; }
             public string? Description { get; set; }
             public string? Achievements { get; set; }
+            public string Expertise { get; set; }
         }
 
         public class UploadAvatarModel

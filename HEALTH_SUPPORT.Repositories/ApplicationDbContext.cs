@@ -439,6 +439,7 @@ namespace HEALTH_SUPPORT.Repositories
                     Specialization = "Thạc sĩ Tâm lý học Lâm sàng",
                     Description = "Chuyên gia tham vấn trị liệu tâm lý cho thanh thiếu niên. Chuyên gia tâm lý trong lĩnh vực hàn gắn các mối quan hệ, trị liệu các rối loạn tâm thần. Chuyên gia đào tạo tập huấn chương trình dự phòng sang chấn tâm lý tại trường học, tổ chức. Chuyên viên điều trị chứng nghiện, đặc biệt là nghiện Game/Internet",
                     Achievements = "Rối loạn chức năng gia đình, chữa lành mối quan hệ cặp đôi, mối quan hệ cha mẹ con cái, can thiệp hệ thống gia đình. Rối loạn hành vi lứa tuổi trẻ em và vị thành niên (hành vi chống đối, hành vi lạm dụng chất và lạm dụng công nghệ).",
+                    Expertise = "Rối loạn trầm cảm, rối loạn lo âu, rối loạn căng thăng.",
                     ImgUrl = "/uploads/1.jpg",
                     CreateAt = DateTimeOffset.UtcNow,
                     AccountId = Guid.Parse("05e5e6d4-f866-447c-b610-46fc721e09cd")
@@ -452,6 +453,7 @@ namespace HEALTH_SUPPORT.Repositories
                     Specialization = "Tiến sĩ  – Chuyên gia Tâm lý học.",
                     Description = "Hơn 20 năm kinh nghiệm trong nghề, gồm đánh giá và trị liệu tâm lý cho thanh thiếu niên và người trưởng thành. Diễn giả, Chuyên viên huấn luyện cao cấp trong lĩnh vực chăm sóc sức khỏe tinh thần cho tổ chức, doanh nghiệp, trường học. Hiện tại Tiến sĩ đang công tác tại Trường Đại học Sư phạm Hà Nội.",
                     Achievements = "Đánh giá tâm lý các vấn đề liên quan sức khỏe tâm thần (stress, lo âu, trầm cảm, nguy cơ tự tử…); tham vấn vị thành niên và gia đình; hỗ trợ giáo viên, phụ huynh về phương pháp dạy trẻ; giảm thiểu stress.",
+                    Expertise = "Stress, lo âu, trầm cảm.",
                     ImgUrl = "/uploads/2.jpg",
                     CreateAt = DateTimeOffset.UtcNow,
                     AccountId = Guid.Parse("880f0367-847a-4406-8146-7bff47cd36ec")
@@ -465,6 +467,7 @@ namespace HEALTH_SUPPORT.Repositories
                     Specialization = "Tiến sĩ giáo dục.",
                     Description = "Đã có gần 20 năm kinh nghiệm nghiên cứu và thực hành về lĩnh vực tâm lý và giáo dục, thực hiện đánh giá, tham vấn, trị liệu tâm lý cho trẻ em, vị thành niên, thanh thiếu niên về các vấn đề liên quan đến rối loạn phát triển, lo âu, trầm cảm, rối loạn cảm xúc hành vi, hành vi gây hấn, chống đối, rối loạn ám ảnh cưỡng chế, tư vấn định hướng nghề, ám sợ trường học, lạm dụng game internet, …",
                     Achievements = "Đánh giá, tư vấn và can thiệp, trị liệu tâm bệnh lý trẻ em, thanh thiếu niên, người trưởng thành về các lĩnh vực: \r\n– Tự kỷ \r\n– Rối loạn lo âu – Trầm cảm\r\n– Chậm phát triển trí tuệ\r\n – Tăng động giảm chú ý \r\n– Các rối loạn dạng cơ thể\r\n – Rối loạn hành vi trẻ em vị thành niên \r\n– Rối loạn sự thích ứng\r\n",
+                    Expertise = "Tự kỷ, rối loạn lo âu,  trầm cảm.",
                     ImgUrl = "/uploads/3.jpg",
                     CreateAt = DateTimeOffset.UtcNow,
                     AccountId = Guid.Parse("aa36fb5b-a181-4a64-88b2-a9c1c698801c")
@@ -478,6 +481,7 @@ namespace HEALTH_SUPPORT.Repositories
                     Specialization = "Tiến sĩ giáo dục – giáo dục đặc biệt",
                     Description = "Hiện đang là giảng viên của Trường Đại học Sư phạm Hà Nội. Hơn 15 năm kinh nghiệm công tác trong lĩnh vực giáo dục và giáo dục đặc biệt, bao gồm: đánh giá, can thiệp, trị liệu và tư vấn giáo dục cho trẻ em và thanh thiếu niên. Giảng dạy, tập huấn, bồi dưỡng chuyên môn cho giáo viên ở các địa phương về đánh giá, xây dựng kế hoạch giáo dục cá nhân, các phương pháp can thiệp, giáo dục trẻ có nhu cầu đặc biệt.",
                     Achievements = "Đánh giá xác định mức độ phát triển hiện tại của trẻ so với tuổi thực, từ đó xác định điểm mạnh và khó khăn, hạn chế của con để có phương pháp chăm sóc, giáo dục phù hợp, giúp con phát triển tối ưu.",
+                    Expertise = "Tự kỷ, tăng động giảm chú ý.",
                     ImgUrl = "/uploads/4.jpg",
                     CreateAt = DateTimeOffset.UtcNow,
                     AccountId = Guid.Parse("6f95ed65-e4b3-491d-849b-7491101e2264")
@@ -491,6 +495,7 @@ namespace HEALTH_SUPPORT.Repositories
                     Specialization = "Thạc sĩ chuyên ngành: Tâm lý học lâm sàng.",
                     Description = "Trên 15 năm kinh nghiệm trong lĩnh vực tham vấn và trị liệu tâm lý cho trẻ em, học sinh và người lớn.",
                     Achievements = "Thiết kế, thực hiện các hoạt động đào tạo, tư vấn, tham vấn, trị liệu trực tiếp đối với một số rối loạn về tâm lý như: Rối loạn hành vi, cảm xúc, lo âu, trầm cảm, OCD, rối loạn chống đối và tăng động giảm tập trung (ADHD), Stress, PTSD, rối loạn nhân cách,…",
+                    Expertise = "Rối loạn hành vi, cảm xúc, lo âu, trầm cảm.",
                     ImgUrl = "/uploads/5.jpg",
                     CreateAt = DateTimeOffset.UtcNow,
                     AccountId = Guid.Parse("078afb32-4351-44f7-bc0c-742e0e3b5c9f")

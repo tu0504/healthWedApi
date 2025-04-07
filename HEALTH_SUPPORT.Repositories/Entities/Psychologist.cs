@@ -26,6 +26,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public string Specialization { get; set; }
         public string Description { get; set; }
         public string Achievements { get; set; }
+        public string Expertise { get; set; }
         public string? ImgUrl { get; set; }
 
         public DateTimeOffset CreateAt { get; set; } = DateTimeOffset.UtcNow;
