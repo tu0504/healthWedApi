@@ -510,7 +510,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionName = "Kiểm soát cảm xúc",
                     Description = "Chương trình này được thiết kế để giúp học sinh phát triển khả năng nhận diện và kiểm soát cảm xúc của mình, đặc biệt là những cảm xúc tiêu cực như căng thẳng, lo âu và tức giận. Học viên sẽ được hướng dẫn về các phương pháp quản lý cảm xúc, bao gồm kỹ thuật hít thở sâu, thiền định, tái cấu trúc suy nghĩ tiêu cực và rèn luyện khả năng kiểm soát hành vi trong các tình huống căng thẳng. Khóa học này đặc biệt phù hợp với học sinh thường xuyên gặp khó khăn trong việc kiểm soát cảm xúc hoặc dễ bị ảnh hưởng bởi áp lực học tập. Ngoài ra, các bài kiểm tra nhận diện cảm xúc, bảng theo dõi mức độ căng thẳng và báo cáo tiến trình hàng tuần sẽ giúp học viên theo dõi sự phát triển của bản thân một cách rõ ràng.",
                     Price = 1000000,
-                    Duration = 30,
+                    Duration = 5,
                     Purpose = "",
                     Criteria = "",
                     FocusGroup = "",
@@ -525,7 +525,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionName = "Xây dựng tư duy tích cực",
                     Description = "Khóa học này tập trung vào việc hướng dẫn học sinh rèn luyện tư duy tích cực, giúp họ duy trì thái độ sống lạc quan và xây dựng động lực để đạt được thành công. Nội dung chương trình bao gồm phương pháp thay đổi suy nghĩ tiêu cực, thực hành lòng biết ơn, đặt mục tiêu hiệu quả và phát triển sự kiên trì. Học sinh thường xuyên cảm thấy mất động lực, hay nghi ngờ bản thân hoặc có xu hướng suy nghĩ tiêu cực sẽ được hưởng lợi nhiều nhất từ khóa học này. Các bài tập đo lường mức độ tư duy tích cực, phản hồi từ giảng viên và kế hoạch phát triển cá nhân sẽ giúp học viên theo dõi sự thay đổi của mình qua từng tuần.",
                     Price = 1500000,
-                    Duration = 30,
+                    Duration = 5,
                     Purpose = "",
                     Criteria = "",
                     FocusGroup = "",
@@ -540,7 +540,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionName = "Kỹ năng giao tiếp",
                     Description = "Chương trình này giúp học sinh cải thiện khả năng giao tiếp hiệu quả trong nhiều tình huống khác nhau, từ việc giao tiếp hàng ngày đến các tình huống quan trọng như làm việc nhóm, thuyết trình và phỏng vấn xin việc. Nội dung bao gồm cách diễn đạt ý tưởng rõ ràng, kỹ thuật lắng nghe chủ động, sử dụng ngôn ngữ cơ thể phù hợp và xử lý tình huống giao tiếp khó khăn. Khóa học đặc biệt hữu ích cho những học sinh gặp khó khăn khi nói chuyện trước đám đông hoặc thiếu tự tin trong giao tiếp xã hội. Ngoài ra, học viên sẽ tham gia vào các bài kiểm tra kỹ năng giao tiếp, thực hành đối thoại và nhận phản hồi từ chuyên gia để theo dõi sự tiến bộ của mình.",
                     Price = 1700000,
-                    Duration = 30,
+                    Duration = 5,
                     Purpose = "",
                     Criteria = "",
                     FocusGroup = "",
@@ -555,7 +555,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionName = "Quản lý thời gian hiệu quả",
                     Description = "Khóa học này giúp học sinh rèn luyện kỹ năng quản lý thời gian, lập kế hoạch học tập và làm việc một cách khoa học. Học viên sẽ được hướng dẫn sử dụng các công cụ lập kế hoạch, xác định ưu tiên và tránh trì hoãn trong công việc. Nội dung khóa học bao gồm các phương pháp như kỹ thuật Pomodoro, ma trận Eisenhower và lập lịch hàng tuần. Đây là chương trình lý tưởng cho những học sinh gặp khó khăn trong việc sắp xếp công việc và luôn cảm thấy thiếu thời gian. Các bài tập thực hành, kế hoạch cá nhân hóa và đánh giá từ giảng viên sẽ giúp học viên cải thiện hiệu suất học tập một cách rõ ràng.",
                     Price = 1200000,
-                    Duration = 30,
+                    Duration = 5,
                     Purpose = "",
                     Criteria = "",
                     FocusGroup = "",
@@ -570,7 +570,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionName = "Giảm căng thẳng và lo âu",
                     Description = "Khóa học này giúp học sinh học cách kiểm soát căng thẳng và lo âu thông qua các phương pháp thư giãn khoa học. Nội dung bao gồm thực hành thiền định, yoga nhẹ, phương pháp hít thở sâu và kỹ thuật giảm áp lực tinh thần. Đây là chương trình phù hợp với học sinh cảm thấy căng thẳng trước kỳ thi hoặc dễ bị áp lực từ môi trường học tập. Ngoài các bài hướng dẫn, khóa học còn cung cấp các bài kiểm tra mức độ căng thẳng và công cụ theo dõi tiến trình để giúp học viên cải thiện tinh thần hiệu quả.",
                     Price = 1400000,
-                    Duration = 30,
+                    Duration = 5,
                     Purpose = "",
                     Criteria = "",
                     FocusGroup = "",
@@ -589,50 +589,55 @@ namespace HEALTH_SUPPORT.Repositories
                     Id = Guid.Parse("1354b694-834d-4d69-ba21-c60b94dc6daf"),
                     Section = 1,
                     Description = "Nhận diện và phân loại cảm xúc",
-                    Date = 1,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 9, 10, 0, 0, TimeSpan.FromHours(7))
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("344ad3c0-ab74-4ed7-9c14-996caeba2af6"),
                     Section = 2,
                     Description = "Hiểu rõ nguyên nhân gây ra cảm xúc",
-                    Date = 3,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 16, 10, 0, 0, TimeSpan.FromHours(7))
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("88ecef38-121a-4faa-ba7a-638e3f73a1ed"),
                     Section = 3,
                     Description = "Chiến lược kiểm soát cảm xúc tiêu cực",
-                    Date = 6,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 23, 10, 0, 0, TimeSpan.FromHours(7))
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("73eb18fb-796a-4474-b35f-a85315636bfb"),
                     Section = 4,
                     Description = "Thực hành kỹ thuật thư giãn và thiền",
-                    Date = 10,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 30, 10, 0, 0, TimeSpan.FromHours(7))
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("2c04483d-a1b7-4771-ab49-330e46236529"),
                     Section = 5,
                     Description = "Áp dụng vào thực tế: Tự kiểm soát cảm xúc",
-                    Date = 10,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 5, 7, 10, 0, 0, TimeSpan.FromHours(7))
                 },
 
                 // Progress for "Xây dựng tư duy tích cực"
@@ -641,50 +646,55 @@ namespace HEALTH_SUPPORT.Repositories
                     Id = Guid.Parse("b18108d5-6480-4ad0-9d72-7b4c34ec45d0"),
                     Section = 1,
                     Description = "Nhận diện suy nghĩ tiêu cực",
-                    Date = 1,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 9, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("5ae9b457-a18d-4a67-8397-04e54bb7c8f1"),
                     Section = 2,
                     Description = "Thay đổi góc nhìn về bản thân",
-                    Date = 3,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 16, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("e6302674-cd73-49c1-9a3c-7fa35600425b"),
                     Section = 3,
                     Description = "Thực hành khẳng định tích cực",
-                    Date = 6,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 23, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("85bbf6f4-7339-4f30-b347-8b3f2371086c"),
                     Section = 4,
                     Description = "Phát triển tư duy phát triển",
-                    Date = 10,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 30, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("96b78cef-838a-4177-b5dd-d41293f1d7a8"),
                     Section = 5,
                     Description = "Ứng dụng tư duy tích cực vào cuộc sống",
-                    Date = 10,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 5, 7, 10, 0, 0, TimeSpan.Zero)
                 },
 
                 // Progress for "Kỹ năng giao tiếp"
@@ -693,50 +703,55 @@ namespace HEALTH_SUPPORT.Repositories
                     Id = Guid.Parse("ebcebd5b-e6e0-40f6-9939-cd5aa91727e0"),
                     Section = 1,
                     Description = "Tầm quan trọng của giao tiếp hiệu quả",
-                    Date = 1,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 9, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("62b29aae-e0f5-49b8-98d0-aa46bb34c08a"),
                     Section = 2,
                     Description = "Lắng nghe tích cực",
-                    Date = 3,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 16, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("96f10dbc-3931-40d8-826a-b7da64d17c1c"),
                     Section = 3,
                     Description = "Ngôn ngữ cơ thể và giao tiếp phi ngôn ngữ",
-                    Date = 6,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 23, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("5d871899-8713-42fe-9c05-ef88ebdd5cdb"),
                     Section = 4,
                     Description = "Xây dựng sự tự tin trong giao tiếp",
-                    Date = 10,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 30, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("bd11496c-7cce-40f3-aa52-3e01ed58c752"),
                     Section = 5,
                     Description = "Ứng dụng kỹ năng giao tiếp vào thực tế",
-                    Date = 10,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 5, 7, 10, 0, 0, TimeSpan.Zero)
                 },
 
                 // Progress for "Quản lý thời gian hiệu quả"
@@ -745,51 +760,57 @@ namespace HEALTH_SUPPORT.Repositories
                     Id = Guid.Parse("c1d2e3f4-a5b6-47c8-9d0e-123456789abc"),
                     Section = 1,
                     Description = "Xác định ưu tiên và mục tiêu",
-                    Date = 1,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 9, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("d4e5f6a7-b8c9-40da-9ebf-abcdef123456"),
                     Section = 2,
                     Description = "Lập kế hoạch học tập và làm việc",
-                    Date = 3,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 16, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("e6f7a8b9-c0d1-41eb-af23-456789abcdef"),
                     Section = 3,
                     Description = "Kỹ thuật Pomodoro và ma trận Eisenhower",
-                    Date = 6,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 23, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("f8a9b0c1-d2e3-42fc-bd34-56789abcdef0"),
                     Section = 4,
                     Description = "Quản lý thời gian trong các tình huống áp lực",
-                    Date = 10,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 30, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("a0b1c2d3-e4f5-43ad-cd45-6789abcdef01"),
                     Section = 5,
                     Description = "Tối ưu hóa lịch trình cá nhân",
-                    Date = 12,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 5, 7, 10, 0, 0, TimeSpan.Zero)
                 },
+
 
                 // Progress for "Giảm căng thẳng và lo âu"
                 new SubscriptionProgress
@@ -797,51 +818,57 @@ namespace HEALTH_SUPPORT.Repositories
                     Id = Guid.Parse("b1c2d3e4-f5a6-44bc-de56-123456789abc"),
                     Section = 1,
                     Description = "Nhận diện các dấu hiệu căng thẳng",
-                    Date = 1,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 9, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("c3d4e5f6-a7b8-45de-ef67-abcdef123456"),
                     Section = 2,
                     Description = "Áp dụng kỹ thuật hít thở sâu",
-                    Date = 3,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 16, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("d5e6f7a8-b9c0-46ef-af78-456789abcdef"),
                     Section = 3,
                     Description = "Thực hành thiền và yoga giảm stress",
-                    Date = 6,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 23, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("e7f8a9b0-c1d2-47fd-bc89-56789abcdef0"),
                     Section = 4,
                     Description = "Phát triển tư duy tích cực để giảm lo âu",
-                    Date = 10,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 4, 30, 10, 0, 0, TimeSpan.Zero)
                 },
                 new SubscriptionProgress
                 {
                     Id = Guid.Parse("f9a0b1c2-d3e4-48ed-df90-6789abcdef01"),
                     Section = 5,
                     Description = "Ứng dụng kỹ năng quản lý căng thẳng vào cuộc sống",
-                    Date = 12,
+                    Date = 7,
                     SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
                     IsCompleted = false,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = DateTimeOffset.UtcNow,
+                    StartDate = new DateTimeOffset(2025, 5, 7, 10, 0, 0, TimeSpan.Zero)
                 }
+
             );
 
             //Account-survey(m-m: AccountSurvey)

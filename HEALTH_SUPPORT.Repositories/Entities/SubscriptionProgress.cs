@@ -14,6 +14,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public int? Section { get; set; }
         public string? Description { get; set; }
         public int? Date { get; set; }
+        public DateTimeOffset? StartDate { get; set; }
 
         [Required]
         public Guid SubscriptionId { get; set; }

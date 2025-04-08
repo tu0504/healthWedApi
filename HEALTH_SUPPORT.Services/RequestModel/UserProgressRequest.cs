@@ -26,6 +26,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public int? Section { get; set; }
             public string? Description { get; set; }
             public int? Date { get; set; }
+            public DateTimeOffset StartDate { get; set; }
             public Guid SubscriptionId { get; set; }
             public Guid AccountId { get; set; }
             public bool IsCompleted { get; set; }
