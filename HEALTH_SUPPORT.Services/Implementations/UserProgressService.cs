@@ -17,11 +17,18 @@ namespace HEALTH_SUPPORT.Services.Implementations
         private readonly IBaseRepository<UserProgress, Guid> _userProgressRepository;
         private readonly IBaseRepository<SubscriptionData, Guid> _subscriptionDataRepository;
         private readonly IBaseRepository<Account, Guid> _accountRepository;
-        public UserProgressService(IBaseRepository<UserProgress, Guid> userProgressRepository, IBaseRepository<SubscriptionData, Guid> subscriptionDataRepository, IBaseRepository<Account, Guid> accountRepository)
+        private readonly IBaseRepository<SubscriptionProgress, Guid> _subscriptionProgressRepository;
+
+        public UserProgressService(
+            IBaseRepository<UserProgress, Guid> userProgressRepository, 
+            IBaseRepository<SubscriptionData, Guid> subscriptionDataRepository, 
+            IBaseRepository<Account, Guid> accountRepository,
+            IBaseRepository<SubscriptionProgress, Guid> subscriptionProgressRepository)
         {
             _userProgressRepository = userProgressRepository;
             _subscriptionDataRepository = subscriptionDataRepository;
             _accountRepository = accountRepository;
+            _subscriptionProgressRepository = subscriptionProgressRepository;
         }
 
         public async Task AddUserProgress(UserProgressRequest.CreateUserProgressModel model)
@@ -31,11 +38,30 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 throw new Exception("Subscription not found.");
             }
+
             var account = await _accountRepository.GetById(model.AccountId);
             if (account == null)
             {
                 throw new Exception("Account not found.");
             }
+
+            // Get the subscription progress for this subscription
+            var subscriptionProgress = await _subscriptionProgressRepository.GetAll()
+                .Where(sp => sp.SubscriptionId == model.SubscriptionId && !sp.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (subscriptionProgress == null)
+            {
+                throw new Exception("Subscription progress not found for this subscription.");
+            }
+
+            var currentDate = DateTimeOffset.UtcNow;
+            // Check if the current date is after the subscription start date
+            if (currentDate < subscriptionProgress.StartDate)
+            {
+                throw new Exception("Cannot create progress before subscription start date.");
+            }
+
             try
             {
                 var newUserProgress = new UserProgress
@@ -46,7 +72,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Date = model.Date,
                     SubscriptionId = subscription.Id,
                     AccountId = account.Id,
-                    CreateAt = DateTimeOffset.UtcNow
+                    CreateAt = currentDate
                 };
                 await _userProgressRepository.Add(newUserProgress);
                 await _userProgressRepository.SaveChangesAsync();
@@ -54,6 +80,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                throw; // Re-throw the exception to properly handle it at the API level
             }
         }
 

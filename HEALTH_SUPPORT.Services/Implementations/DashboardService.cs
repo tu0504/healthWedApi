@@ -69,18 +69,23 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     stats.MonthlyRevenue[revenue.Month] = revenue.Total;
                 }
 
-                // Get subscription data
-                var subscriptions = await _orderRepository.GetAll()
+                // Get subscription revenue data
+                var subscriptionRevenue = await _orderRepository.GetAll()
                     .Include(o => o.SubscriptionData)
-                    .Where(o => o.IsSuccessful && !o.IsDeleted && o.CreateAt.Year == currentYear)
+                    .Include(o => o.Transactions)
+                    .Where(o => o.IsSuccessful && !o.IsDeleted && 
+                           o.CreateAt.Year == currentYear &&
+                           o.Transactions.Any(t => t.PaymentStatus == "success" && !t.IsDeleted))
                     .ToListAsync();
 
-                var subscriptionsByMonth = subscriptions
+                var subscriptionsByMonth = subscriptionRevenue
                     .GroupBy(o => new { Month = o.CreateAt.Month, Type = o.SubscriptionData.SubscriptionName })
                     .Select(g => new { 
                         Month = g.Key.Month, 
                         Type = g.Key.Type, 
-                        Count = g.Count() 
+                        Revenue = (int)g.Sum(o => o.Transactions
+                            .Where(t => t.PaymentStatus == "success" && !t.IsDeleted)
+                            .Sum(t => t.Amount))
                     });
 
                 foreach (var subscription in subscriptionsByMonth)
@@ -88,7 +93,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     if (stats.MonthlySubscriptions.ContainsKey(subscription.Month) &&
                         stats.MonthlySubscriptions[subscription.Month].ContainsKey(subscription.Type))
                     {
-                        stats.MonthlySubscriptions[subscription.Month][subscription.Type] = subscription.Count;
+                        stats.MonthlySubscriptions[subscription.Month][subscription.Type] = subscription.Revenue;
                     }
                 }
 
