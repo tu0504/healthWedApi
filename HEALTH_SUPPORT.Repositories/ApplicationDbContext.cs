@@ -1025,7 +1025,7 @@ namespace HEALTH_SUPPORT.Repositories
                 },
                 new SurveyQuestionAnswer
                 {
-                    SurveyAnswersId = Guid.Parse("66d927b9-e3c2-47f3-8aa9-82260d1579cd"),
+                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
                     SurveyQuestionsId = Guid.Parse("0998C44C-7A8D-41FD-8B3E-05D775CE4B27")
                 },
                 new SurveyQuestionAnswer
