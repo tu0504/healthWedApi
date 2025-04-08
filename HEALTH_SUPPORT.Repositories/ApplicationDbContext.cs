@@ -1369,6 +1369,7 @@ namespace HEALTH_SUPPORT.Repositories
             modelBuilder.Entity<SubscriptionData>().HasMany(up => up.UserProgresses).WithOne(d => d.SubscriptionData).HasForeignKey(up => up.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
             //Account - UserProgress (1-m)
             modelBuilder.Entity<Account>().HasMany(up => up.UserProgresses).WithOne(a => a.Accounts).HasForeignKey(up => up.AccountId).OnDelete(DeleteBehavior.Restrict);
+
         }
 
     }
