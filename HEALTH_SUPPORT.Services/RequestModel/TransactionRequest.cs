@@ -15,9 +15,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public float Amount { get; set; }
 
             [Required(ErrorMessage = "PaymentMethod is required.")]
-            public string PaymentMethod { get; set; } = "VNPay";
-
-            public string? VnpayOrderInfo { get; set; }
+            public string PaymentMethod { get; set; }
         }
 
         public class UpdateTransactionModel

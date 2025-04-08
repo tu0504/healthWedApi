@@ -159,11 +159,28 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Id = Guid.NewGuid(),
                 OrderId = model.OrderId,
                 Amount = model.Amount,
-                PaymentMethod = model.PaymentMethod,
-                PaymentStatus = "pending",
+                PaymentMethod = "VNPay",
+                PaymentStatus = "success",
                 CreateAt = DateTimeOffset.UtcNow,
-                VnpayOrderInfo = model.VnpayOrderInfo
+                PaymentTime = DateTimeOffset.UtcNow,
+                VnpayResponseCode = "00",
+                RedirectUrl = "http://localhost:5199/api/Transaction/vnpay/callback/redirect"
             };
+
+            // Update order status if payment is successful
+            if (transaction.PaymentStatus == "success")
+            {
+                var order = await _orderRepository.GetAll()
+                    .FirstOrDefaultAsync(o => o.Id == model.OrderId && !o.IsDeleted);
+
+                if (order != null)
+                {
+                    order.IsSuccessful = true;
+                    order.ModifiedAt = DateTimeOffset.UtcNow;
+                    await _orderRepository.Update(order);
+                    _logger.LogInformation("Updated order {OrderId} IsSuccessful flag to true", order.Id);
+                }
+            }
 
             await _transactionRepository.Add(transaction);
             await _transactionRepository.SaveChangesAsync();

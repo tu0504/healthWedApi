@@ -12,8 +12,23 @@ using System.Threading.Tasks;
 
 namespace HEALTH_SUPPORT.Services.Implementations
 {
+    public class SubscriptionFullException : Exception
+    {
+        public SubscriptionFullException(string message) : base(message)
+        {
+        }
+    }
+
+    public class DuplicateOrderException : Exception
+    {
+        public DuplicateOrderException(string message) : base(message)
+        {
+        }
+    }
+
     public class OrderService : IOrderService
     {
+        private const int MAX_ORDERS_PER_SUBSCRIPTION = 35;
         private readonly IBaseRepository<Order, Guid> _orderRepository;
         private readonly IBaseRepository<Account, Guid> _accountRepository;
         private readonly IBaseRepository<SubscriptionData, Guid> _subscriptionDataRepository;
@@ -39,6 +54,30 @@ namespace HEALTH_SUPPORT.Services.Implementations
             if (subscription == null || account == null)
             {
                 throw new Exception("Subscription or Account not found.");
+            }
+
+            // Check if account already has an order for this subscription
+            var existingAccountOrder = await _orderRepository.GetAll()
+                .Where(o => o.SubscriptionDataId == model.SubscriptionId 
+                    && o.AccountId == model.AccountId
+                    && !o.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (existingAccountOrder != null)
+            {
+                throw new DuplicateOrderException("You have already created an order for this subscription.");
+            }
+
+            // Check the number of existing orders for this subscription
+            var existingOrderCount = await _orderRepository.GetAll()
+                .Where(o => o.SubscriptionDataId == model.SubscriptionId 
+                    && !o.IsDeleted 
+                    && o.IsSuccessful)
+                .CountAsync();
+
+            if (existingOrderCount >= MAX_ORDERS_PER_SUBSCRIPTION)
+            {
+                throw new SubscriptionFullException($"This subscription is full. Maximum {MAX_ORDERS_PER_SUBSCRIPTION} orders are allowed.");
             }
 
             try

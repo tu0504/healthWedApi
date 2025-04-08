@@ -548,6 +548,36 @@ namespace HEALTH_SUPPORT.Repositories
                     CreateAt = DateTimeOffset.UtcNow,
                     CategoryId = Guid.Parse("3057a024-6931-440e-9ad0-c3e8fdbcaa92"),
                     PsychologistId = Guid.Parse("257b73a3-d691-40d3-b65d-a56a0ad7fb91")
+                },
+                new SubscriptionData
+                {
+                    Id = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
+                    SubscriptionName = "Quản lý thời gian hiệu quả",
+                    Description = "Khóa học này giúp học sinh rèn luyện kỹ năng quản lý thời gian, lập kế hoạch học tập và làm việc một cách khoa học. Học viên sẽ được hướng dẫn sử dụng các công cụ lập kế hoạch, xác định ưu tiên và tránh trì hoãn trong công việc. Nội dung khóa học bao gồm các phương pháp như kỹ thuật Pomodoro, ma trận Eisenhower và lập lịch hàng tuần. Đây là chương trình lý tưởng cho những học sinh gặp khó khăn trong việc sắp xếp công việc và luôn cảm thấy thiếu thời gian. Các bài tập thực hành, kế hoạch cá nhân hóa và đánh giá từ giảng viên sẽ giúp học viên cải thiện hiệu suất học tập một cách rõ ràng.",
+                    Price = 1200000,
+                    Duration = 30,
+                    Purpose = "",
+                    Criteria = "",
+                    FocusGroup = "",
+                    AssessmentTool = "",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    CategoryId = Guid.Parse("3057a024-6931-440e-9ad0-c3e8fdbcaa92"),
+                    PsychologistId = Guid.Parse("257b73a3-d691-40d3-b65d-a56a0ad7fb91")
+                },
+                new SubscriptionData
+                {
+                    Id = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
+                    SubscriptionName = "Giảm căng thẳng và lo âu",
+                    Description = "Khóa học này giúp học sinh học cách kiểm soát căng thẳng và lo âu thông qua các phương pháp thư giãn khoa học. Nội dung bao gồm thực hành thiền định, yoga nhẹ, phương pháp hít thở sâu và kỹ thuật giảm áp lực tinh thần. Đây là chương trình phù hợp với học sinh cảm thấy căng thẳng trước kỳ thi hoặc dễ bị áp lực từ môi trường học tập. Ngoài các bài hướng dẫn, khóa học còn cung cấp các bài kiểm tra mức độ căng thẳng và công cụ theo dõi tiến trình để giúp học viên cải thiện tinh thần hiệu quả.",
+                    Price = 1400000,
+                    Duration = 30,
+                    Purpose = "",
+                    Criteria = "",
+                    FocusGroup = "",
+                    AssessmentTool = "",
+                    CreateAt = DateTimeOffset.UtcNow,
+                    CategoryId = Guid.Parse("cea27467-163a-4248-8bdf-aec1429a4e6c"),
+                    PsychologistId = Guid.Parse("316d922e-5cdd-4df0-bc2e-744b2aa6b42e")
                 }
             );
 
@@ -707,10 +737,112 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow
+                },
+
+                // Progress for "Quản lý thời gian hiệu quả"
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("c1d2e3f4-a5b6-47c8-9d0e-123456789abc"),
+                    Section = 1,
+                    Description = "Xác định ưu tiên và mục tiêu",
+                    Date = 1,
+                    SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("d4e5f6a7-b8c9-40da-9ebf-abcdef123456"),
+                    Section = 2,
+                    Description = "Lập kế hoạch học tập và làm việc",
+                    Date = 3,
+                    SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("e6f7a8b9-c0d1-41eb-af23-456789abcdef"),
+                    Section = 3,
+                    Description = "Kỹ thuật Pomodoro và ma trận Eisenhower",
+                    Date = 6,
+                    SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("f8a9b0c1-d2e3-42fc-bd34-56789abcdef0"),
+                    Section = 4,
+                    Description = "Quản lý thời gian trong các tình huống áp lực",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("a0b1c2d3-e4f5-43ad-cd45-6789abcdef01"),
+                    Section = 5,
+                    Description = "Tối ưu hóa lịch trình cá nhân",
+                    Date = 12,
+                    SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+
+                // Progress for "Giảm căng thẳng và lo âu"
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("b1c2d3e4-f5a6-44bc-de56-123456789abc"),
+                    Section = 1,
+                    Description = "Nhận diện các dấu hiệu căng thẳng",
+                    Date = 1,
+                    SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("c3d4e5f6-a7b8-45de-ef67-abcdef123456"),
+                    Section = 2,
+                    Description = "Áp dụng kỹ thuật hít thở sâu",
+                    Date = 3,
+                    SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("d5e6f7a8-b9c0-46ef-af78-456789abcdef"),
+                    Section = 3,
+                    Description = "Thực hành thiền và yoga giảm stress",
+                    Date = 6,
+                    SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("e7f8a9b0-c1d2-47fd-bc89-56789abcdef0"),
+                    Section = 4,
+                    Description = "Phát triển tư duy tích cực để giảm lo âu",
+                    Date = 10,
+                    SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
+                },
+                new SubscriptionProgress
+                {
+                    Id = Guid.Parse("f9a0b1c2-d3e4-48ed-df90-6789abcdef01"),
+                    Section = 5,
+                    Description = "Ứng dụng kỹ năng quản lý căng thẳng vào cuộc sống",
+                    Date = 12,
+                    SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
+                    IsCompleted = false,
+                    CreateAt = DateTimeOffset.UtcNow
                 }
             );
-
-            
 
             //Account-survey(m-m: AccountSurvey)
             modelBuilder.Entity<Psychologist>()
@@ -893,7 +1025,7 @@ namespace HEALTH_SUPPORT.Repositories
                 },
                 new SurveyQuestionAnswer
                 {
-                    SurveyAnswersId = Guid.Parse("66D927B9-E3C2-47F3-8AA9-82260D1579CD"),
+                    SurveyAnswersId = Guid.Parse("66d927b9-e3c2-47f3-8aa9-82260d1579cd"),
                     SurveyQuestionsId = Guid.Parse("0998C44C-7A8D-41FD-8B3E-05D775CE4B27")
                 },
                 new SurveyQuestionAnswer
@@ -1237,6 +1369,7 @@ namespace HEALTH_SUPPORT.Repositories
             modelBuilder.Entity<SubscriptionData>().HasMany(up => up.UserProgresses).WithOne(d => d.SubscriptionData).HasForeignKey(up => up.SubscriptionId).OnDelete(DeleteBehavior.Restrict);
             //Account - UserProgress (1-m)
             modelBuilder.Entity<Account>().HasMany(up => up.UserProgresses).WithOne(a => a.Accounts).HasForeignKey(up => up.AccountId).OnDelete(DeleteBehavior.Restrict);
+
         }
 
     }

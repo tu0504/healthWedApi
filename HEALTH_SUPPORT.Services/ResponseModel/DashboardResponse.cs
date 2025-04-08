@@ -16,9 +16,8 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
 
         public class MonthlyRevenueStats
         {
-            public int Month { get; set; }
-            public string MonthName { get; set; }
-            public float TotalRevenue { get; set; }
+            public int Year { get; set; }
+            public Dictionary<int, float> MonthlyRevenue { get; set; } = new();
         }
 
         public class MonthlySubscriptionStats
@@ -26,6 +25,13 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public int Month { get; set; }
             public string MonthName { get; set; }
             public int TotalSubscriptions { get; set; }
+        }
+
+        public class DashboardStats
+        {
+            public int Year { get; set; }
+            public Dictionary<int, float> MonthlyRevenue { get; set; } = new();
+            public Dictionary<int, Dictionary<string, int>> MonthlySubscriptions { get; set; } = new();
         }
     }
 }

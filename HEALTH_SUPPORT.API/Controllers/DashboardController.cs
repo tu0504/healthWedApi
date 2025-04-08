@@ -22,6 +22,21 @@ namespace HEALTH_SUPPORT.API.Controllers
             _logger = logger;
         }
 
+        [HttpGet("stats")]
+        public async Task<ActionResult<DashboardResponse.DashboardStats>> GetDashboardStats()
+        {
+            try
+            {
+                var stats = await _dashboardService.GetDashboardStats();
+                return Ok(stats);
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving dashboard stats");
+                return StatusCode(500, "An error occurred while retrieving dashboard statistics");
+            }
+        }
+
         [HttpGet("subscriptions/monthly")]
         public async Task<ActionResult<List<DashboardResponse.MonthlySubscriptionStats>>> GetMonthlySubscriptionStats()
         {
