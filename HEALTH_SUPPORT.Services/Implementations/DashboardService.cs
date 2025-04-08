@@ -33,6 +33,75 @@ namespace HEALTH_SUPPORT.Services.Implementations
             _accountRepository = accountRepository;
         }
 
+        public async Task<DashboardResponse.DashboardStats> GetDashboardStats()
+        {
+            try
+            {
+                var currentYear = DateTime.Now.Year;
+                var stats = new DashboardResponse.DashboardStats
+                {
+                    Year = currentYear,
+                    MonthlyRevenue = new Dictionary<int, float>(),
+                    MonthlySubscriptions = new Dictionary<int, Dictionary<string, int>>()
+                };
+
+                // Initialize all months with zero revenue and empty subscription types
+                var subscriptionTypes = new[] { "Kiểm soát cảm xúc", "Xây dựng tư duy tích cực", 
+                    "Kỹ năng giao tiếp", "Quản lý thời gian hiệu quả", "Giảm căng thẳng và lo âu" };
+
+                for (int month = 1; month <= 12; month++)
+                {
+                    stats.MonthlyRevenue[month] = 0f;
+                    stats.MonthlySubscriptions[month] = subscriptionTypes.ToDictionary(type => type, type => 0);
+                }
+
+                // Get revenue data
+                var transactions = await _transactionRepository.GetAll()
+                    .Where(t => t.PaymentStatus == "success" && !t.IsDeleted && t.CreateAt.Year == currentYear)
+                    .ToListAsync();
+
+                var revenueByMonth = transactions
+                    .GroupBy(t => t.CreateAt.Month)
+                    .Select(g => new { Month = g.Key, Total = (float)g.Sum(t => t.Amount) });
+
+                foreach (var revenue in revenueByMonth)
+                {
+                    stats.MonthlyRevenue[revenue.Month] = revenue.Total;
+                }
+
+                // Get subscription data
+                var subscriptions = await _orderRepository.GetAll()
+                    .Include(o => o.SubscriptionData)
+                    .Where(o => o.IsSuccessful && !o.IsDeleted && o.CreateAt.Year == currentYear)
+                    .ToListAsync();
+
+                var subscriptionsByMonth = subscriptions
+                    .GroupBy(o => new { Month = o.CreateAt.Month, Type = o.SubscriptionData.SubscriptionName })
+                    .Select(g => new { 
+                        Month = g.Key.Month, 
+                        Type = g.Key.Type, 
+                        Count = g.Count() 
+                    });
+
+                foreach (var subscription in subscriptionsByMonth)
+                {
+                    if (stats.MonthlySubscriptions.ContainsKey(subscription.Month) &&
+                        stats.MonthlySubscriptions[subscription.Month].ContainsKey(subscription.Type))
+                    {
+                        stats.MonthlySubscriptions[subscription.Month][subscription.Type] = subscription.Count;
+                    }
+                }
+
+                _logger.LogInformation("Retrieved dashboard stats for year {Year}", currentYear);
+                return stats;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting dashboard stats");
+                throw;
+            }
+        }
+
         public async Task<List<DashboardResponse.MonthlySubscriptionStats>> GetMonthlySubscriptionStats()
         {
             try
@@ -64,21 +133,40 @@ namespace HEALTH_SUPPORT.Services.Implementations
         {
             try
             {
-                var currentYear = DateTime.Now.Year;
-                var stats = await _transactionRepository.GetAll()
-                    .Where(t => t.PaymentStatus == "success" && !t.IsDeleted && t.CreateAt.Year == currentYear)
-                    .GroupBy(t => new { Month = t.CreateAt.Month })
-                    .Select(g => new DashboardResponse.MonthlyRevenueStats
-                    {
-                        Month = g.Key.Month,
-                        MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month),
-                        TotalRevenue = g.Sum(t => t.Amount)
-                    })
-                    .OrderBy(s => s.Month)
+                var transactions = await _transactionRepository.GetAll()
+                    .Where(t => t.PaymentStatus == "success" && !t.IsDeleted)
                     .ToListAsync();
 
-                _logger.LogInformation("Retrieved monthly revenue stats for year {Year}", currentYear);
-                return stats;
+                var groupedData = transactions
+                    .GroupBy(t => new { t.CreateAt.Year, t.CreateAt.Month })
+                    .GroupBy(g => g.Key.Year)
+                    .Select(g => new DashboardResponse.MonthlyRevenueStats
+                    {
+                        Year = g.Key,
+                        MonthlyRevenue = g.ToDictionary(
+                            m => m.Key.Month,
+                            m => (float)m.Sum(t => t.Amount)
+                        )
+                    })
+                    .ToList();
+
+                foreach (var item in groupedData)
+                {
+                    for (int month = 1; month <= 12; month++)
+                    {
+                        if (!item.MonthlyRevenue.ContainsKey(month))
+                        {
+                            item.MonthlyRevenue[month] = 0f;
+                        }
+                    }
+
+                    item.MonthlyRevenue = item.MonthlyRevenue
+                        .OrderBy(kv => kv.Key)
+                        .ToDictionary(kv => kv.Key, kv => kv.Value);
+                }
+
+                _logger.LogInformation("Retrieved monthly revenue stats");
+                return groupedData.OrderBy(x => x.Year).ToList();
             }
             catch (Exception ex)
             {

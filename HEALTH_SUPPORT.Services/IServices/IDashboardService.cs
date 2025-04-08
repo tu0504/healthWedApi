@@ -6,6 +6,7 @@ namespace HEALTH_SUPPORT.Services.IServices
 {
     public interface IDashboardService
     {
+        Task<DashboardResponse.DashboardStats> GetDashboardStats();
         Task<List<DashboardResponse.MonthlySubscriptionStats>> GetMonthlySubscriptionStats();
         Task<List<DashboardResponse.MonthlyRevenueStats>> GetMonthlyRevenueStats();
         Task<List<DashboardResponse.TotalMonthlyStats>> GetTotalMonthlyStats();
