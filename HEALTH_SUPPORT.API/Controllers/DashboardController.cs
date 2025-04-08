@@ -53,7 +53,7 @@ namespace HEALTH_SUPPORT.API.Controllers
         }
 
         [HttpGet("revenue/monthly")]
-        public async Task<ActionResult<DashboardResponse.MonthlyRevenueStats>> GetMonthlyRevenueStats()
+        public async Task<ActionResult<List<DashboardResponse.MonthlyRevenueStats>>> GetMonthlyRevenueStats()
         {
             try
             {

@@ -125,39 +125,44 @@ namespace HEALTH_SUPPORT.Services.Implementations
             }
         }
 
-        public async Task<DashboardResponse.MonthlyRevenueStats> GetMonthlyRevenueStats()
+        public async Task<List<DashboardResponse.MonthlyRevenueStats>> GetMonthlyRevenueStats()
         {
             try
             {
-                var currentYear = DateTime.Now.Year;
                 var transactions = await _transactionRepository.GetAll()
-                    .Where(t => t.PaymentStatus == "success" && !t.IsDeleted && t.CreateAt.Year == currentYear)
+                    .Where(t => t.PaymentStatus == "success" && !t.IsDeleted)
                     .ToListAsync();
 
-                var monthlyRevenue = new Dictionary<int, float>();
+                var groupedData = transactions
+                    .GroupBy(t => new { t.CreateAt.Year, t.CreateAt.Month })
+                    .GroupBy(g => g.Key.Year)
+                    .Select(g => new DashboardResponse.MonthlyRevenueStats
+                    {
+                        Year = g.Key,
+                        MonthlyRevenue = g.ToDictionary(
+                            m => m.Key.Month,
+                            m => (float)m.Sum(t => t.Amount)
+                        )
+                    })
+                    .ToList();
 
-                // Initialize all months with zero revenue
-                for (int month = 1; month <= 12; month++)
+                foreach (var item in groupedData)
                 {
-                    monthlyRevenue[month] = 0f;
+                    for (int month = 1; month <= 12; month++)
+                    {
+                        if (!item.MonthlyRevenue.ContainsKey(month))
+                        {
+                            item.MonthlyRevenue[month] = 0f;
+                        }
+                    }
+
+                    item.MonthlyRevenue = item.MonthlyRevenue
+                        .OrderBy(kv => kv.Key)
+                        .ToDictionary(kv => kv.Key, kv => kv.Value);
                 }
 
-                // Fill in actual revenue for months that have transactions
-                var revenueByMonth = transactions
-                    .GroupBy(t => t.CreateAt.Month)
-                    .Select(g => new { Month = g.Key, Total = (float)g.Sum(t => t.Amount) });
-
-                foreach (var revenue in revenueByMonth)
-                {
-                    monthlyRevenue[revenue.Month] = revenue.Total;
-                }
-
-                _logger.LogInformation("Retrieved monthly revenue stats for year {Year}", currentYear);
-                return new DashboardResponse.MonthlyRevenueStats
-                {
-                    Year = currentYear,
-                    MonthlyRevenue = monthlyRevenue
-                };
+                _logger.LogInformation("Retrieved monthly revenue stats");
+                return groupedData.OrderBy(x => x.Year).ToList();
             }
             catch (Exception ex)
             {

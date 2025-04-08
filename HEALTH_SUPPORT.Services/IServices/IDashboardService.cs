@@ -8,6 +8,6 @@ namespace HEALTH_SUPPORT.Services.IServices
     {
         Task<DashboardResponse.DashboardStats> GetDashboardStats();
         Task<List<DashboardResponse.MonthlySubscriptionStats>> GetMonthlySubscriptionStats();
-        Task<DashboardResponse.MonthlyRevenueStats> GetMonthlyRevenueStats();
+        Task<List<DashboardResponse.MonthlyRevenueStats>> GetMonthlyRevenueStats();
     }
 } 
