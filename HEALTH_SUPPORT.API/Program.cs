@@ -70,7 +70,7 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-       
+
             builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
 
             // Thêm MemoryCache
@@ -151,7 +151,7 @@ namespace HEALTH_SUPPORT.API
 
             app.Run();
 
-           
+
         }
     }
 }

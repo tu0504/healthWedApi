@@ -9,5 +9,8 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task<DashboardResponse.DashboardStats> GetDashboardStats();
         Task<List<DashboardResponse.MonthlySubscriptionStats>> GetMonthlySubscriptionStats();
         Task<List<DashboardResponse.MonthlyRevenueStats>> GetMonthlyRevenueStats();
+        Task<List<DashboardResponse.TotalMonthlyStats>> GetTotalMonthlyStats();
+        Task<int> GetTotalAccountsAsync();
+        Task<int> GetTodayOrderCountAsync();
     }
 } 
