@@ -37,9 +37,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 PsychologistId = model.PsychologistId,
                 AccountId = model.AccountId,
-                description = model.description,
-                FollowUpAppoint = model.FollowUpAppoint,
-                level = model.level
+                Diagnosis = model.Diagnosis,
+                Purpose = model.Purpose,
+                Summary = model.Summary
             };
             await _healthDataRepository.Add(healthData);
             await _healthDataRepository.SaveChangesAsync();
@@ -55,9 +55,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
             return new HealthDataResponse.GetHealthDataModel
             {
                 Id = id,
-                description = healthData.description,
-                level = healthData.level,
-                FollowUpAppoint = healthData.FollowUpAppoint,
+                Diagnosis = healthData.Diagnosis,
+                Purpose = healthData.Purpose,
+                Summary = healthData.Summary,
                 IsDeleted = healthData.IsDeleted,
                 Account = new AccountResponse.GetAccountsModel(
                     healthData.Account.Id,
@@ -91,9 +91,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 .Select(s => new HealthDataResponse.GetHealthDataModel
                 {
                     Id = s.Id,
-                    description = s.description,
-                    level = s.level,
-                    FollowUpAppoint = s.FollowUpAppoint,
+                    Diagnosis = s.Diagnosis,
+                    Purpose = s.Purpose,
+                    Summary = s.Summary,
                     IsDeleted = s.IsDeleted,
                     Account = new AccountResponse.GetAccountsModel(
                         s.Account.Id,
@@ -127,9 +127,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 .Select(s => new HealthDataResponse.GetHealthDataModel
                 {
                     Id = s.Id,
-                    description = s.description,
-                    level = s.level,
-                    FollowUpAppoint = s.FollowUpAppoint,
+                    Diagnosis = s.Diagnosis,
+                    Purpose = s.Purpose,
+                    Summary = s.Summary,
                     IsDeleted = s.IsDeleted,
                     Account = new AccountResponse.GetAccountsModel(
                         s.Account.Id,
@@ -164,9 +164,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 .Select(s => new HealthDataResponse.GetHealthDataModel
                 {
                     Id = s.Id,
-                    description = s.description,
-                    level = s.level,
-                    FollowUpAppoint = s.FollowUpAppoint,
+                    Diagnosis = s.Diagnosis,
+                    Purpose = s.Purpose,
+                    Summary = s.Summary,
                     IsDeleted = s.IsDeleted,
                     Account = new AccountResponse.GetAccountsModel(
                         s.Account.Id,
@@ -212,9 +212,9 @@ namespace HEALTH_SUPPORT.Services.Implementations
             {
                 throw new Exception("Không tìm thấy dữ liệu.");
             }
-            healthData.description = model.description;
-            healthData.level = model.level;
-            healthData.FollowUpAppoint = model.FollowUpAppoint;
+            healthData.Diagnosis = model.Diagnosis;
+            healthData.Purpose = model.Purpose;
+            healthData.Summary = model.Summary;
             await _healthDataRepository.Update(healthData);
             await _healthDataRepository.SaveChangesAsync();
         }

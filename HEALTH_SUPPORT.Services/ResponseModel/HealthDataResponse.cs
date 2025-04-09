@@ -14,9 +14,9 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
         public class GetHealthDataModel
         {
             public Guid Id { get; set; }
-            public int level { get; set; }
-            public string description { get; set; }
-            public DateTimeOffset FollowUpAppoint { get; set; }
+            public string Diagnosis { get; set; }
+            public string Purpose { get; set; }
+            public string Summary { get; set; }
             public Guid AccountId { get; set; }
             public AccountResponse.GetAccountsModel Account { get; set; }
             public PsychologistResponse.GetPsychologistModel Psychologist { get; set; }
