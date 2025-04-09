@@ -41,6 +41,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             [Required]
             [Compare("PasswordHash", ErrorMessage = "Mật khẩu nhập lại không khớp!")]
             public string ConfirmPassword { get; set; }
+            public string? UrlMeet { get; set; }
         }
 
         public class UpdatePsychologistModel
@@ -52,6 +53,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string? Description { get; set; }
             public string? Achievements { get; set; }
             public string Expertise { get; set; }
+            public string? UrlMeet { get; set; }
         }
 
         public class UploadAvatarModel

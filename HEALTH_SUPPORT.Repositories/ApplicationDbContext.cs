@@ -449,13 +449,14 @@ namespace HEALTH_SUPPORT.Repositories
                 {
                     Id = Guid.Parse("257b73a3-d691-40d3-b65d-a56a0ad7fb91"),
                     Name = "Phạm Văn Tư",
-                    Email = "janesmith@example.com",
+                    Email = "phamvantu3111@gmail.com",
                     PhoneNumber = "0987654321",
                     Specialization = "Tiến sĩ  – Chuyên gia Tâm lý học.",
                     Description = "Hơn 20 năm kinh nghiệm trong nghề, gồm đánh giá và trị liệu tâm lý cho thanh thiếu niên và người trưởng thành. Diễn giả, Chuyên viên huấn luyện cao cấp trong lĩnh vực chăm sóc sức khỏe tinh thần cho tổ chức, doanh nghiệp, trường học. Hiện tại Tiến sĩ đang công tác tại Trường Đại học Sư phạm Hà Nội.",
                     Achievements = "Đánh giá tâm lý các vấn đề liên quan sức khỏe tâm thần (stress, lo âu, trầm cảm, nguy cơ tự tử…); tham vấn vị thành niên và gia đình; hỗ trợ giáo viên, phụ huynh về phương pháp dạy trẻ; giảm thiểu stress.",
                     Expertise = "Stress, lo âu, trầm cảm.",
                     ImgUrl = "/uploads/2.jpg",
+                    UrlMeet = "https://meet.google.com/mmn-pqbq-qdw",
                     CreateAt = DateTimeOffset.UtcNow,
                     AccountId = Guid.Parse("880f0367-847a-4406-8146-7bff47cd36ec")
                 },

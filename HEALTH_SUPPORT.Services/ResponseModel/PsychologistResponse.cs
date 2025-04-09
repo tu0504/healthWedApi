@@ -19,6 +19,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public string Description { get; set; }
             public string Achievements { get; set; }
             public string Expertise { get; set; }
+            public string? UrlMeet { get; set; }
             public string? ImgUrl { get; set; }
             public bool IsDeleted { get; set; }
         }
@@ -40,6 +41,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public string Achievements { get; set; }
             public string Expertise { get; set; }
             public string? ImgUrl { get; set; }
+            public string? UrlMeet { get; set; }
             public bool IsDeleted { get; set; }
 
             public AccountModel Account { get; set; }
