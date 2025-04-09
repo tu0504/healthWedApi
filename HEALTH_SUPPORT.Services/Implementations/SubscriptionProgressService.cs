@@ -37,6 +37,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Section = model.Section,
                     Description = model.Description,
                     Date = model.Date,
+                    StartDate = model.StartDate,
                     SubscriptionId = model.SubscriptionId,
                     IsCompleted = model.IsCompleted,
                     CreateAt = DateTimeOffset.UtcNow
@@ -60,6 +61,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Section = (int)p.Section,
                     Description = p.Description,
                     Date = (int)p.Date,
+                    StartDate = p.StartDate,
                     SubscriptionName = p.SubscriptionDatas.SubscriptionName,
                     IsCompleted = p.IsCompleted,
                     CreateAt = p.CreateAt,
@@ -85,6 +87,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Section = (int)progress.Section,
                 Description = progress.Description,
                 Date = (int)progress.Date,
+                StartDate = progress.StartDate,
                 SubscriptionName = progress.SubscriptionDatas.SubscriptionName,
                 IsCompleted = progress.IsCompleted,
                 CreateAt = progress.CreateAt,
@@ -109,6 +112,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Section = (int)progress.Section,
                 Description = progress.Description,
                 Date = (int)progress.Date,
+                StartDate = progress.StartDate,
                 SubscriptionName = progress.SubscriptionDatas.SubscriptionName,
                 IsCompleted = progress.IsCompleted,
                 CreateAt = progress.CreateAt,
@@ -140,6 +144,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             existedProgress.Section = model.Section > 0 ? model.Section : existedProgress.Section;
             existedProgress.Description = string.IsNullOrWhiteSpace(model.Description) ? existedProgress.Description : model.Description;
             existedProgress.Date = model.Date > 0 ? model.Date : existedProgress.Date;
+            existedProgress.StartDate = model.StartDate != default ? model.StartDate : existedProgress.StartDate;
             existedProgress.SubscriptionId = model.SubscriptionId != Guid.Empty ? model.SubscriptionId : existedProgress.SubscriptionId;
             existedProgress.IsCompleted = model.IsCompleted;
             existedProgress.IsDeleted = model.IsDeleted;

@@ -12,9 +12,9 @@ namespace HEALTH_SUPPORT.Repositories.Entities
     public class HealthData : Entity<Guid>
     {
         [Required]
-        public int level { get; set; }
-        public string description { get; set; }
-        public DateTimeOffset FollowUpAppoint { get; set; }
+        public string Diagnosis { get; set; }
+        public string Purpose { get; set; }
+        public string Summary { get; set; }
         public Guid AccountId { get; set; }
         [ForeignKey("AccountId")]
         public Account Account { get; set; }
