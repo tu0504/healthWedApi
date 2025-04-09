@@ -88,6 +88,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                             Id = s.Psychologist.Id,
                             Name = s.Psychologist.Name,
                             PhoneNumber = s.Psychologist.PhoneNumber,
+                            UrlMeet = s.Psychologist.UrlMeet,
                             Specialization = s.Psychologist.Specialization
                         },
                         Status = s.Status
@@ -138,6 +139,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Id = psychologist.Id,
                     Name = psychologist.Name,
                     PhoneNumber = psychologist.PhoneNumber,
+                    UrlMeet = psychologist.UrlMeet,
                     Specialization = psychologist.Specialization
                 }
             };
@@ -209,6 +211,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                         Id = psychologist.Id,
                         Name = psychologist.Name,
                         PhoneNumber = psychologist.PhoneNumber,
+                        UrlMeet = psychologist.UrlMeet,
                         Specialization = psychologist.Specialization
                     }
                 });
@@ -244,6 +247,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Id = s.Id,
                 Name = s.Name,
                 PhoneNumber = s.PhoneNumber,
+                UrlMeet = s.UrlMeet,
                 Specialization = s.Specialization
             }).ToList();
             if (!psychologist.Any())
