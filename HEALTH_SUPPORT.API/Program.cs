@@ -43,12 +43,6 @@ namespace HEALTH_SUPPORT.API
                     ValidateLifetime = true, // kiểm tra token hết hạn
                     ClockSkew = TimeSpan.Zero
                 };
-            })
-            .AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = builder.Configuration["GoogleAuth:ClientId"];
-                googleOptions.ClientSecret = builder.Configuration["GoogleAuth:ClientSecret"];
-                googleOptions.CallbackPath = new PathString("/signin-google"); // Callback sau khi Google xác thực
             });
 
             // Thêm Authorization
@@ -115,9 +109,8 @@ namespace HEALTH_SUPPORT.API
             builder.Services.AddScoped<ISurveyQuestionAnswerService, SurveyQuestionAnswerService>();
             builder.Services.AddScoped<ISurveyAnswerRecordService, SurveyAnswerRecordService>();
             builder.Services.AddScoped<IDashboardService, DashboardService>();
-
-            // Đăng ký GoogleMeetService
-            builder.Services.AddScoped<IGoogleMeetService, GoogleMeetService>();
+            builder.Services.AddScoped<IAppointmentReminderService, AppointmentReminderServiceImpl>();
+                    builder.Services.AddHostedService<AppointmentReminderService>();
 
             var app = builder.Build();
 

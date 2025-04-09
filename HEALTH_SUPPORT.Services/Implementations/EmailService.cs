@@ -78,5 +78,19 @@ namespace HEALTH_SUPPORT.Services.Implementations
 
             return true;
         }
+
+        public void SendAppointmentReminder(string to, string accountName, DateTimeOffset appointmentTime, string meetLink)
+        {
+            string subject = "🔔 Nhắc nhở lịch hẹn sắp tới từ Health Support";
+
+            string body = $@"
+        <p>Xin chào <strong>{accountName}</strong>,</p>
+        <p>Bạn có một lịch hẹn sắp diễn ra vào lúc <strong>{appointmentTime.ToLocalTime():HH:mm dd/MM/yyyy}</strong>.</p>
+        <p>Link Google Meet: <a href='{meetLink}'>{meetLink}</a></p>
+        <p>Vui lòng chuẩn bị đúng giờ. Trân trọng!</p>
+    ";
+
+            SendEmail(to, subject, body);
+        }
     }
 }

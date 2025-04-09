@@ -21,5 +21,6 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         [ForeignKey("PsychologistId")]
         public Psychologist Psychologist { get; set; }
         public string Status { get; set; }
+        public bool IsReminderSent { get; set; } = false;
     }
 }
