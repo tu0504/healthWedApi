@@ -17,6 +17,7 @@ namespace HEALTH_SUPPORT.Services.ResponseModel
             public string Diagnosis { get; set; }
             public string Purpose { get; set; }
             public string Summary { get; set; }
+            public DateTimeOffset AppointmentDate { get; set; }
             public Guid AccountId { get; set; }
             public AccountResponse.GetAccountsModel Account { get; set; }
             public PsychologistResponse.GetPsychologistModel Psychologist { get; set; }

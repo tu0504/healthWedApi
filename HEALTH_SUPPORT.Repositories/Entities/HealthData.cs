@@ -15,6 +15,7 @@ namespace HEALTH_SUPPORT.Repositories.Entities
         public string Diagnosis { get; set; }
         public string Purpose { get; set; }
         public string Summary { get; set; }
+        public DateTimeOffset AppointmentDate { get; set; }
         public Guid AccountId { get; set; }
         [ForeignKey("AccountId")]
         public Account Account { get; set; }
