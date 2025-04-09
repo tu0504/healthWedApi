@@ -53,6 +53,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Description = model.Description,
                 Achievements = model.Achievements,
                 Expertise = model.Expertise,
+                UrlMeet = model.UrlMeet,
                 CreateAt = DateTimeOffset.UtcNow
             };
 
@@ -80,6 +81,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Achievements = psychologist.Achievements,
                 Expertise = psychologist.Expertise,
                 ImgUrl = psychologist.ImgUrl,
+                UrlMeet = psychologist.UrlMeet,
                 IsDeleted = psychologist.IsDeleted
             };
         }
@@ -99,6 +101,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Achievements = p.Achievements,
                 Expertise = p.Expertise,
                 ImgUrl = p.ImgUrl,
+                UrlMeet = p.UrlMeet,
                 IsDeleted = p.IsDeleted
             })
     .ToListAsync();
@@ -119,6 +122,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             psychologist.Description = model.Description ?? psychologist.Description;
             psychologist.Achievements = model.Achievements ?? psychologist.Achievements;
             psychologist.Expertise = model.Expertise ?? psychologist.Expertise;
+            psychologist.UrlMeet = model.UrlMeet ?? psychologist.UrlMeet;
             psychologist.ModifiedAt = DateTimeOffset.UtcNow;
 
             await _psychologistRepository.Update(psychologist);
@@ -227,6 +231,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Achievements = p.Achievements,
                     Expertise = p.Expertise,
                     ImgUrl = p.ImgUrl,
+                    UrlMeet = p.UrlMeet,
                     IsDeleted = p.IsDeleted,
 
                    
@@ -294,6 +299,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Description = model.Description,
                 Achievements = model.Achievements,
                 Expertise = model.Expertise,
+                UrlMeet = model.UrlMeet,
                 CreateAt = DateTimeOffset.UtcNow,
                 AccountId = account.Id, 
             };
@@ -347,6 +353,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             psychologist.Description = model.Description ?? psychologist.Description;
             psychologist.Achievements = model.Achievements ?? psychologist.Achievements;
             psychologist.Expertise = model.Expertise ?? psychologist.Expertise;
+            psychologist.UrlMeet = model.UrlMeet ?? psychologist.UrlMeet;
             psychologist.ModifiedAt = DateTimeOffset.UtcNow;
 
             if (account != null)
