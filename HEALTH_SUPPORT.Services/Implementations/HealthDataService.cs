@@ -39,7 +39,8 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 AccountId = model.AccountId,
                 Diagnosis = model.Diagnosis,
                 Purpose = model.Purpose,
-                Summary = model.Summary
+                Summary = model.Summary,
+                AppointmentDate = model.AppointmentDate,
             };
             await _healthDataRepository.Add(healthData);
             await _healthDataRepository.SaveChangesAsync();
@@ -58,6 +59,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                 Diagnosis = healthData.Diagnosis,
                 Purpose = healthData.Purpose,
                 Summary = healthData.Summary,
+                AppointmentDate = healthData.AppointmentDate,
                 IsDeleted = healthData.IsDeleted,
                 Account = new AccountResponse.GetAccountsModel(
                     healthData.Account.Id,
@@ -94,6 +96,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Diagnosis = s.Diagnosis,
                     Purpose = s.Purpose,
                     Summary = s.Summary,
+                    AppointmentDate = s.AppointmentDate,
                     IsDeleted = s.IsDeleted,
                     Account = new AccountResponse.GetAccountsModel(
                         s.Account.Id,
@@ -130,6 +133,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Diagnosis = s.Diagnosis,
                     Purpose = s.Purpose,
                     Summary = s.Summary,
+                    AppointmentDate = s.AppointmentDate,
                     IsDeleted = s.IsDeleted,
                     Account = new AccountResponse.GetAccountsModel(
                         s.Account.Id,
@@ -167,6 +171,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
                     Diagnosis = s.Diagnosis,
                     Purpose = s.Purpose,
                     Summary = s.Summary,
+                    AppointmentDate = s.AppointmentDate,
                     IsDeleted = s.IsDeleted,
                     Account = new AccountResponse.GetAccountsModel(
                         s.Account.Id,
@@ -215,6 +220,7 @@ namespace HEALTH_SUPPORT.Services.Implementations
             healthData.Diagnosis = model.Diagnosis;
             healthData.Purpose = model.Purpose;
             healthData.Summary = model.Summary;
+            healthData.AppointmentDate = model.AppointmentDate;
             await _healthDataRepository.Update(healthData);
             await _healthDataRepository.SaveChangesAsync();
         }

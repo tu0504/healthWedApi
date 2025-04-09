@@ -17,6 +17,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string Diagnosis { get; set; }
             public string Purpose { get; set; }
             public string Summary { get; set; }
+            public DateTimeOffset AppointmentDate { get; set; }
             [Required(ErrorMessage = ("Tài khoản không thể bỏ trống"))]
             public Guid AccountId { get; set; }
             [Required(ErrorMessage = ("Bác sĩ tâm lý không thể bỏ trống"))]
@@ -28,6 +29,7 @@ namespace HEALTH_SUPPORT.Services.RequestModel
             public string Diagnosis { get; set; }
             public string Purpose { get; set; }
             public string Summary { get; set; }
+            public DateTimeOffset AppointmentDate { get; set; }
         }
     }
 }
