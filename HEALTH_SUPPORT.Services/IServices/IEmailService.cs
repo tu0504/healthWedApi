@@ -10,5 +10,8 @@ namespace HEALTH_SUPPORT.Services.IServices
     {
         void GenerateOtp(string email);
         bool VerifyOtp(string email, string otp);
+        void SendAppointmentReminder(string to, string accountName, DateTimeOffset appointmentTime, string meetLink);
+
+
     }
 }
