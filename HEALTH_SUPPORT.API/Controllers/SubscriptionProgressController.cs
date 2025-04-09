@@ -77,5 +77,12 @@ namespace HEALTH_SUPPORT.API.Controllers
             await _subscriptionProgressService.RemoveSubscriptionProgress(progressId);
             return Ok(new { message = "Subscription progress deleted successfully" });
         }
+
+        [HttpGet("start-dates")]
+        public async Task<IActionResult> GetStartDates([FromQuery] string psychologistName)
+        {
+            var result = await _subscriptionProgressService.GetStartDatesByPsychologistNameAsync(psychologistName);
+            return Ok(result);
+        }
     }
 }

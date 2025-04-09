@@ -154,5 +154,26 @@ namespace HEALTH_SUPPORT.Services.Implementations
             await _subscriptionProgressRepository.Update(existedProgress);
             await _subscriptionProgressRepository.SaveChangesAsync();
         }
+        public async Task<List<DateTimeOffset?>> GetStartDatesByPsychologistNameAsync(string psychologistName)
+        {
+            var subscriptionDatas = await _subscriptionDataRepository.GetAll()
+        .Where(s => !s.IsDeleted) // lọc mềm
+        .Include(s => s.Psychologists)
+        .Include(s => s.SubscriptionProgresses.Where(p => !p.IsDeleted)) // lọc mềm luôn cả Progress
+        .ToListAsync();
+
+            var result = subscriptionDatas
+                .Where(s => s.Psychologists != null &&
+                            !s.Psychologists.IsDeleted && // nếu cần lọc cả bác sĩ đã xoá
+                            !string.IsNullOrEmpty(s.Psychologists.Name) &&
+                            s.Psychologists.Name.Contains(psychologistName, StringComparison.OrdinalIgnoreCase))
+                .SelectMany(s => s.SubscriptionProgresses)
+                .Where(p => p.StartDate != null) // loại bỏ null nếu cần
+                .Select(p => p.StartDate)
+                .ToList();
+
+            return result;
+        }
+
     }
 }

@@ -16,5 +16,7 @@ namespace HEALTH_SUPPORT.Services.IServices
         Task AddSubscriptionProgress(SubscriptionProgressRequest.CreateProgressModel model);
         Task UpdateSubscriptionProgress(Guid id, SubscriptionProgressRequest.UpdateProgressModel model);
         Task RemoveSubscriptionProgress(Guid id);
+
+        Task<List<DateTimeOffset?>> GetStartDatesByPsychologistNameAsync(string psychologistName);
     }
 }
