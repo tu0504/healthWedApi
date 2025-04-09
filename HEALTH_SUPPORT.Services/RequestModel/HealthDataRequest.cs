@@ -13,10 +13,10 @@ namespace HEALTH_SUPPORT.Services.RequestModel
     {
         public class AddHealthDataRequest
         {
-            [Required(ErrorMessage = ("Cấp độ không thể bỏ trống"))]
-            public int level { get; set; }
-            public string description { get; set; }
-            public DateTimeOffset FollowUpAppoint { get; set; }
+            [Required(ErrorMessage = ("Chuẩn đoán không thể bỏ trống"))]
+            public string Diagnosis { get; set; }
+            public string Purpose { get; set; }
+            public string Summary { get; set; }
             [Required(ErrorMessage = ("Tài khoản không thể bỏ trống"))]
             public Guid AccountId { get; set; }
             [Required(ErrorMessage = ("Bác sĩ tâm lý không thể bỏ trống"))]
@@ -25,9 +25,9 @@ namespace HEALTH_SUPPORT.Services.RequestModel
 
         public class UpdateHealthDataRequest
         {
-            public int level { get; set; }
-            public string description { get; set; }
-            public DateTimeOffset FollowUpAppoint { get; set; }
+            public string Diagnosis { get; set; }
+            public string Purpose { get; set; }
+            public string Summary { get; set; }
         }
     }
 }
