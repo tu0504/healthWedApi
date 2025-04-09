@@ -449,13 +449,14 @@ namespace HEALTH_SUPPORT.Repositories
                 {
                     Id = Guid.Parse("257b73a3-d691-40d3-b65d-a56a0ad7fb91"),
                     Name = "Phạm Văn Tư",
-                    Email = "janesmith@example.com",
+                    Email = "phamvantu3111@gmail.com",
                     PhoneNumber = "0987654321",
                     Specialization = "Tiến sĩ  – Chuyên gia Tâm lý học.",
                     Description = "Hơn 20 năm kinh nghiệm trong nghề, gồm đánh giá và trị liệu tâm lý cho thanh thiếu niên và người trưởng thành. Diễn giả, Chuyên viên huấn luyện cao cấp trong lĩnh vực chăm sóc sức khỏe tinh thần cho tổ chức, doanh nghiệp, trường học. Hiện tại Tiến sĩ đang công tác tại Trường Đại học Sư phạm Hà Nội.",
                     Achievements = "Đánh giá tâm lý các vấn đề liên quan sức khỏe tâm thần (stress, lo âu, trầm cảm, nguy cơ tự tử…); tham vấn vị thành niên và gia đình; hỗ trợ giáo viên, phụ huynh về phương pháp dạy trẻ; giảm thiểu stress.",
                     Expertise = "Stress, lo âu, trầm cảm.",
                     ImgUrl = "/uploads/2.jpg",
+                    UrlMeet = "https://meet.google.com/mmn-pqbq-qdw",
                     CreateAt = DateTimeOffset.UtcNow,
                     AccountId = Guid.Parse("880f0367-847a-4406-8146-7bff47cd36ec")
                 },
@@ -593,7 +594,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 9, 3, 0, 0, TimeSpan.FromHours(7))
+                    StartDate = DateTimeOffset.Parse("2025-02-03T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -604,7 +605,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 16, 3, 0, 0, TimeSpan.FromHours(7))
+                    StartDate = DateTimeOffset.Parse("2025-02-09T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -615,7 +616,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 23, 3, 0, 0, TimeSpan.FromHours(7))
+                    StartDate = DateTimeOffset.Parse("2025-02-17T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -626,7 +627,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 30, 3, 0, 0, TimeSpan.FromHours(7))
+                    StartDate = DateTimeOffset.Parse("2025-02-23T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -637,7 +638,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("eb47bd9c-8594-47ea-997f-eea3f34b4fe2"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 5, 7, 3, 0, 0, TimeSpan.FromHours(7))
+                    StartDate = DateTimeOffset.Parse("2025-02-28T04:00:02.875Z")
                 },
 
                 // Progress for "Xây dựng tư duy tích cực"
@@ -650,7 +651,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 9, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-03-03T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -661,7 +662,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 16, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-03-10T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -672,7 +673,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 23, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-03-17T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -683,7 +684,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 30, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-03-24T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -694,7 +695,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("8f436d13-ad84-4761-adb7-2049e907cd2b"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 5, 7, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-03-31T04:00:02.875Z")
                 },
 
                 // Progress for "Kỹ năng giao tiếp"
@@ -707,7 +708,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 9, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-04-01T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -718,7 +719,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 16, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-04-08T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -729,7 +730,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 23, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-04-15T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -740,7 +741,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 30, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-04-22T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -751,7 +752,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("4a580bd8-d04c-4980-87f9-456c92ca6471"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 5, 7, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-04-29T04:00:02.875Z")
                 },
 
                 // Progress for "Quản lý thời gian hiệu quả"
@@ -764,7 +765,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 9, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-04-02T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -775,7 +776,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 16, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-04-09T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -786,7 +787,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 23, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-04-16T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -797,7 +798,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 30, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-04-23T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -808,7 +809,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("a1c2f3b4-d5e6-47fa-8bcd-123456789abc"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 5, 7, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-04-30T04:00:02.875Z")
                 },
 
 
@@ -822,7 +823,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 9, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-05-02T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -833,7 +834,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 16, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-05-09T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -844,7 +845,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 23, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-05-16T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -855,7 +856,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 4, 30, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-05-23T04:00:02.875Z")
                 },
                 new SubscriptionProgress
                 {
@@ -866,7 +867,7 @@ namespace HEALTH_SUPPORT.Repositories
                     SubscriptionId = Guid.Parse("f4e3d2c1-b6a7-48fb-9cde-abcdef123456"),
                     IsCompleted = false,
                     CreateAt = DateTimeOffset.UtcNow,
-                    StartDate = new DateTimeOffset(2025, 5, 7, 3, 0, 0, TimeSpan.Zero)
+                    StartDate = DateTimeOffset.Parse("2025-05-30T04:00:02.875Z")
                 }
 
             );
